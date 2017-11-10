@@ -1,0 +1,137 @@
+!!!COM: Schubert, Franz Peter
+!!!CDT: 1797-1828
+!!!OTL: An die Nachtigall
+!!!OPS: Opus 98
+!!!ONM: No. 1
+!!!SCT: DV 497
+!!!YOR: Franz Schubert: Selected songs
+!!!PPE: Max Friedlaender
+!!!PSR: C.F. Peters 
+!!!PSP: Frankfurt, London, New York
+!!!PSD: n.d.
+!!!PPG: p.67
+!!!ODT: 1816///
+!!!ONB: Leading and trailing bars of rest have been deleted.
+**kern
+*M3/8
+*MM[Maessig]
+*G:
+*k[f#]
+=1
+8r
+8r
+8cc
+=2
+4ffn
+8dd
+=3
+4ee
+8a
+=4
+4dd
+8b
+=5
+(8dd
+8cc)
+8cc
+=6
+8cc
+(16cc
+16ee)
+8ee
+=7
+4dd
+8b
+=8
+4cc
+8dd
+=9
+4b
+8r
+=10
+8cc
+(16cc
+16ee)
+8ee
+=11
+4dd
+8b
+=12
+(8dd
+8cc)
+8a
+=13
+4g
+8r
+=14
+4.r
+=15
+8r
+16r
+16ee
+16dd
+16cc
+=16
+8.dd
+16dd
+16b
+16dd
+=17
+8cc
+8ee
+8ee
+=18
+(8.dd
+16ee)
+(16.dd
+32ee)
+=19
+(8dd
+16b)
+16gg
+16ff#
+16ee
+=20
+(8.dd
+16ee)
+(16.dd
+32ee)
+=21
+(8dd
+8b)
+8r;
+=22
+8.dd
+16dd
+8dd
+=23
+4.dd
+=24
+8.dd
+16dd
+8dd
+=25
+4.dd
+=26
+8dd
+8dd
+8dd
+=27
+[(4.gg
+=28
+8.gg]
+16dd)
+16cc
+16a
+=29
+4g
+8r
+==
+*-
+!!!ENC: David Huron
+!!!EMD: Paul von Hippel updated this file in the following ways (1998/9/2,21-22/):
+!!!EMD:  (1) changed the representation of slurs from curly braces to parentheses 
+!!!EMD:  (2) changed freeform comments into reference records and tandem interpretations
+!!!EMD:  (3) changed final barline from quadruple (====) to double (==)
+!!!EMD:  (4) added key signatures, key designations, and tempi
+!!!EEV: Version 2.0

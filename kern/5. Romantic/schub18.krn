@@ -1,0 +1,141 @@
+!!!COM: Schubert, Franz Peter
+!!!CDT: 1797-1828
+!!!OTL: Das Wandern
+!!!OPS: Opus 25
+!!!SCT: DV 795
+!!!YOR: Franz Schubert: Selected songs
+!!!PPE: Max Friedlaender
+!!!PSR: C.F. Peters 
+!!!PSP: Frankfurt, London, New York
+!!!PSD: n.d.
+!!!PPG: pp.50-51
+!!!ODT: 1823///
+!!!ONB: Leading and trailing bars of rest have been deleted.
+!!!ONB: The tempo of 81 quarter-notes per minute is taken from the following recorded performance
+!!!MPN: Aksel Schiotz
+!!!MPD: 1945///
+!!!MPT: The Art of Aksel Schiotz, Album 2: Schubert: Die schoene Muellerin (Seraphim 60140)
+**kern
+*M2/4
+*MM81[Maessig, geschwind]
+*B-:
+*k[b-e-]
+*>[introduction,strophe,strophe,strophe,strophe,strophe]
+*>introduction
+=1
+2r
+=2
+2r
+=3
+2r
+=4
+4r
+8r
+*>strophe
+8f
+=5
+8f
+8b-
+8a
+8ee-
+=6
+(16dd
+16ff)
+(16dd
+16b-)
+8f
+8dd
+=7
+(8.cc
+16a)
+8b-
+8r
+=8
+4r
+8r
+8f
+=9
+8f
+8b-
+8a
+8ee-
+=10
+(16dd
+16ff)
+(16dd
+16b-)
+8f
+8dd
+=11
+(8.cc
+16a)
+8b-
+8r
+=12
+4r
+8r
+(16b-
+16cc)
+=13
+8dd
+8cc
+8b-
+8a
+=14
+(16b-
+16cc)
+(16b-
+16a)
+8g
+(16a
+16b-)
+=15
+8cc
+8b-
+8a
+8g
+=16
+(16a
+16b-)
+(16a
+16g)
+8f
+8f
+=17
+4ee-
+8dd
+(16ee-
+16dd)
+=18
+4cc
+8b-
+8f
+=19
+4ee-
+8dd
+(16ee-
+16dd)
+=20
+4cc
+8b-
+8r
+=21
+2r
+=22
+2r
+=23
+2r
+=24
+4.r
+==
+*-
+!!!ENC: David Huron
+!!!EMD: To ease editing, Paul von Hippel added leading and trailing bars of rest (1998/10/22/).
+!!!EMD: Paul von Hippel updated this file in the following ways (1998/9/2,21-22/):
+!!!EMD:  (1) changed the representation of slurs from curly braces to parentheses 
+!!!EMD:  (2) changed freeform comments into reference records and tandem interpretations
+!!!EMD:  (3) changed final barline from quadruple (====) to double (==)
+!!!EMD:  (4) added key signatures, key designations, and tempi
+!!!EMD:  (5) added section labels and an expansion list
+!!!EMD:		(The original encoding had written out the repeated sections.)
+!!!EEV: Version 2.0

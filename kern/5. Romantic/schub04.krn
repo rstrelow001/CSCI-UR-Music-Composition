@@ -1,0 +1,162 @@
+!!!COM: Schubert, Franz Peter
+!!!CDT: 1797-1828
+!!!OTL: Ungeduld
+!!!OPS: Opus 25
+!!!SCT: DV 795
+!!!YOR: Franz Schubert: Selected songs
+!!!PPE: Max Friedlaender
+!!!PSR: C.F. Peters 
+!!!PSP: Frankfurt, London, New York
+!!!PSD: n.d.
+!!!PPG: pp.3-7
+!!!ODT: 1823///
+**kern
+*M3/4
+*MM[Etwas geschwind]
+*A:
+*k[f#c#g#]
+*>[introduction,strophe,ending1-3,strophe,ending1-3,strophe,ending1-3,strophe,ending4]
+*>introduction
+=1
+2.r
+*>strophe
+=2
+2.r
+=3
+2.r
+=4
+2.r
+=5
+2.r
+=6
+2.r
+=7
+2.r
+=8
+4r
+4r
+8r
+8e
+=9
+8.cc#
+16b
+8.a
+16g#
+8.b
+16a
+=10
+8.g#
+16f#
+4f#
+8r
+8f#
+=11
+8.dd
+16cc#
+8.b
+16a#
+8.cc#
+16b
+=12
+8.an
+16g#
+4g#
+8r
+8cc#
+=13
+8.ee
+16dd
+8.b
+16g#
+8.b
+16dd
+=14
+8.ff#
+16ee
+4cc#
+8r
+8ee
+=15
+8.ee
+16ggn
+8.gg
+16ff#
+8.ff#
+16ee
+=16
+8.cc#
+16ee
+4dd
+8r
+8b
+=17
+8.b
+16ff#
+8.ff#
+16ee
+8.ee
+16dd
+=18
+8.dd
+16cc#
+(8.cc#
+16b)
+8a
+8r
+=19
+2ff#
+8.b
+16b
+=20
+2.b
+=21
+2aa
+8.dd#
+16dd#
+=22
+4.dd#
+8dd#
+8dd#
+8dd#
+=23
+(4.aa
+8ee)
+(8cc#
+8a)
+=24
+(4.ddn
+8b)
+(8g#
+8e)
+=25
+(8e
+8ee
+4dd
+32ee
+32dd
+16cc#
+8b)
+*>ending1-3
+=26
+4a
+4r
+4r
+*>ending4
+=27
+4a
+4r
+4r
+=28
+2.r
+==
+*-
+!!!ENC: David Huron
+!!!EMD: To ease editing, Paul von Hippel added leading and trailing bars of rest (1998/10/22/).
+!!!EMD: Paul von Hippel updated this file in the following ways (1998/9/2,21-22/):
+!!!EMD:  (1) changed the representation of slurs from curly braces to parentheses 
+!!!EMD:  (2) changed freeform comments into reference records and tandem interpretations
+!!!EMD:  (3) changed final barline from quadruple (====) to double (==)
+!!!EMD:  (4) added key signatures, key designations, and tempi
+!!!EMD:  (5) added section labels and an expansion list
+!!!EMD:		(The original encoding had written out the repeated sections.)
+!!!EEV: Version 2.0

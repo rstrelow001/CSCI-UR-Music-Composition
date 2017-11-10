@@ -1,0 +1,148 @@
+!!!COM: Schubert, Franz Peter
+!!!CDT: 1797-1828
+!!!OTL: Der Tod und das Maedchen
+!!!OPS: Opus 7
+!!!ONM: No. 3
+!!!SCT: DV 531
+!!!YOR: Franz Schubert: Selected songs
+!!!PPE: Max Friedlaender
+!!!PSR: C.F. Peters 
+!!!PSP: Frankfurt, London, New York
+!!!PSD: n.d.
+!!!PPG: pp.59-60
+!!!ODT: 1817///
+!!!ONB: Leading and trailing bars of rest have been deleted.
+**kern
+*M2/2
+*MM54[Maessig] !! Tempo for the introduction, which is not encoded
+*MM[Etwas geschwinder] !! Tempo for the singer's first entrance, which *is* encoded 
+*d:
+*k[b-]
+=1
+2r
+4r
+8r
+8a
+=2
+4b-
+4a
+4r
+8.a
+16a
+=3
+4cc
+4b-
+4r
+4b-
+=4
+4.cc#
+8cc#
+4.cc#
+8cc#
+=5
+2.dd
+4dd
+=6
+2.ee-
+4a
+=7
+2b-
+4r
+8r
+8dd
+=8
+4dd
+4g
+4r
+4g
+=9
+4.cc
+8cc
+4b-
+4a
+=10
+2g
+4r
+4b-
+=11
+4.a
+8a
+4g
+4f
+=12
+2e
+2r
+=13
+1r
+=14
+1r;
+*MM[Das erste Zeitmass]
+=15
+2d
+4d
+4d
+=16
+2d
+4r
+4d
+=17
+4.d
+8d
+4d
+4d
+=18
+2d
+4r
+4d
+=19
+2.d
+4d
+=20
+4.d
+8d
+4d
+8e
+8f
+=21
+1c
+=22
+2A
+2r
+=23
+2f
+4f
+4f
+=24
+2.f
+4f
+=25
+2.f
+4f
+=26
+2.f
+4d
+=27
+2.d
+4d
+=28
+4.d
+8d
+4d
+4d
+=29
+1A
+=30
+2d
+2r
+==
+*-
+!!!ENC: David Huron
+!!!EMD: Paul von Hippel transcribe the initial tempo marking from the printed source.
+!!!EMD: (This is the only tempo marking in the printed source; 
+!!!EMD: it is not clear, however, whether it comes from the composer or the editor.)
+!!!EMD: Paul von Hippel updated this file in the following ways (1998/9/2,21-22/):
+!!!EMD:  (1) changed the representation of slurs from curly braces to parentheses 
+!!!EMD:  (2) changed freeform comments into reference records and tandem interpretations
+!!!EMD:  (3) changed final barline from quadruple (====) to double (==)
+!!!EMD:  (4) added key signatures, key designations, and tempi
+!!!EEV: Version 2.0

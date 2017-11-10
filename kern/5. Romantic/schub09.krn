@@ -1,0 +1,206 @@
+!!!COM: Schubert, Franz Peter
+!!!CDT: 1797-1828
+!!!OTL: An Sylvia
+!!!OPS: Opus 106
+!!!ONM: No. 4
+!!!SCT: DV 891
+!!!YOR: Franz Schubert: Selected songs
+!!!PPE: Max Friedlaender
+!!!PSR: C.F. Peters 
+!!!PSP: Frankfurt, London, New York
+!!!PSD: n.d.
+!!!PPG: pp.24-25
+!!!ODT: 1826///
+!!!ONB: Leading and trailing bars of rest have been deleted.
+**kern
+*M4/4
+*MM[Maessig]
+*A:
+*k[f#c#g#]
+=1
+2.cc#
+4a
+=2
+(4a
+4g#)
+4r
+4b
+=3
+2.a
+4f#
+=4
+(4f#
+4e)
+4r
+4a
+=5
+4g#
+4b
+4a
+4cc#
+=6
+2ee
+4cc#
+4r
+=7
+1r
+=8
+2.ee
+4cc#
+=9
+(4cc#
+4b#)
+4r
+(8dd#
+8cc#)
+=10
+2.bn
+4f#
+=11
+(4a
+4g#)
+4r
+4e
+=12
+4b
+4g#
+4ddn
+4b
+=13
+(4.ff#
+8dd)
+4b
+4r
+=14
+1r
+=15
+2.ee
+(8cc#
+8a)
+=16
+(4g#
+4f#)
+4r
+4f#
+=17
+2.dd
+(16cc#
+16b
+16a
+16g#)
+=18
+(4f#
+4e)
+2r
+=19
+2e
+2ee
+=20
+2ff#
+2f#
+=21
+2.g#
+(8a
+8b)
+=22
+2a
+2r
+=23
+1r
+=24
+2.cc#
+4a
+=25
+(4a
+4g#)
+4r
+4b
+=26
+2.a
+4f#
+=27
+(4f#
+4e)
+4r
+4a
+=28
+4g#
+4b
+4a
+4cc#
+=29
+2ee
+4cc#
+4r
+=30
+1r
+=31
+2.ee
+4cc#
+=32
+(4cc#
+4b#)
+4r
+(8dd#
+8cc#)
+=33
+2.bn
+4f#
+=34
+(4a
+4g#)
+4r
+4e
+=35
+4b
+4g#
+4ddn
+4b
+=36
+(4.ff#
+8dd)
+4b
+4r
+=37
+1r
+=38
+2.ee
+(8cc#
+8a)
+=39
+(4g#
+4f#)
+4r
+4f#
+=40
+2.dd
+(16cc#
+16b
+16a
+16g#)
+=41
+(4f#
+4e)
+2r
+=42
+2e
+2ee
+=43
+2ff#
+2f#
+=44
+2.g#
+(8a
+8b)
+=45
+2a
+2r
+==
+*-
+!!!ENC: David Huron
+!!!EMD: Paul von Hippel updated this file in the following ways (1998/9/2,21-22/):
+!!!EMD:  (1) changed the representation of slurs from curly braces to parentheses 
+!!!EMD:  (2) changed freeform comments into reference records and tandem interpretations
+!!!EMD:  (3) changed final barline from quadruple (====) to double (==)
+!!!EMD:  (4) added key signatures, key designations, and tempi
+!!!EEV: Version 2.0

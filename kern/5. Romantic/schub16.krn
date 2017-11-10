@@ -1,0 +1,156 @@
+!!!COM: Schubert, Franz Peter
+!!!CDT: 1797-1828
+!!!OTL: Herbst
+!!!SCT: DV 945
+!!!YOR: Franz Schubert: Selected songs
+!!!PPE: Max Friedlaender
+!!!PSR: C.F. Peters 
+!!!PSP: Frankfurt, London, New York
+!!!PSD: n.d.
+!!!PPG: pp.45-47
+!!!ODT: 1828///
+!!!ONB: Leading and trailing bars of rest have been deleted.
+**kern
+*M12/8
+*MM[Maessig]
+*e:
+*k[f#]
+*>[introduction,strophe,strophe,strophe,coda]
+*>introduction
+=1
+1.r
+*>strophe
+=2
+1.r
+=3
+1.r
+=4
+2.r
+4.r
+4r
+8b
+=5
+4.ee
+4b
+8b
+4.g
+4e
+8g
+=6
+4.b
+4b
+8b
+4.b
+4r
+8cc#
+=7
+4.dd
+4a
+8a
+4.fn
+4d
+8f
+=8
+4.a
+4a
+8a
+4.a
+4r
+8ee
+=9
+[(4.ee
+4ee]
+[8dd
+4dd]
+8cc)
+4b
+8a
+=10
+4.g
+4.f#
+4.r
+4r
+8dd#
+=11
+[(4.ee
+4ee]
+[8ddn
+4dd]
+8cc)
+4b
+8a
+=12
+(4.g
+4.f#)
+4.r
+4r
+8cc
+=13
+[2.b
+4.b]
+4a
+8g
+=14
+(4.fn
+4f
+8cc)
+[4.cc
+4cc]
+8a
+=15
+2.g
+[4.f#
+4f#]
+8dd#
+=16
+(4.dd#
+4.ee)
+4.r
+4r
+8b
+=17
+(2.cc
+4cc
+8b-)
+4g
+8e
+=18
+4.fn
+2.ffn
+4.ee
+=19
+(2.bn
+8.cc
+8.b
+8.a#
+8.b
+=20
+4.cc)
+2.b
+4.d#
+=21
+2.e
+2.r
+*>coda
+=22
+1.r
+=23
+1.r
+=24
+1.r
+=25
+1.r
+=26
+1.r
+==
+*-
+!!!ENC: David Huron
+!!!EMD: To ease editing, Paul von Hippel added leading and trailing bars of rest (1998/10/22/).
+!!!EMD: Paul von Hippel updated this file in the following ways (1998/9/2,21-22/):
+!!!EMD:  (1) changed the representation of slurs from curly braces to parentheses 
+!!!EMD:  (2) changed freeform comments into reference records and tandem interpretations
+!!!EMD:  (3) changed final barline from quadruple (====) to double (==)
+!!!EMD:  (4) added key signatures, key designations, and tempi
+!!!EMD:  (5) added section labels and an expansion list
+!!!EMD:		(The original encoding had written out the repeated sections.)
+!!!EEV: Version 2.0

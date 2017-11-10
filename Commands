@@ -1,0 +1,13 @@
+bash
+for file in *.krn ; do mint -c $file > mint/int_$file ; done
+
+mint * | grep -c '[Mm]1' >> 
+mint * | grep -c '[Mm]2'
+mint * | grep -c '[Mm]3'
+mint * | grep -c '[Mm]4'
+mint * | grep -c '[Mm]5'
+mint * | grep -c '[Mm]6'
+mint * | grep -c '[Mm]7'
+mint * | grep -c '[Mm]8'
+
+

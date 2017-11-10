@@ -1,0 +1,129 @@
+!!!COM: Schubert, Franz Peter
+!!!CDT: 1797-1828
+!!!OTL: An mein Klavier
+!!!SCT: DV 342
+!!!YOR: Franz Schubert: Selected songs
+!!!PPE: Max Friedlaender
+!!!PSR: C.F. Peters 
+!!!PSP: Frankfurt, London, New York
+!!!PSD: n.d.
+!!!PPG: p.82
+!!!ODT: 1816///
+**kern
+*M4/4
+*MM[Maessig]
+*A:
+*k[f#c#g#]
+*>[strophe,strophe,strophe,strophe]
+*>strophe
+=1
+4cc#
+8cc#
+8cc#
+4b
+4r
+=2
+4dd
+8dd
+8dd
+4cc#
+4r
+=3
+4ff#
+8ff#
+8ff#
+(8ff#
+8ee)
+8dd
+8cc#
+=4
+4ee
+8dd
+8dd
+4cc#
+8r
+[(8cc#
+=5
+8cc#]
+8b)
+8b
+8b
+4g#
+4r
+=6
+(8cc#
+8b)
+8cc#
+8dd#
+4ee
+4r
+=7
+4b
+8cc#
+8cc#
+4dd
+4b
+=8
+4b
+8cc#
+8cc#
+4dd
+4b
+=9
+4ee
+8ee
+8ee
+4cc#
+4r
+=10
+4a
+8a
+8a
+4dd
+4r
+=11
+(8ff#
+8ee)
+8dd
+8cc#
+2b
+=12
+(8b
+8cc#)
+8dd
+8dd#
+(4.ee
+8cc#)
+=13
+4a
+8b
+8cc#
+4a
+4r
+=14
+1r
+=15
+1r
+=16
+1r
+=17
+1r
+==
+*-
+!!!ENC: David Huron
+!!!EMD: To ease editing, Paul von Hippel added leading and trailing bars of rest (1998/10/22/).
+!!!EMD: Paul von Hippel encoded measures 7-13, which were missing from the original encoding (1998/10/22/).
+!!!EMD:  (The original encoding erroneously repeated measures 1-6.)
+!!!ONB: The missing measures were transcribed from an edition for medium voice, 
+!!!ONB:  where they had been transposed down to G Major.
+!!!ONB: The original encoding was transposed down to G Major,
+!!!ONB:  the missing measures were encoded,
+!!!ONB:  and the new encoding was transposed back up to the original key of A Major.
+!!!EMD: Paul von Hippel updated this file in the following ways (1998/9/2,21-22/):
+!!!EMD:  (1) changed the representation of slurs from curly braces to parentheses 
+!!!EMD:  (2) changed freeform comments into reference records and tandem interpretations
+!!!EMD:  (3) changed final barline from quadruple (====) to double (==)
+!!!EMD:  (4) added key signatures, key designations, and tempi
+!!!EMD:  (5) added section labels and an expansion list
+!!!EMD:		(The original encoding had written out the repeated sections.)
+!!!EEV: Version 2.0

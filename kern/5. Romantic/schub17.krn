@@ -1,0 +1,200 @@
+!!!COM: Schubert, Franz Peter
+!!!CDT: 1797-1828
+!!!OTL: Nachtviolen
+!!!SCT: DV 752
+!!!YOR: Franz Schubert: Selected songs
+!!!PPE: Max Friedlaender
+!!!PSR: C.F. Peters 
+!!!PSP: Frankfurt, London, New York
+!!!PSD: n.d.
+!!!PPG: pp.48-49
+!!!ODT: 1822///
+!!!ONB: Leading and trailing bars of rest have been deleted.
+**kern
+*M4/4
+*MM[Langsam]
+*C:
+*k[]
+=1
+4.cc
+8ee
+4cc
+4b
+=2
+4.cc
+8ee
+4cc
+4b
+=3
+4.ee
+8dd
+4ee
+4cc
+=4
+4.dd
+8dd
+4dd
+4b
+=5
+4.cc
+8ee
+4cc
+4b
+=6
+(8cc
+8gg)
+(8ee
+8cc)
+4cc
+4b
+=7
+[(2ee
+8ee]
+8ff)
+(8aa
+8ff)
+=8
+4ee
+4dd
+2ee
+=9
+[(2ee
+8ee]
+8ff)
+(8aa
+8ff)
+=10
+4ee
+4dd
+2ee
+=11
+1r
+=12
+1r
+=13
+1r
+=14
+1r
+=15
+4.b
+8ee
+4dd
+4b
+=16
+4.b
+8ee
+4dd
+4b
+=17
+4.gg
+8gg
+4gg
+(8ff#
+8ee)
+=18
+4.dd
+8ee
+4dd
+4b
+=19
+4.dd
+8ee
+4dd
+4cc#
+=20
+4.dd
+8ee
+4dd
+4cc#
+=21
+4dd
+4dd
+(8dd
+8gg)
+(8ee
+8cc)
+=22
+4b
+4a
+2b
+=23
+1r
+=24
+1r
+=25
+4.cc
+8ee
+4cc
+4b
+=26
+4.cc
+8ee
+4cc
+4b
+=27
+4.ee
+8ee
+4.ee
+8ee
+=28
+4.dd
+8dd
+2dd
+=29
+4.cc
+8cc
+4.ff
+8b
+=30
+4.a
+8a
+4dd
+4g
+=31
+2.cc
+4cc
+=32
+[2cc
+8cc]
+8cc
+8dd
+8ee
+=33
+[(2ee
+4.ee]
+8dd)
+=34
+4.cc
+8cc
+4.ff
+8b
+=35
+4.a
+8a
+4dd
+4g
+=36
+2.cc
+4cc
+=37
+[2cc
+8cc]
+8cc
+8dd
+8ee
+=38
+[(2ee
+4.ee]
+8dd)
+=39
+2cc
+2r
+==
+*-
+!!!ENC: David Huron
+!!!EMD: Paul von Hippel updated this file in the following ways (1998/9/2,21-22/):
+!!!EMD:  (1) changed the representation of slurs from curly braces to parentheses 
+!!!EMD:  (2) changed freeform comments into reference records and tandem interpretations
+!!!EMD:  (3) changed final barline from quadruple (====) to double (==)
+!!!EMD:  (4) added key signatures, key designations, and tempi
+!!!EEV: Version 2.0
