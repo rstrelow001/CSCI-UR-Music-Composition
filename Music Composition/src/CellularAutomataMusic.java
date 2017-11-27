@@ -20,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.JOptionPane;
 
 import javax.sound.midi.*;
 //import jm.music.data.Note;
@@ -104,7 +105,9 @@ public class CellularAutomataMusic  extends JFrame{
     private int cell_size, interval, fill_ratio;
     private boolean run;
     private Timer timer;
-    public int myOctave = 5;
+    public int myOctave = 5, currentDiff = 0, range;;
+    double uni, step, third, fourth, fifth, sixth, seventh, octave;
+    boolean selected = false;
     
     private Color[][] grid;
     
@@ -154,6 +157,79 @@ public class CellularAutomataMusic  extends JFrame{
       }
     }
     
+    public void changeEpoch(String epoch) {
+    	playNote(60);
+    	if(epoch=="medieval") {
+    		uni = 0.1484;
+    	    step = 0.4998;
+    	    third = 0.1178;
+    	    fourth = 0.0371;
+    	    fifth = 0.0234;
+    		sixth = 0.004;
+    		seventh = 0.0014;
+    		octave = 0.0057;
+    		range = 14;
+    	}
+    	else if(epoch=="renaissance") {
+    		uni = 0.2571;
+    	    step = 0.4305;
+    	    third = 0.1061;
+    	    fourth = 0.0728;
+    	    fifth = 0.048;
+    		sixth = 0.0048;
+    		seventh = 0.0006;
+    		octave = 0.0094;
+    		range = 22;
+    	}
+    	else if(epoch=="baroque") {
+    		uni = 0.2623;
+    	    step = 0.3558;
+    	    third = 0.1114;
+    	    fourth = 0.0728;
+    	    fifth = 0.0442;
+    		sixth = 0.0292;
+    		seventh = 0.0108;
+    		octave = 0.0379;
+    		range = 23;
+    	}
+    	else if(epoch=="classical") {
+    		uni = 0.148;
+    	    step = 0.3964;
+    	    third = 0.1713;
+    	    fourth = 0.0818;
+    	    fifth = 0.0574;
+    		sixth = 0.0435;
+    		seventh = 0.0195;
+    		octave = 0.0353;
+    		range = 25;
+    	}
+    	else if(epoch=="romantic") {
+    		uni = 0.207;
+    	    step = 0.2791;
+    	    third = 0.1112;
+    	    fourth = 0.0649;
+    	    fifth = 0.0416;
+    		sixth = 0.0282;
+    		seventh = 0.0123;
+    		octave = 0.0217;
+    		range = 30;
+    	}
+    	else if(epoch=="modern") {
+    		uni = 0.3086;
+    	    step = 0.2153;
+    	    third = 0.1011;
+    	    fourth = 0.1053;
+    	    fifth = 0.0723;
+    		sixth = 0.0591;
+    		seventh = 0.0364;
+    		octave = 0.0571;
+    		range = 37;
+    	}	
+    	else {
+    		System.out.println("Woah, how'd you manage that bud?");
+    	}
+    }
+    
     /*
      * Method designed to generate a new musical note value based on given previous note value
      * @param int prevVal
@@ -163,19 +239,9 @@ public class CellularAutomataMusic  extends JFrame{
       if (prevVal == 0){
         return 1;
       }
-      double uni, step, third, fourth, fifth, sixth, seventh, octave;
-      double loweruni, lowerstep, lowerthird, lowerfourth, lowerfifth, lowersixth, lowerseventh, loweroctave;
-      double upperuni, upperstep, upperthird, upperfourth, upperfifth, uppersixth, upperseventh, upperoctave;
-      int ascLim, descLim, currentDiff = 0;
+      int ascLim = range/2;
+      int descLim= (range/2) + (range%2);
       
-      uni = 0.2571;
-      step = 0.4303;
-      third = 0.1062;
-      fourth = 0.0728;
-      fifth = 0.0481;
-      sixth = 0.0047;
-      seventh = 0.0006;
-      octave = 0.0094;
       double running = 0.0;
       double value = Math.random();
       //System.out.println("myval = " + value);
@@ -229,8 +295,16 @@ public class CellularAutomataMusic  extends JFrame{
         diff =  7;
         valFound = true;
       }
+      System.out.println((currentDiff+diff) +": total diff");
+      if (ascending && currentDiff + diff >= ascLim) {
+    	  ascending = false;
+      }
+      if (!ascending && -1*(currentDiff - diff) >= descLim) {
+    	  ascending = true;
+      }
       if(ascending){
         currentDiff += diff;
+        System.out.println(currentDiff);
         newVal = prevVal;
         for (int i = 0; i < diff; i++){
           if (newVal == 5 || newVal == 12)
@@ -245,6 +319,7 @@ public class CellularAutomataMusic  extends JFrame{
       }
       else{
         currentDiff -= diff;
+        System.out.println(currentDiff);
         newVal = prevVal;
         for (int i = 0; i < diff; i++){
           if (newVal == 6 || newVal == 13)
@@ -407,8 +482,14 @@ public class CellularAutomataMusic  extends JFrame{
           start_pause.setText("Compose");
         }
         else {
-          timer.restart();
-          start_pause.setText("Terminate");
+          if (selected) {
+        	  timer.restart();
+        	  start_pause.setText("Terminate");
+          }
+          else {
+        	  JOptionPane.showMessageDialog(null, "Must first select an epoch from which to compose");
+        	  run = !run;
+          }
         }
         run = !run;
         
@@ -420,6 +501,8 @@ public class CellularAutomataMusic  extends JFrame{
         classical.setEnabled(true);
         romantic.setEnabled(true);
         modern.setEnabled(true);
+        changeEpoch("medieval");
+        selected = true;
       }
       else if(e.getSource().equals(renaissance)){
         medieval.setEnabled(true);
@@ -428,6 +511,8 @@ public class CellularAutomataMusic  extends JFrame{
         classical.setEnabled(true);
         romantic.setEnabled(true);
         modern.setEnabled(true);
+        changeEpoch("renaissance");
+        selected = true;
       }
       else if(e.getSource().equals(baroque)){
         medieval.setEnabled(true);
@@ -436,6 +521,8 @@ public class CellularAutomataMusic  extends JFrame{
         classical.setEnabled(true);
         romantic.setEnabled(true);
         modern.setEnabled(true);
+        changeEpoch("baroque");
+        selected = true;
       }
       else if(e.getSource().equals(classical)){
         medieval.setEnabled(true);
@@ -444,6 +531,8 @@ public class CellularAutomataMusic  extends JFrame{
         classical.setEnabled(false);
         romantic.setEnabled(true);
         modern.setEnabled(true);
+        changeEpoch("classical");
+        selected = true;
       }
       else if(e.getSource().equals(romantic)){
         medieval.setEnabled(true);
@@ -452,6 +541,8 @@ public class CellularAutomataMusic  extends JFrame{
         classical.setEnabled(true);
         romantic.setEnabled(false);
         modern.setEnabled(true);
+        changeEpoch("romantic");
+        selected = true;
       }
       else if(e.getSource().equals(modern)){
         medieval.setEnabled(true);
@@ -460,6 +551,8 @@ public class CellularAutomataMusic  extends JFrame{
         classical.setEnabled(true);
         romantic.setEnabled(true);
         modern.setEnabled(false);
+        changeEpoch("modern");
+        selected = true;
       }
     }
   }

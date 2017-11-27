@@ -1,0 +1,39 @@
+Range Extraction Process:
+
+Use bash before proceeding. 
+
+for file in *.krn ; do census -k $file | grep -o "Lowest note:" | wc -w ; done
+
+This line creates a census call to each file within the folder to search for pattern "Lowest note:", and counts the number of occurences. 
+
+echo $x | perl -lne 'print $2 if /(\w+) note: (\w+)/' 
+
+This line uses perl command to search through variable, x, and find the word proceeding the string "note:". If x contains "Lowest note: CC", the string CC will be returned. Used to isolate the desired note.
+
+for file in *.krn ; do cen=$(census -k $file) ; echo $cen | perl -lne 'print $2 if /(\w+) Lowest note: (\w+)/' ; done
+
+searches each kern file in folder, saves census info as cen, perls the word proceeding "Lowest note:", representing just that. 
+
+for file in *.krn ; do cen=$(census -k $file) ; echo $cen | perl -lne 'print $2 if /(\w+) Lowest note: (\w+)/' ; echo $cen | perl -lne 'print $2 if/(\w+) Highest note: (\w+)/' ; done
+
+Same premise as above, but also prints highest note afterward. Need to do arithmetic between two. 
+
+for file in *.krn ; do cen=$(census -k $file) ; echo $cen | perl -lne 'printf $2 if/(\w+) Highest note: (\w+)/' > range/range_$file ; echo ' ' >> range/range_$file ; echo $cen | perl -lne 'printf $2 if/(\w+) Lowest note: (\w+)/' >> range/range_$file ; done
+
+creates file with highest and lowest values into range/range_$file
+
+for file in *.krn ; do cen=$(census -k $file) ; echo $cen | perl -lne 'printf $1 if/Highest note: (\w+)/' > range/range_$file ; echo ' ' >> range/range_$file ; echo $cen | perl -lne 'printf $1 if/Lowest note: (\w+)/' >> range/range_$file ; done
+
+Fixes for those that did not print one of two. Now have file for each showing lowest and highest note without accidentals.
+
+for file in *.krn ; do cen=$(census -k $file) ; echo $cen | perl -lne 'printf $1 if/Highest note: (\w+(-|#)*)/' > range/range_$file ; echo ' ' >> range/range_$file ; echo $cen | perl -lne 'printf $1 if/Lowest note: (\w+(-|#)*)/' >> range/range_$file ; done
+
+Implements with accidentals. Highest, then lowest
+
+for file in *.krn ; do cen=$(census -k $file) ; echo '**kern' > range/range_$file ; echo $cen | perl -lne 'printf $1 if/Highest note: (\w+(-|#)*)/' >> range/range_$file ; echo ' ' >> range/range_$file ; echo $cen | perl -lne 'printf $1 if/Lowest note: (\w+(-|#)*)/' >> range/range_$file ; done
+
+Prints in krn format for easy mint
+
+for file in *krn ; do mint range/range_$file | perl -lne 'printf $1 if/-M(\w+)/' ; 
+
+extracts the numerical value of range from mint of file. Append to file?
