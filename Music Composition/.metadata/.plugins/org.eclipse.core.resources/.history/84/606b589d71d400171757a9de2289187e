@@ -290,57 +290,41 @@ public class CellularAutomataMusic  extends JFrame{
 			boolean valFound = false;
   
 			if (value <= uni){
-				a+=1;
-				t+=1;
 				diff = 0;
 				valFound = true;
 			}
 			running += uni;
 			if ((value <= step + running) && valFound == false){
-				b+=1;
-				t+=1;
 				diff =  1;
 				valFound = true;
 			}
 			running += step;
 			if (value <= third + running && valFound == false){
-				c+=1;
-				t+=1;
 				diff =  2;
 				valFound = true;
 			}
 			running += third;
 			if (value <= fourth + running && valFound == false){
-				d+=1;
-				t+=1;
 				diff =  3;
 				valFound = true;
 			}
 			running += fourth;
 			if (value <= fifth + running && valFound == false){
-				e+=1;
-				t+=1;
 				diff =  4;
 				valFound = true;
 			}
 			running += fifth;
 			if (value <= sixth + running && valFound == false){
-				f+=1;
-				t+=1;
 				diff =  5;
 				valFound = true;
 			}
 			running += sixth;
 			if (value <= seventh + running && valFound == false){
-				g+=1;
-				t+=1;
 				diff =  6;
 				valFound = true;
 			}
 			running += seventh;
 			if (value <= octave + running && valFound == false){
-				h+=1;
-				t+=1;
 				diff =  7;
 	        	valFound = true;
 			}
@@ -526,7 +510,6 @@ public class CellularAutomataMusic  extends JFrame{
 		    else if(e.getSource().equals(start_pause)){
 		    	if(run){
 		    		timer.stop();
-		    		JOptionPane.showMessageDialog(null,printResults());
 		    		start_pause.setText("Compose");
 		        }
 		        else {
@@ -605,13 +588,9 @@ public class CellularAutomataMusic  extends JFrame{
 	    }
 	}
   
-	/*
-	 * Method to play note value using MIDI synthesizer based upon input note
-	 * @param int representing the MIDI value of desired note.
-	 */
 	public void playNote(int i) { 
 	    try{
-	    	/* Create a new Synthesizer and open it. 
+	    	/* Create a new Sythesizer and open it. 
 	    	 */
 	    	Synthesizer midiSynth = MidiSystem.getSynthesizer(); 
 	    	midiSynth.open();
@@ -660,35 +639,16 @@ public class CellularAutomataMusic  extends JFrame{
 	    return "";
 	}
   
-	/*
-	 * method that returns string that prints composition statistics for analysis
-	 * @returns String statistics
-	 */
 	public String printResults() {
 		return "Total length of composition: "+t+"\n"
 				+"\tStatistics:\n"
-				+"\nUnison:\t "+((double)a/t)
-				+"\nStep:\t "+((double)b/t)
-				+"\nThird:\t "+((double)c/t)
-				+"\nForth:\t "+((double)d/t)
-				+"\nFifth:\t "+((double)e/t)
-				+"\nSixth:\t "+((double)f/t)
-				+"\nSeventh:\t "+((double)g/t)
-				+"\nOctave:\t "+((double)h/t);
-	}
-	
-	/*
-	 * Method to clear the statistics after terminations for next composition
-	 */
-	public void clearStats() {
-		a = 0;
-		b = 0;
-		c = 0;
-		d = 0;
-		e = 0;
-		f = 0;
-		g = 0;
-		h = 0;
-		t = 0;
+				+"Unison: "+a
+				+"Step: "+b
+				+"Third: "+c
+				+"Forth: "+d
+				+"Fifth: "+e
+				+"Sixth: "+f
+				+"Seventh: "+g
+				+"Octave: "+h;
 	}
 }
