@@ -34,7 +34,14 @@ public class CellularAutomataMusic  extends JFrame{
 	private Board board;
 	private JButton start_pause, medieval, renaissance, baroque, classical, romantic, modern;
 	// variables to track the occurrences of each interval for testing
-    int t, a, b, c, d, e, f, g, h; 
+    //int t, a, b, c, d, e, f, g, h; 
+	int t;
+    // variables to track the occurrences of each interval for testing
+    int[] totals = new int[8];
+    // variable to hold string value representing era
+    String era;
+    // Boolean variable representing
+    Boolean analysis = true;
 	
 	/* 
 	* Creates blank board to feature automata, with start button to 
@@ -174,8 +181,6 @@ public class CellularAutomataMusic  extends JFrame{
 	    					g.setColor(black);
 	    				else if (grid[h][w] == white) 
 	    					g.setColor(white);
-	    				else if (grid[h][w] == Color.RED)
-	    					g.setColor(Color.RED);
 	    				g.fillRect(h * cell_size, w * cell_size, cell_size, cell_size);
 	    			} 	catch (ConcurrentModificationException cme){}
 	    		}
@@ -197,6 +202,7 @@ public class CellularAutomataMusic  extends JFrame{
 	    		seventh = 0.0014;
 	    		octave = 0.0057;
 	    		range = 14;
+	    		era = "Medieval";
 	    	}
 	    	else if(epoch=="renaissance") {
 	    		playNote(62);
@@ -209,6 +215,7 @@ public class CellularAutomataMusic  extends JFrame{
 	    		seventh = 0.0006;
 	    		octave = 0.0094;
 	    		range = 22;
+	    		era = "Renaissance";
 	    	}
 	    	else if(epoch=="baroque") {
 	    		playNote(64);
@@ -221,6 +228,7 @@ public class CellularAutomataMusic  extends JFrame{
 	    		seventh = 0.0108;
 	    		octave = 0.0379;
 	    		range = 23;
+	    		era = "Baroque";
 	    	}
 	    	else if(epoch=="classical") {
 	    		playNote(66);
@@ -233,6 +241,7 @@ public class CellularAutomataMusic  extends JFrame{
 	    		seventh = 0.0195;
 	    		octave = 0.0353;
 	    		range = 25;
+	    		era = "Classical";
 	    	}
 	    	else if(epoch=="romantic") {
 	    		playNote(68);
@@ -245,6 +254,7 @@ public class CellularAutomataMusic  extends JFrame{
 	    		seventh = 0.0123;
 	    		octave = 0.0217;
 	    		range = 30;
+	    		era = "Romantic";
 	    	}
 	    	else if(epoch=="modern") {
 	    		playNote(70);
@@ -257,6 +267,7 @@ public class CellularAutomataMusic  extends JFrame{
 	    		seventh = 0.0364;
 	    		octave = 0.0571;
 	    		range = 37;
+	    		era = "Modern";
 	    	}	
 	    	else {
 	    		System.out.println("Woah, how'd you manage that bud?");
@@ -272,6 +283,9 @@ public class CellularAutomataMusic  extends JFrame{
 	    	if (prevVal == 0){
 	    		return 1;
 	    	}
+	    	
+	    	/* Sets ascLim and descLim to half of the average range of the 
+	    	 * given epoch. DescLim gets the ceiling arbitrarily*/
 	    	int ascLim = range/2;
 		    int descLim= (range/2) + (range%2);
 		      
@@ -283,74 +297,94 @@ public class CellularAutomataMusic  extends JFrame{
 			int diff = 0;
 			int direction = (int)(Math.random()*2);
   
+			/* determines before each note whether it was generated to be ascending
+			 * or descending. This process is regulated with ascLim and descLim */
 			boolean ascending = false;
 			if(direction == 1)
 				ascending = true;
   
+			/* Resets the valFound var to false for next note generation */
 			boolean valFound = false;
   
+			/* checks which range the generated number falls in and produces a
+			 * note based on this value. Once note is found, valFound is set to
+			 * true, and no other if statements are reached. It will access each
+			 * if statement until the correct is found, increasing running total
+			 * as it goes. */
 			if (value <= uni){
-				a+=1;
+				totals[0]+=1;
 				t+=1;
 				diff = 0;
 				valFound = true;
+				System.out.println("Unison");
 			}
 			running += uni;
 			if ((value <= step + running) && valFound == false){
-				b+=1;
+				totals[1]+=1;
 				t+=1;
 				diff =  1;
 				valFound = true;
+				System.out.println("Step");
 			}
 			running += step;
 			if (value <= third + running && valFound == false){
-				c+=1;
+				totals[2]+=1;
 				t+=1;
 				diff =  2;
 				valFound = true;
+				System.out.println("Third");
 			}
 			running += third;
 			if (value <= fourth + running && valFound == false){
-				d+=1;
+				totals[3]+=1;
 				t+=1;
 				diff =  3;
 				valFound = true;
+				System.out.println("Forth");
 			}
 			running += fourth;
 			if (value <= fifth + running && valFound == false){
-				e+=1;
+				totals[4]+=1;
 				t+=1;
 				diff =  4;
 				valFound = true;
+				System.out.println("Fifth");
 			}
 			running += fifth;
 			if (value <= sixth + running && valFound == false){
-				f+=1;
+				totals[5]+=1;
 				t+=1;
 				diff =  5;
 				valFound = true;
+				System.out.println("Sixth");
 			}
 			running += sixth;
 			if (value <= seventh + running && valFound == false){
-				g+=1;
+				totals[6]+=1;
 				t+=1;
 				diff =  6;
 				valFound = true;
+				System.out.println("Seventh");
 			}
 			running += seventh;
 			if (value <= octave + running && valFound == false){
-				h+=1;
+				totals[7]+=1;
 				t+=1;
 				diff =  7;
 	        	valFound = true;
+	        	System.out.println("Octave");
 			}
+			
 			//System.out.println((currentDiff+diff) +": total diff");
 			if (ascending && currentDiff + diff >= ascLim) {
+				System.out.println("Switched, too high");
 				ascending = false;
 			}
 			if (!ascending && -1*(currentDiff - diff) >= descLim) {
+				System.out.println("Switched, too low");
 				ascending = true;
 			}
+			System.out.println("Ascending = "+ascending);
 			if(ascending){
 				currentDiff += diff;
 				System.out.println(currentDiff);
@@ -371,7 +405,7 @@ public class CellularAutomataMusic  extends JFrame{
 				System.out.println(currentDiff);
 				newVal = prevVal;
 				for (int i = 0; i < diff; i++){
-					if (newVal == 6 || newVal == 13)
+					if (newVal == 6 || newVal == 13 || newVal == 1)
 						newVal -= 1;
 					else
 						newVal -= 2;
@@ -387,6 +421,91 @@ public class CellularAutomataMusic  extends JFrame{
 			//System.out.println(prevVal);
 			//newVal = 1+((int)(Math.random()*12));
 			return noteVal;
+	    }
+	    
+	    /*
+	     * Method designed to generate a new musical note value based on given previous note value
+	     * @param int prevVal
+	     * @returns int newVal
+	     * */
+	    public void ruleGeneratorAnalysis(){
+		      
+		    double running = 0.0;
+		    double value = Math.random();
+		    //System.out.println("myval = " + value);
+  
+			/* Resets the valFound var to false for next note generation */
+			boolean valFound = false;
+  
+			/* checks which range the generated number falls in and produces a
+			 * note based on this value. Once note is found, valFound is set to
+			 * true, and no other if statements are reached. It will access each
+			 * if statement until the correct is found, increasing running total
+			 * as it goes. */
+			if (value <= uni){
+				totals[0]+=1;
+				t+=1;
+				valFound = true;
+				//System.out.println("Unison");
+			}
+			running += uni;
+			if ((value <= step + running) && valFound == false){
+				totals[1]+=1;
+				t+=1;
+				valFound = true;
+				//System.out.println("Step");
+			}
+			running += step;
+			if (value <= third + running && valFound == false){
+				totals[2]+=1;
+				t+=1;
+				valFound = true;
+				//System.out.println("Third");
+			}
+			running += third;
+			if (value <= fourth + running && valFound == false){
+				totals[3]+=1;
+				t+=1;
+				valFound = true;
+				//System.out.println("Forth");
+			}
+			running += fourth;
+			if (value <= fifth + running && valFound == false){
+				totals[4]+=1;
+				t+=1;
+				valFound = true;
+				//System.out.println("Fifth");
+			}
+			running += fifth;
+			if (value <= sixth + running && valFound == false){
+				totals[5]+=1;
+				t+=1;
+				valFound = true;
+				//System.out.println("Sixth");
+			}
+			running += sixth;
+			if (value <= seventh + running && valFound == false){
+				totals[6]+=1;
+				t+=1;
+				valFound = true;
+				//System.out.println("Seventh");
+			}
+			running += seventh;
+			if (value <= octave + running && valFound == false){
+				totals[7]+=1;
+				t+=1;
+	        	valFound = true;
+	        	//System.out.println("Octave");
+			}
+			
+			/* When the composer has generated 100 notes, 
+			 * it automatically calculates the results and prints 
+			 * for analysis process */
+			if(t==100) {
+				System.out.println(kernResults());
+				//JOptionPane.showMessageDialog(null,kernResults());
+				clearStats();
+			}
 	    }
     
 	    /*
@@ -490,7 +609,7 @@ public class CellularAutomataMusic  extends JFrame{
 	    	}
       
 	    	//repaints the bottom line sequence based on rule
-	    	if (e.getSource().equals(timer)){
+	    	if (e.getSource().equals(timer) && analysis == false){
 	    		int newNote = ruleGenerator(val);
 	    		
 	    		if (newNote >= 8){
@@ -521,12 +640,17 @@ public class CellularAutomataMusic  extends JFrame{
 	    		Color[][] newGrid = new Color[board_size.height][board_size.width];
         
 	    	}
+	    	//repaints the bottom line sequence based on rule
+	    	if (e.getSource().equals(timer) && analysis == true){
+	    		ruleGeneratorAnalysis();
+	    	}
       
 		    //Start-Pause button processing
 		    else if(e.getSource().equals(start_pause)){
 		    	if(run){
 		    		timer.stop();
-		    		JOptionPane.showMessageDialog(null,printResults());
+		    		//JOptionPane.showMessageDialog(null,printResults());
+		    		JOptionPane.showMessageDialog(null,kernResults());
 		    		start_pause.setText("Compose");
 		        }
 		        else {
@@ -667,28 +791,48 @@ public class CellularAutomataMusic  extends JFrame{
 	public String printResults() {
 		return "Total length of composition: "+t+"\n"
 				+"\tStatistics:\n"
-				+"\nUnison:\t "+((double)a/t)
-				+"\nStep:\t "+((double)b/t)
-				+"\nThird:\t "+((double)c/t)
-				+"\nForth:\t "+((double)d/t)
-				+"\nFifth:\t "+((double)e/t)
-				+"\nSixth:\t "+((double)f/t)
-				+"\nSeventh:\t "+((double)g/t)
-				+"\nOctave:\t "+((double)h/t);
+				+"\nUnison:\t "+((double)totals[0]/t)
+				+"\nStep:\t "+((double)totals[1]/t)
+				+"\nThird:\t "+((double)totals[2]/t)
+				+"\nForth:\t "+((double)totals[3]/t)
+				+"\nFifth:\t "+((double)totals[4]/t)
+				+"\nSixth:\t "+((double)totals[5]/t)
+				+"\nSeventh:\t "+((double)totals[6]/t)
+				+"\nOctave:\t "+((double)totals[7]/t);
+	}
+	
+	/*
+	 * method that returns string that prints composition statistics for analysis
+	 * @returns String statistics
+	 */
+	public String kernResults() {
+		int max = 0;
+		
+		for(int i = 0; i<8;i++) {
+			if(totals[i] > max){
+				max = totals[i];
+			}
+		}
+		
+		return ""+((double)totals[0]/t)
+				+","+((double)totals[1]/t)
+				+","+((double)totals[2]/t)
+				+","+((double)totals[3]/t)
+				+","+((double)totals[4]/t)
+				+","+((double)totals[5]/t)
+				+","+((double)totals[6]/t)
+				+","+((double)totals[7]/t)
+				+","+((double)max/t)
+				+","+era;
 	}
 	
 	/*
 	 * Method to clear the statistics after terminations for next composition
 	 */
 	public void clearStats() {
-		a = 0;
-		b = 0;
-		c = 0;
-		d = 0;
-		e = 0;
-		f = 0;
-		g = 0;
-		h = 0;
+		for (int i = 0; i < 8; i++) {
+			totals[i] = 0;
+		}
 		t = 0;
 	}
 }
