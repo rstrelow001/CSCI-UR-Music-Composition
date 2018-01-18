@@ -6,9 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ConcurrentModificationException;
 
-import weka.classifiers.Evaluation;
-import weka.classifiers.bayes.NaiveBayes;
-import weka.core.Instances;
+//import weka.classifiers.Evaluation;
+//import weka.classifiers.bayes.NaiveBayes;
+//import weka.core.Instances;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -108,7 +108,7 @@ public class CellularAutomataMusic  extends JFrame{
 	    String name = "/home/tdrichmond/kern/FullSet.arff/";
 	    
 	    try{
-	      classify(name);
+//	      classify(name);
 	      reader = new BufferedReader(new FileReader(name));
 	    }
 	    catch(Exception e){
@@ -760,29 +760,29 @@ public class CellularAutomataMusic  extends JFrame{
 	 * @param String fileName - name of .arff file to be evaluated
 	 * @returns String of output from evaluation
 	 * */
-	public static String classify(String fileName) throws Exception{
-	    BufferedReader reader = null;
-	    reader = new BufferedReader(new FileReader(fileName));
+//	public static String classify(String fileName) throws Exception{
+//	    BufferedReader reader = null;
+//	    reader = new BufferedReader(new FileReader(fileName));
 	    
-	    Instances train = new Instances(reader);
-	    train.setClassIndex(train.numAttributes()-1);
+//	    Instances train = new Instances(reader);
+//	    train.setClassIndex(train.numAttributes()-1);
 	    
-	    reader.close();
+//	    reader.close();
 	    
-	    NaiveBayes nb = new NaiveBayes();
+//	    NaiveBayes nb = new NaiveBayes();
 	    
 	    //nb.buildClassifer(train);
 	    
-	    Evaluation eval = new Evaluation(train);
-	    eval.crossValidateModel(nb, train, 10, new Random(1));
+//	    Evaluation eval = new Evaluation(train);
+//	    eval.crossValidateModel(nb, train, 10, new Random(1));
 	    
-	    System.out.println(eval.toMatrixString());
-	    System.out.println(eval.toSummaryString());
-	    System.out.println(eval.toClassDetailsString());
+//	    System.out.println(eval.toMatrixString());
+//	    System.out.println(eval.toSummaryString());
+//	    System.out.println(eval.toClassDetailsString());
 	    //System.out.println(eval.toCumulativeMarginDistributionString());
-	    
-	    return "";
-	}
+//	    
+//	    return "";
+//	}
   
 	/*
 	 * method that returns string that prints composition statistics for analysis

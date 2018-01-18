@@ -14,10 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<variableList>
-		<variable>
-			<name>WEKA</name>
-			<value>file:/home/tdrichmond/JavaPackages/weka.jar</value>
-		</variable>
-	</variableList>
 </projectDescription>
