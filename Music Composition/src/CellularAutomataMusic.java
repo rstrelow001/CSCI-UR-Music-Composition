@@ -41,7 +41,7 @@ public class CellularAutomataMusic  extends JFrame{
     // variable to hold string value representing era
     String era;
     // Boolean variable representing
-    Boolean analysis = true;
+    Boolean analysis = false;
 	
 	/* 
 	* Creates blank board to feature automata, with start button to 
@@ -146,8 +146,8 @@ public class CellularAutomataMusic  extends JFrame{
 	     * Default constructor for Board object
 	     */
 	    public Board(){
-	    	board_size = DEFAULT_SIZE;
-	    	cell_size = DEFAULT_CELL;
+	    		board_size = DEFAULT_SIZE;
+	    		cell_size = DEFAULT_CELL;
 			interval = DEFAULT_INTERVAL;
 			fill_ratio = DEFAULT_RATIO;
 			run = false;
@@ -162,27 +162,28 @@ public class CellularAutomataMusic  extends JFrame{
 					//else grid[h][w] = white;
 					grid[h][w] = white;
 				}
-			  
 			timer = new Timer(interval, this);
 	    }
 
 	    @Override
 	    public Dimension getPreferredSize(){
-	    	return new Dimension(board_size.height * cell_size, board_size.width * cell_size);
+	    		return new Dimension(board_size.height * cell_size, board_size.width * cell_size);
 	    }
     
 	    @Override
 	    public void paintComponent(Graphics g){
-	    	super.paintComponent(g);
-	    	for (int h = 0; h < board_size.height; h++)
-	    		for (int w = 0; w < board_size.width; w++){
-	    			try{
-	    				if (grid[h][w] == black)
-	    					g.setColor(black);
-	    				else if (grid[h][w] == white) 
-	    					g.setColor(white);
-	    				g.fillRect(h * cell_size, w * cell_size, cell_size, cell_size);
-	    			} 	catch (ConcurrentModificationException cme){}
+	    		super.paintComponent(g);
+	    		for (int h = 0; h < board_size.height; h++){
+	    			for (int w = 0; w < board_size.width; w++){
+	    				try{
+		    				if (grid[h][w] == black)
+		    					g.setColor(black);
+		    				else if (grid[h][w] == white) 
+		    					g.setColor(white);
+		    				g.fillRect(h * cell_size, w * cell_size, cell_size, cell_size);
+		    			}
+	    				catch (ConcurrentModificationException cme){}
+	    			}
 	    		}
 	    }
 
@@ -191,87 +192,87 @@ public class CellularAutomataMusic  extends JFrame{
 	     * @param String representing epoch
 	     */
 	    public void changeEpoch(String epoch) {
-	    	if(epoch=="medieval") {
-	    		playNote(60);
-	    		uni = 0.1484;
-	    		step = 0.4998;
-	    		third = 0.1178;
-	    		fourth = 0.0371;
-	    		fifth = 0.0234;
-	    		sixth = 0.004;
-	    		seventh = 0.0014;
-	    		octave = 0.0057;
-	    		range = 14;
-	    		era = "Medieval";
-	    	}
-	    	else if(epoch=="renaissance") {
-	    		playNote(62);
-	    		uni = 0.2571;
-	    	    step = 0.4305;
-	    	    third = 0.1061;
-	    	    fourth = 0.0728;
-	    	    fifth = 0.048;
-	    		sixth = 0.0048;
-	    		seventh = 0.0006;
-	    		octave = 0.0094;
-	    		range = 22;
-	    		era = "Renaissance";
-	    	}
-	    	else if(epoch=="baroque") {
-	    		playNote(64);
-	    		uni = 0.2623;
-	    	    step = 0.3558;
-	    	    third = 0.1114;
-	    	    fourth = 0.0728;
-	    	    fifth = 0.0442;
-	    		sixth = 0.0292;
-	    		seventh = 0.0108;
-	    		octave = 0.0379;
-	    		range = 23;
-	    		era = "Baroque";
-	    	}
-	    	else if(epoch=="classical") {
-	    		playNote(66);
-	    		uni = 0.148;
-	    	    step = 0.3964;
-	    	    third = 0.1713;
-	    	    fourth = 0.0818;
-	    	    fifth = 0.0574;
-	    		sixth = 0.0435;
-	    		seventh = 0.0195;
-	    		octave = 0.0353;
-	    		range = 25;
-	    		era = "Classical";
-	    	}
-	    	else if(epoch=="romantic") {
-	    		playNote(68);
-	    		uni = 0.207;
-	    	    step = 0.2791;
-	    	    third = 0.1112;
-	    	    fourth = 0.0649;
-	    	    fifth = 0.0416;
-	    		sixth = 0.0282;
-	    		seventh = 0.0123;
-	    		octave = 0.0217;
-	    		range = 30;
-	    		era = "Romantic";
-	    	}
-	    	else if(epoch=="modern") {
-	    		playNote(70);
-	    		uni = 0.3086;
-	    	    step = 0.2153;
-	    	    third = 0.1011;
-	    	    fourth = 0.1053;
-	    	    fifth = 0.0723;
-	    		sixth = 0.0591;
-	    		seventh = 0.0364;
-	    		octave = 0.0571;
-	    		range = 37;
-	    		era = "Modern";
-	    	}	
-	    	else {
-	    		System.out.println("Woah, how'd you manage that bud?");
-	    	}
+		    	if(epoch=="medieval") {
+		    		playNote(60);
+		    		uni = 0.1484;
+		    		step = 0.4998;
+		    		third = 0.1178;
+		    		fourth = 0.0371;
+		    		fifth = 0.0234;
+		    		sixth = 0.004;
+		    		seventh = 0.0014;
+		    		octave = 0.0057;
+		    		range = 14;
+		    		era = "Medieval";
+		    	}
+		    	else if(epoch=="renaissance") {
+		    		playNote(62);
+		    		uni = 0.2571;
+		    	    step = 0.4305;
+		    	    third = 0.1061;
+		    	    fourth = 0.0728;
+		    	    fifth = 0.048;
+		    		sixth = 0.0048;
+		    		seventh = 0.0006;
+		    		octave = 0.0094;
+		    		range = 22;
+		    		era = "Renaissance";
+		    	}
+		    	else if(epoch=="baroque") {
+		    		playNote(64);
+		    		uni = 0.2623;
+		    	    step = 0.3558;
+		    	    third = 0.1114;
+		    	    fourth = 0.0728;
+		    	    fifth = 0.0442;
+		    		sixth = 0.0292;
+		    		seventh = 0.0108;
+		    		octave = 0.0379;
+		    		range = 23;
+		    		era = "Baroque";
+		    	}
+		    	else if(epoch=="classical") {
+		    		playNote(66);
+		    		uni = 0.148;
+		    	    step = 0.3964;
+		    	    third = 0.1713;
+		    	    fourth = 0.0818;
+		    	    fifth = 0.0574;
+		    		sixth = 0.0435;
+		    		seventh = 0.0195;
+		    		octave = 0.0353;
+		    		range = 25;
+		    		era = "Classical";
+		    	}
+		    	else if(epoch=="romantic") {
+		    		playNote(68);
+		    		uni = 0.207;
+		    	    step = 0.2791;
+		    	    third = 0.1112;
+		    	    fourth = 0.0649;
+		    	    fifth = 0.0416;
+		    		sixth = 0.0282;
+		    		seventh = 0.0123;
+		    		octave = 0.0217;
+		    		range = 30;
+		    		era = "Romantic";
+		    	}
+		    	else if(epoch=="modern") {
+		    		playNote(70);
+		    		uni = 0.3086;
+		    	    step = 0.2153;
+		    	    third = 0.1011;
+		    	    fourth = 0.1053;
+		    	    fifth = 0.0723;
+		    		sixth = 0.0591;
+		    		seventh = 0.0364;
+		    		octave = 0.0571;
+		    		range = 37;
+		    		era = "Modern";
+		    	}	
+		    	else {
+		    		System.out.println("Woah, how'd you manage that bud?");
+		    	}
 	    }
     
 	    /*
@@ -280,18 +281,17 @@ public class CellularAutomataMusic  extends JFrame{
 	     * @returns int newVal
 	     * */
 	    public int ruleGenerator(int prevVal){
-	    	if (prevVal == 0){
-	    		return 1;
-	    	}
+	    		if (prevVal == 0){
+	    			return 1;
+	    		}
 	    	
-	    	/* Sets ascLim and descLim to half of the average range of the 
-	    	 * given epoch. DescLim gets the ceiling arbitrarily*/
-	    	int ascLim = range/2;
+		    	/* Sets ascLim and descLim to half of the average range of the 
+		    	 * given epoch. DescLim gets the ceiling arbitrarily*/
+		    	int ascLim = range/2;
 		    int descLim= (range/2) + (range%2);
 		      
 		    double running = 0.0;
 		    double value = Math.random();
-		    //System.out.println("myval = " + value);
       
 		    int newVal;
 			int diff = 0;
@@ -371,8 +371,8 @@ public class CellularAutomataMusic  extends JFrame{
 				totals[7]+=1;
 				t+=1;
 				diff =  7;
-	        	valFound = true;
-	        	System.out.println("Octave");
+				valFound = true;
+	        		System.out.println("Octave");
 			}
 			
 			//System.out.println((currentDiff+diff) +": total diff");
@@ -430,9 +430,8 @@ public class CellularAutomataMusic  extends JFrame{
 	     * */
 	    public void ruleGeneratorAnalysis(){
 		      
-		    double running = 0.0;
+	    		double running = 0.0;
 		    double value = Math.random();
-		    //System.out.println("myval = " + value);
   
 			/* Resets the valFound var to false for next note generation */
 			boolean valFound = false;
@@ -446,56 +445,48 @@ public class CellularAutomataMusic  extends JFrame{
 				totals[0]+=1;
 				t+=1;
 				valFound = true;
-				//System.out.println("Unison");
 			}
 			running += uni;
 			if ((value <= step + running) && valFound == false){
 				totals[1]+=1;
 				t+=1;
 				valFound = true;
-				//System.out.println("Step");
 			}
 			running += step;
 			if (value <= third + running && valFound == false){
 				totals[2]+=1;
 				t+=1;
 				valFound = true;
-				//System.out.println("Third");
 			}
 			running += third;
 			if (value <= fourth + running && valFound == false){
 				totals[3]+=1;
 				t+=1;
 				valFound = true;
-				//System.out.println("Forth");
 			}
 			running += fourth;
 			if (value <= fifth + running && valFound == false){
 				totals[4]+=1;
 				t+=1;
 				valFound = true;
-				//System.out.println("Fifth");
 			}
 			running += fifth;
 			if (value <= sixth + running && valFound == false){
 				totals[5]+=1;
 				t+=1;
 				valFound = true;
-				//System.out.println("Sixth");
 			}
 			running += sixth;
 			if (value <= seventh + running && valFound == false){
 				totals[6]+=1;
 				t+=1;
 				valFound = true;
-				//System.out.println("Seventh");
 			}
 			running += seventh;
 			if (value <= octave + running && valFound == false){
 				totals[7]+=1;
 				t+=1;
-	        	valFound = true;
-	        	//System.out.println("Octave");
+	        		valFound = true;
 			}
 			
 			/* When the composer has generated 100 notes, 
@@ -515,177 +506,184 @@ public class CellularAutomataMusic  extends JFrame{
 	     * @returns String letter value equivelant to corresponding int value
 	     * */
 	    public int toNote(int val, Boolean asc){
-	    	int noteVal;
+	    		int noteVal;
 	        int C = myOctave * 12;
 	        
 	        if(val == 1 || val == 13){
-	        	noteVal = C+0;
-	        	System.out.println("C");
+		        	noteVal = C+0;
+		        	System.out.println("C");
 	        }
 	        else if(val == 2){
-	        	noteVal = C+1;
-	        	System.out.println("C#/D-");
+		        	noteVal = C+1;
+		        	System.out.println("C#/D-");
 	        }
 	        else if(val == 3){
-	        	noteVal = C+2;
-	        	System.out.println("D");
+		        	noteVal = C+2;
+		        	System.out.println("D");
 	        }
 	        else if(val == 4){
-	        	noteVal = C+3;
-	        	System.out.println("D#/E-");
+		        	noteVal = C+3;
+		        	System.out.println("D#/E-");
 	        }
 	        else if(val == 5){
-	        	noteVal = C+4;
-	        	System.out.println("E");
+		        	noteVal = C+4;
+		        	System.out.println("E");
 	        }
 	        else if(val == 6){
-	        	noteVal = C+5;
-	        	System.out.println("F");
+		        	noteVal = C+5;
+		        	System.out.println("F");
 	        }
 	        else if(val == 7){
-	        	noteVal = C+6;
-	        	System.out.println("F#/G-");
+		        	noteVal = C+6;
+		        	System.out.println("F#/G-");
 	        }
 	        else if(val == 8){
-	        	noteVal = C+7;
-	        	System.out.println("G");
+		        	noteVal = C+7;
+		        	System.out.println("G");
 	        }
 	        else if(val == 9){
-	        	noteVal = C+8;
-	        	System.out.println("G#/A-");
+		        	noteVal = C+8;
+		        	System.out.println("G#/A-");
 	        }
 	        else if(val == 10){
-	        	noteVal = C+9;
-	        	System.out.println("A");
+		        	noteVal = C+9;
+		        	System.out.println("A");
 	        }
 	        else if(val == 11){
-	        	noteVal = C+10;
-	        	System.out.println("A#/B-");
+		        	noteVal = C+10;
+		        	System.out.println("A#/B-");
 	        }
 	        else if(val == 12){
-	        	noteVal = C+11;
-	        	System.out.println("B");
+		        	noteVal = C+11;
+		        	System.out.println("B");
 	        }
 	        else {
-	        	return 0;
+	        		return 0;
 	        }
 	        //System.out.println(noteVal);
 	        playNote(noteVal);
 	        return val;
 	    }
     
+	    /*
+	     * (non-Javadoc)
+	     * Action Listener for all buttons, compose, terminate, medieval,
+	     * renaissance, baroque, classical, romantic and modern.
+	     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	     */
 	    public void actionPerformed(ActionEvent e) {
-      
-	      //reads binary value of last sequence
-	    	int a = 0, b = 0, c = 0, d = 0, val = 0;
+		    	
+		    //reads binary value of last sequence
+		    	int a = 0, b = 0, c = 0, d = 0, val = 0;
+		      
+		    	//counts binary from board for conversion to decimal
+		    	if (grid[0][board_size.width-1]  == black)
+		    		a = 1;
+		    	if (grid[1][board_size.width-1]  == black)
+		    		b = 1;
+		    	if (grid[2][board_size.width-1]  == black)
+		    		c = 1;
+		    	if (grid[3][board_size.width-1]  == black)
+		    		d = 1;
+		    
+		    	//converts binary sequence into decimal with variable val
+		    	if(a==1)
+		    		val+=8;
+		    	if(b==1)
+		    		val+=4;
+		    	if(c==1)
+		    		val+=2;
+		    	if(d==1)
+		    		val+=1;
+		      
+		    	//shifts bottom n-1 sequences up to make room for next sequence
+		    	for (int h = 0; h < board_size.height; h++){
+		    		for (int w = 0; w < board_size.width-1; w++){
+		    			grid[h][w] = grid[h][w+1];
+		    		}
+		    	}
 	      
-	    	if (grid[0][board_size.width-1]  == black)
-	    		a = 1;
-	    	if (grid[1][board_size.width-1]  == black)
-	    		b = 1;
-	    	if (grid[2][board_size.width-1]  == black)
-	    		c = 1;
-	    	if (grid[3][board_size.width-1]  == black)
-	    		d = 1;
+		    	//repaints the bottom line sequence based on rule
+		    	if (e.getSource().equals(timer) && analysis == false){
+		    		int newNote = ruleGenerator(val);
+		    		
+		    		if (newNote >= 8){
+		    			grid[0][board_size.width-1] = black;
+		    			newNote = newNote-8;
+		    		}
+		    		else
+		    			grid[0][board_size.width-1] = white;
+		    		if (newNote >= 4){
+		    			grid[1][board_size.width-1] = black;
+		    			newNote = newNote-4;
+		    		}
+		    		else
+		    			grid[1][board_size.width-1] = white;
+		    		if (newNote >= 2){
+		    			grid[2][board_size.width-1] = black;
+		    			newNote = newNote-2;
+		    		}
+		    		else
+		    			grid[2][board_size.width-1] = white;
+		    		if (newNote >= 1){
+		    			grid[3][board_size.width-1] = black;
+		    			newNote = newNote-1;
+		    		}
+		    		else
+		    			grid[3][board_size.width-1] = white;
+		    		repaint();
+		    		Color[][] newGrid = new Color[board_size.height][board_size.width];
+		    	}
+		    	
+		    	//repaints the bottom line sequence based on rule
+		    	if (e.getSource().equals(timer) && analysis == true){
+		    		ruleGeneratorAnalysis();
+		    	}
 	      
-	    	if(a==1)
-	    		val+=8;
-	    	if(b==1)
-	    		val+=4;
-	    	if(c==1)
-	    		val+=2;
-	    	if(d==1)
-	    		val+=1;
-	      
-	    	//shifts bottom n-1 sequences up to make room for next sequence
-	    	for (int h = 0; h < board_size.height; h++){
-	    		for (int w = 0; w < board_size.width-1; w++){
-	    			grid[h][w] = grid[h][w+1];
-	//                  if (grid[h][w] == black)
-	//                      System.out.print("b ");
-	//                  else System.out.print("w ");
-	    		}
-	        //System.out.println();
-	    	}
-      
-	    	//repaints the bottom line sequence based on rule
-	    	if (e.getSource().equals(timer) && analysis == false){
-	    		int newNote = ruleGenerator(val);
-	    		
-	    		if (newNote >= 8){
-	    			grid[0][board_size.width-1] = black;
-	    			newNote = newNote-8;
-	    		}
-	    		else
-	    			grid[0][board_size.width-1] = white;
-	    		if (newNote >= 4){
-	    			grid[1][board_size.width-1] = black;
-	    			newNote = newNote-4;
-	    		}
-	    		else
-	    			grid[1][board_size.width-1] = white;
-	    		if (newNote >= 2){
-	    			grid[2][board_size.width-1] = black;
-	    			newNote = newNote-2;
-	    		}
-	    		else
-	    			grid[2][board_size.width-1] = white;
-	    		if (newNote >= 1){
-	    			grid[3][board_size.width-1] = black;
-	    			newNote = newNote-1;
-	    		}
-	    		else
-	    			grid[3][board_size.width-1] = white;
-	    		repaint();
-	    		Color[][] newGrid = new Color[board_size.height][board_size.width];
-        
-	    	}
-	    	//repaints the bottom line sequence based on rule
-	    	if (e.getSource().equals(timer) && analysis == true){
-	    		ruleGeneratorAnalysis();
-	    	}
-      
-		    //Start-Pause button processing
-		    else if(e.getSource().equals(start_pause)){
-		    	if(run){
-		    		timer.stop();
-		    		//JOptionPane.showMessageDialog(null,printResults());
-		    		JOptionPane.showMessageDialog(null,kernResults());
-		    		start_pause.setText("Compose");
-		        }
-		        else {
-		        	if (selected) {
-		        		timer.restart();
-		        		start_pause.setText("Terminate");
-		        	}
-		        	else {
-		        		JOptionPane.showMessageDialog(null, "Must first select an epoch from which to compose");
-		        		run = !run;
-		        	}
-		        }
-		    	run = !run;
-        
-		    }
-		    else if(e.getSource().equals(medieval)){
-		    	medieval.setEnabled(false);
-		        renaissance.setEnabled(true);
-		        baroque.setEnabled(true);
-		        classical.setEnabled(true);
-		        romantic.setEnabled(true);
-		        modern.setEnabled(true);
-		        changeEpoch("medieval");
-		        selected = true;
-		    }
-		    else if(e.getSource().equals(renaissance)){
-		        medieval.setEnabled(true);
-		        renaissance.setEnabled(false);
-		        baroque.setEnabled(true);
-		        classical.setEnabled(true);
+			//Start-Pause button processing
+			else if(e.getSource().equals(start_pause)){
+			    	if(run){
+			    		timer.stop();
+			    		//JOptionPane.showMessageDialog(null,printResults());
+			    		JOptionPane.showMessageDialog(null,printResults());
+			    		start_pause.setText("Compose");
+			    }
+			    else {
+			        	if (selected) {
+			        		timer.restart();
+			        		start_pause.setText("Terminate");
+			    }
+			    else {
+			        		JOptionPane.showMessageDialog(null, "Must first select an epoch from which to compose");
+			        		run = !run;
+			    }
+			}
+			run = !run;
+			}
+		    	
+		    	//Medieval button processing
+			else if(e.getSource().equals(medieval)){
+				medieval.setEnabled(false);
+			    renaissance.setEnabled(true);
+			    baroque.setEnabled(true);
+			    classical.setEnabled(true);
+			    romantic.setEnabled(true);
+			    modern.setEnabled(true);
+			    changeEpoch("medieval");
+			    selected = true;
+			}
+		    	//Renaissance button processing
+			else if(e.getSource().equals(renaissance)){
+			    medieval.setEnabled(true);
+			    renaissance.setEnabled(false);
+			    baroque.setEnabled(true);
+			    classical.setEnabled(true);
 		        romantic.setEnabled(true);
 		        modern.setEnabled(true);
 		        changeEpoch("renaissance");
 		        selected = true;
 		    }
+		    	//Baroque button processing
 		    else if(e.getSource().equals(baroque)){
 		        medieval.setEnabled(true);
 		        renaissance.setEnabled(true);
@@ -696,6 +694,7 @@ public class CellularAutomataMusic  extends JFrame{
 		        changeEpoch("baroque");
 		        selected = true;
 		    }
+		    	//Classical button processing
 		    else if(e.getSource().equals(classical)){
 		        medieval.setEnabled(true);
 		        renaissance.setEnabled(true);
@@ -706,6 +705,7 @@ public class CellularAutomataMusic  extends JFrame{
 		        changeEpoch("classical");
 		        selected = true;
 		    }
+		    	//Romantic button processing
 		    else if(e.getSource().equals(romantic)){
 		        medieval.setEnabled(true);
 		        renaissance.setEnabled(true);
@@ -716,6 +716,7 @@ public class CellularAutomataMusic  extends JFrame{
 		        changeEpoch("romantic");
 		        selected = true;
 		    }
+		    	//Modern button processing
 		    else if(e.getSource().equals(modern)){
 		        medieval.setEnabled(true);
 		        renaissance.setEnabled(true);
@@ -737,20 +738,21 @@ public class CellularAutomataMusic  extends JFrame{
 	    try{
 	    	/* Create a new Synthesizer and open it. 
 	    	 */
-	    	Synthesizer midiSynth = MidiSystem.getSynthesizer(); 
-	    	midiSynth.open();
-	    	
-	    	//get and load default instrument and channel lists
-	    	Instrument[] instr = midiSynth.getDefaultSoundbank().getInstruments();
-	    	MidiChannel[] mChannels = midiSynth.getChannels();
-	      
-	    	midiSynth.loadInstrument(instr[0]);//load an instrument
-	    	mChannels[0].noteOff(i);//turn off the previous note
-	    	mChannels[0].noteOn(i, 120);//On channel 0, play note number i with velocity 60
-	    	try {
-	    		Thread.sleep(1000); // wait time in milliseconds to control duration
-	    	}
-	    	catch( InterruptedException e ) { }
+		    	Synthesizer midiSynth = MidiSystem.getSynthesizer(); 
+		    	midiSynth.open();
+		    	
+		    	//get and load default instrument and channel lists
+		    	Instrument[] instr = midiSynth.getDefaultSoundbank().getInstruments();
+		    	MidiChannel[] mChannels = midiSynth.getChannels();
+		      
+		    	midiSynth.loadInstrument(instr[0]);//load an instrument
+		    	mChannels[0].noteOff(i);//turn off the previous note
+		    	mChannels[0].noteOn(i, 120);//On channel 0, play note number i with velocity 120
+		    	try {
+		    		//Following line controls duration of notes played. 1000 used for samples of 30 seconds. 750 used for samples of 15 seconds
+		    		Thread.sleep(750); // wait time in milliseconds to control duration
+		    	}
+		    	catch( InterruptedException e ) {}
 	    } 
 	    catch (MidiUnavailableException e) {}
 	}
@@ -785,7 +787,7 @@ public class CellularAutomataMusic  extends JFrame{
 //	}
   
 	/*
-	 * method that returns string that prints composition statistics for analysis
+	 * method that returns string that prints composition statistics for visual analysis
 	 * @returns String statistics
 	 */
 	public String printResults() {
@@ -806,14 +808,17 @@ public class CellularAutomataMusic  extends JFrame{
 	 * @returns String statistics
 	 */
 	public String kernResults() {
+		//variable to store percentage of most common interval
 		int max = 0;
 		
+		// computes the most common interval
 		for(int i = 0; i<8;i++) {
 			if(totals[i] > max){
 				max = totals[i];
 			}
 		}
 		
+		//returns expected String output based on totals array and above computation
 		return ""+((double)totals[0]/t)
 				+","+((double)totals[1]/t)
 				+","+((double)totals[2]/t)
@@ -830,6 +835,7 @@ public class CellularAutomataMusic  extends JFrame{
 	 * Method to clear the statistics after terminations for next composition
 	 */
 	public void clearStats() {
+		//loops through all saved data and resets to 0 for future processing
 		for (int i = 0; i < 8; i++) {
 			totals[i] = 0;
 		}
