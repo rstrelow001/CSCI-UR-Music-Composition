@@ -1,3 +1,0 @@
-bash before use
-
-for file in *.krn ; do t=$(grep -o '[MmPAd][0-9]' mint/int_$file | wc -w) ; p=$(grep -o '+[MmPAd][0-9]' mint/int_$file | wc -w) ;  m=$(grep -o '\-[MmPAd]' mint/int_$file | wc -w) ; u=$(grep -o '[MmPAd][1]' mint/int_$file | wc -w) ; echo $(bc -l <<< "($p/$t)")','$(bc -l <<< "($m/$t)")','$(bc -l <<< "($u/$t)")',Medieval'>>../AscensionSet.txt ; done
