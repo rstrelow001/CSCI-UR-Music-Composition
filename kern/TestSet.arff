@@ -7,8 +7,8 @@
    % 
    @RELATION kern
 
-   @ATTRIBUTE freqStep  NUMERIC
-   @ATTRIBUTE freqTwos   NUMERIC
+   @ATTRIBUTE freqUni  NUMERIC
+   @ATTRIBUTE freqStep   NUMERIC
    @ATTRIBUTE freqThirds  NUMERIC
    @ATTRIBUTE freqFourths   NUMERIC
    @ATTRIBUTE freqFifths  NUMERIC
