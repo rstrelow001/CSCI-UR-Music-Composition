@@ -1,3 +1,10 @@
+/*
+ * Algorithmic Music Composition Software
+ * @author Tom Donald Richmond
+ * @version 2.0
+ * @since 02/12/17
+ */
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -6,16 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ConcurrentModificationException;
 
-//import weka.classifiers.Evaluation;
-//import weka.classifiers.bayes.NaiveBayes;
-//import weka.core.Instances;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.File;
-
-import java.util.Random;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -23,9 +20,6 @@ import javax.swing.Timer;
 import javax.swing.JOptionPane;
 
 import javax.sound.midi.*;
-//import jm.music.data.Note;
-//import jm.util.Play;
-//import jm.JMC;
 
 public class CellularAutomataMusic  extends JFrame{
   
@@ -33,8 +27,7 @@ public class CellularAutomataMusic  extends JFrame{
 	  
 	private Board board;
 	private JButton start_pause, medieval, renaissance, baroque, classical, romantic, modern;
-	// variables to track the occurrences of each interval for testing
-    //int t, a, b, c, d, e, f, g, h; 
+	// variables to track total number of interval occurrences
 	int t;
     // variables to track the occurrences of each interval for testing
     int[] totals = new int[8];
@@ -101,19 +94,6 @@ public class CellularAutomataMusic  extends JFrame{
 	}
   
 	public static void main(String args[]){
-		/* 
-	     * Add buttons for start/stop
-	     * */
-	    BufferedReader reader = null;
-	    String name = "/home/tdrichmond/kern/FullSet.arff/";
-	    
-	    try{
-//	      classify(name);
-	      reader = new BufferedReader(new FileReader(name));
-	    }
-	    catch(Exception e){
-	      System.out.println("FAILED CLASSIFIER");
-	    }
 	    new CellularAutomataMusic();
 	}
   
@@ -756,35 +736,6 @@ public class CellularAutomataMusic  extends JFrame{
 	    } 
 	    catch (MidiUnavailableException e) {}
 	}
-  
-	/*
-	 * Method that reads file name of an .arff file, and returns the evaluation of that as a naive bayes classifier
-	 * @param String fileName - name of .arff file to be evaluated
-	 * @returns String of output from evaluation
-	 * */
-//	public static String classify(String fileName) throws Exception{
-//	    BufferedReader reader = null;
-//	    reader = new BufferedReader(new FileReader(fileName));
-	    
-//	    Instances train = new Instances(reader);
-//	    train.setClassIndex(train.numAttributes()-1);
-	    
-//	    reader.close();
-	    
-//	    NaiveBayes nb = new NaiveBayes();
-	    
-	    //nb.buildClassifer(train);
-	    
-//	    Evaluation eval = new Evaluation(train);
-//	    eval.crossValidateModel(nb, train, 10, new Random(1));
-	    
-//	    System.out.println(eval.toMatrixString());
-//	    System.out.println(eval.toSummaryString());
-//	    System.out.println(eval.toClassDetailsString());
-	    //System.out.println(eval.toCumulativeMarginDistributionString());
-//	    
-//	    return "";
-//	}
   
 	/*
 	 * method that returns string that prints composition statistics for visual analysis
