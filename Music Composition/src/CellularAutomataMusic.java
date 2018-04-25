@@ -272,6 +272,7 @@ public class CellularAutomataMusic  extends JFrame{
 		      
 		    double running = 0.0;
 		    double value = Math.random();
+		    System.out.println(value);
       
 		    int newVal;
 			int diff = 0;
