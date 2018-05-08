@@ -29,12 +29,12 @@ public class CellularAutomataMusic  extends JFrame{
 	private JButton start_pause, medieval, renaissance, baroque, classical, romantic, modern;
 	// variables to track total number of interval occurrences
 	int t;
-    // variables to track the occurrences of each interval for testing
-    int[] totals = new int[8];
-    // variable to hold string value representing era
-    String era;
-    // Boolean variable representing
-    Boolean analysis = false;
+    	// variables to track the occurrences of each interval for testing
+    	int[] totals = new int[8];
+    	// variable to hold string value representing era
+    	String era;
+    	// Boolean variable representing
+    	Boolean analysis = false;
 	
 	/* 
 	* Creates blank board to feature automata, with start button to 
@@ -168,7 +168,8 @@ public class CellularAutomataMusic  extends JFrame{
 	    }
 
 	    /*
-	     * Method to re-adjust the probability values when new epoch is selected
+	     * Method to re-adjust the probability values when new epoch is selected. The values of these
+	     * probabilities were derived directly from the Weka classifier model of Naive Bayes
 	     * @param String representing epoch
 	     */
 	    public void changeEpoch(String epoch) {
@@ -256,7 +257,12 @@ public class CellularAutomataMusic  extends JFrame{
 	    }
     
 	    /*
-	     * Method designed to generate a new musical note value based on given previous note value
+	     * Method designed to generate a new musical note value based on given previous note value.
+	     * The method works by generating a random float between 0 and 1, and attempting to map it against the
+	     * probability values of the selected era (these values change based upon the above method changeEpoch())
+	     * The purpose of the 'running' variable is to ensure that the random number is being compared to the slot
+	     * for that interval, not just the probability. Thus, with unison probablity of .1 and step probability of .07,
+	     * a random number of .15 would be assigned step, as it falls between .1 and .17. 
 	     * @param int prevVal
 	     * @returns int newVal
 	     * */
@@ -266,15 +272,15 @@ public class CellularAutomataMusic  extends JFrame{
 	    		}
 	    	
 		    	/* Sets ascLim and descLim to half of the average range of the 
-		    	 * given epoch. DescLim gets the ceiling arbitrarily*/
+		    	* given epoch. DescLim gets the ceiling arbitrarily*/
 		    	int ascLim = range/2;
-		    int descLim= (range/2) + (range%2);
+		    	int descLim= (range/2) + (range%2);
 		      
-		    double running = 0.0;
-		    double value = Math.random();
-		    System.out.println(value);
+		    	double running = 0.0;
+		    	double value = Math.random();
+		    	System.out.println(value);
       
-		    int newVal;
+		    	int newVal;
 			int diff = 0;
 			int direction = (int)(Math.random()*2);
   
@@ -356,7 +362,12 @@ public class CellularAutomataMusic  extends JFrame{
 	        		System.out.println("Octave");
 			}
 			
-			//System.out.println((currentDiff+diff) +": total diff");
+			/* 
+			* this section of the code has the purpose of ensuring that the composition's 
+			* latest generated note still falls within the expected range for a given era,
+			* and switches the direction of the interval (ascending or descending) if
+			* it is not within range
+			*/
 			if (ascending && currentDiff + diff >= ascLim) {
 				System.out.println("Switched, too high");
 				ascending = false;
@@ -405,14 +416,17 @@ public class CellularAutomataMusic  extends JFrame{
 	    }
 	    
 	    /*
-	     * Method designed to generate a new musical note value based on given previous note value
+	     * This method is the same as the above method, but designed for efficent analysis. 
+	     * it forgoes the actual output of the musical composition, instead providing the statistics 
+	     * of the composition after 100 notes. This method can be toggled for use by switching the 
+	     * global boolean variable called analysis to true
 	     * @param int prevVal
 	     * @returns int newVal
 	     * */
 	    public void ruleGeneratorAnalysis(){
 		      
 	    		double running = 0.0;
-		    double value = Math.random();
+		    	double value = Math.random();
   
 			/* Resets the valFound var to false for next note generation */
 			boolean valFound = false;
@@ -487,7 +501,7 @@ public class CellularAutomataMusic  extends JFrame{
 	     * @returns String letter value equivelant to corresponding int value
 	     * */
 	    public int toNote(int val, Boolean asc){
-	    		int noteVal;
+	    	int noteVal;
 	        int C = myOctave * 12;
 	        
 	        if(val == 1 || val == 13){
@@ -645,70 +659,70 @@ public class CellularAutomataMusic  extends JFrame{
 		    	//Medieval button processing
 			else if(e.getSource().equals(medieval)){
 				medieval.setEnabled(false);
-			    renaissance.setEnabled(true);
-			    baroque.setEnabled(true);
-			    classical.setEnabled(true);
-			    romantic.setEnabled(true);
-			    modern.setEnabled(true);
-			    changeEpoch("medieval");
-			    selected = true;
+			    	renaissance.setEnabled(true);
+			    	baroque.setEnabled(true);
+			    	classical.setEnabled(true);
+			    	romantic.setEnabled(true);
+			    	modern.setEnabled(true);
+			    	changeEpoch("medieval");
+			    	selected = true;
 			}
 		    	//Renaissance button processing
 			else if(e.getSource().equals(renaissance)){
-			    medieval.setEnabled(true);
-			    renaissance.setEnabled(false);
-			    baroque.setEnabled(true);
-			    classical.setEnabled(true);
-		        romantic.setEnabled(true);
-		        modern.setEnabled(true);
-		        changeEpoch("renaissance");
-		        selected = true;
-		    }
+				medieval.setEnabled(true);
+				renaissance.setEnabled(false);
+				baroque.setEnabled(true);
+				classical.setEnabled(true);
+		        	romantic.setEnabled(true);
+		        	modern.setEnabled(true);
+		        	changeEpoch("renaissance");
+		        	selected = true;
+		    	}
 		    	//Baroque button processing
-		    else if(e.getSource().equals(baroque)){
-		        medieval.setEnabled(true);
-		        renaissance.setEnabled(true);
-		        baroque.setEnabled(false);
-		        classical.setEnabled(true);
-		        romantic.setEnabled(true);
-		        modern.setEnabled(true);
-		        changeEpoch("baroque");
-		        selected = true;
-		    }
+		    	else if(e.getSource().equals(baroque)){
+		        	medieval.setEnabled(true);
+		        	renaissance.setEnabled(true);
+		        	baroque.setEnabled(false);
+		        	classical.setEnabled(true);
+		        	romantic.setEnabled(true);
+		        	modern.setEnabled(true);
+		        	changeEpoch("baroque");
+		        	selected = true;
+		    	}
 		    	//Classical button processing
-		    else if(e.getSource().equals(classical)){
-		        medieval.setEnabled(true);
-		        renaissance.setEnabled(true);
-		        baroque.setEnabled(true);
-		        classical.setEnabled(false);
-		        romantic.setEnabled(true);
-		        modern.setEnabled(true);
-		        changeEpoch("classical");
-		        selected = true;
-		    }
+		    	else if(e.getSource().equals(classical)){
+		        	medieval.setEnabled(true);
+		        	renaissance.setEnabled(true);
+		        	baroque.setEnabled(true);
+		        	classical.setEnabled(false);
+		        	romantic.setEnabled(true);
+		        	modern.setEnabled(true);
+		        	changeEpoch("classical");
+		        	selected = true;
+		   	}
 		    	//Romantic button processing
-		    else if(e.getSource().equals(romantic)){
-		        medieval.setEnabled(true);
-		        renaissance.setEnabled(true);
-		        baroque.setEnabled(true);
-		        classical.setEnabled(true);
-		        romantic.setEnabled(false);
-		        modern.setEnabled(true);
-		        changeEpoch("romantic");
-		        selected = true;
-		    }
+		    	else if(e.getSource().equals(romantic)){
+		        	medieval.setEnabled(true);
+		        	renaissance.setEnabled(true);
+		        	baroque.setEnabled(true);
+		        	classical.setEnabled(true);
+		        	romantic.setEnabled(false);
+		        	modern.setEnabled(true);
+		        	changeEpoch("romantic");
+		        	selected = true;
+		    	}
 		    	//Modern button processing
-		    else if(e.getSource().equals(modern)){
-		        medieval.setEnabled(true);
-		        renaissance.setEnabled(true);
-		        baroque.setEnabled(true);
-		        classical.setEnabled(true);
-		        romantic.setEnabled(true);
-		        modern.setEnabled(false);
-		        changeEpoch("modern");
-		        selected = true;
-		    }
-	    }
+		    	else if(e.getSource().equals(modern)){
+		        	medieval.setEnabled(true);
+		        	renaissance.setEnabled(true);
+		        	baroque.setEnabled(true);
+		        	classical.setEnabled(true);
+		        	romantic.setEnabled(true);
+		        	modern.setEnabled(false);
+		        	changeEpoch("modern");
+		        	selected = true;
+		    	}
+	    	}
 	}
   
 	/*
