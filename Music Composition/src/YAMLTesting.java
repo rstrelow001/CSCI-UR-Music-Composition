@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Set;
 
 public class YAMLTesting {
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 
 		int start;
 		double uni;
@@ -23,6 +23,9 @@ public class YAMLTesting {
 			
 			uni = (Double)innerMap.get("uni");
 			System.out.println(uni);
+		}
+		catch(IOException ioe) {
+			System.out.println("Sorry!");
 		}
 	}
 }

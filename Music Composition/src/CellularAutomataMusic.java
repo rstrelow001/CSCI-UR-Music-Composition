@@ -21,6 +21,16 @@ import javax.swing.JOptionPane;
 
 import javax.sound.midi.*;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.LinkedHashMap;
+import java.util.HashMap;
+import java.util.Set;
+
+import org.yaml.snakeyaml.Yaml;
+
+import entities.Epoch;
+
 public class CellularAutomataMusic  extends JFrame{
   
 	private static final Color white = Color.WHITE, black = Color.BLACK;
@@ -93,7 +103,7 @@ public class CellularAutomataMusic  extends JFrame{
     
 	}
   
-	public static void main(String args[]){
+	public static void main(String args[]){		
 	    new CellularAutomataMusic();
 	}
   
@@ -113,13 +123,15 @@ public class CellularAutomataMusic  extends JFrame{
 	    // Timer for playing notes evenly
 	    private Timer timer;
 	    // variables to ensure the composer runs linearly
-	    public int myOctave = 5, currentDiff = 0, range;
+	    public int myOctave = 5, currentDiff = 0, range, start;
 	    // variable to store the probability of each interval
 	    double uni, step, third, fourth, fifth, sixth, seventh, octave;
 	    // boolean to see if an epoch has been selected
 	    boolean selected = false;
 	    //grid to display automata-model
 	    private Color[][] grid;
+	    //map that contains all the epochs and their values
+	    private HashMap<String, Epoch> epochs;
     
 	    
 	    /*
@@ -143,6 +155,7 @@ public class CellularAutomataMusic  extends JFrame{
 					grid[h][w] = white;
 				}
 			timer = new Timer(interval, this);
+			setEpochs();
 	    }
 
 	    @Override
@@ -166,93 +179,145 @@ public class CellularAutomataMusic  extends JFrame{
 	    			}
 	    		}
 	    }
+	    
+	    
+	    /*
+	     * Method to initially set up the epochs with their values
+	     */
+	    public void setEpochs() {
+	    	epochs = new HashMap<String, Epoch>();
+	    	
+			Yaml yaml = new Yaml();
+			try (InputStream in = CellularAutomataMusic.class.getResourceAsStream("/configFile.yaml")) {
+				LinkedHashMap<String, LinkedHashMap<String, Object>> configs = yaml.load(in);
+				System.out.println(configs);
+
+				Set<String> epochNames = configs.keySet();
+				for (String currentEpochName : epochNames) {
+					LinkedHashMap<String, Object> epochValues = configs.get(currentEpochName);
+					start = (Integer)epochValues.get("start");
+					uni = (Double)epochValues.get("uni");
+					step = (Double)epochValues.get("step");
+					third = (Double)epochValues.get("third");
+					fourth = (Double)epochValues.get("fourth");
+					fifth = (Double)epochValues.get("fifth");
+					sixth = (Double)epochValues.get("sixth");
+					seventh = (Double)epochValues.get("seventh");
+					octave = (Double)epochValues.get("octave");
+					range = (Integer)epochValues.get("range");
+					era = (String)epochValues.get("era");
+					Epoch newEpoch = new Epoch(start, uni, step, third, fourth, fifth, sixth, seventh, octave, range, era);
+					epochs.put(currentEpochName, newEpoch);
+					
+				}
+				
+			}
+			catch(IOException ioe) {
+				System.out.println("Sorry!");
+			}
+	    }
+	    	
 
 	    /*
 	     * Method to re-adjust the probability values when new epoch is selected
 	     * @param String representing epoch
 	     */
 	    public void changeEpoch(String epoch) {
-		    	if(epoch=="medieval") {
-		    		playNote(60);
-		    		uni = 0.1484;
-		    		step = 0.4998;
-		    		third = 0.1178;
-		    		fourth = 0.0371;
-		    		fifth = 0.0234;
-		    		sixth = 0.004;
-		    		seventh = 0.0014;
-		    		octave = 0.0057;
-		    		range = 14;
-		    		era = "Medieval";
-		    	}
-		    	else if(epoch=="renaissance") {
-		    		playNote(62);
-		    		uni = 0.2571;
-		    	    step = 0.4305;
-		    	    third = 0.1061;
-		    	    fourth = 0.0728;
-		    	    fifth = 0.048;
-		    		sixth = 0.0048;
-		    		seventh = 0.0006;
-		    		octave = 0.0094;
-		    		range = 22;
-		    		era = "Renaissance";
-		    	}
-		    	else if(epoch=="baroque") {
-		    		playNote(64);
-		    		uni = 0.2623;
-		    	    step = 0.3558;
-		    	    third = 0.1114;
-		    	    fourth = 0.0728;
-		    	    fifth = 0.0442;
-		    		sixth = 0.0292;
-		    		seventh = 0.0108;
-		    		octave = 0.0379;
-		    		range = 23;
-		    		era = "Baroque";
-		    	}
-		    	else if(epoch=="classical") {
-		    		playNote(66);
-		    		uni = 0.148;
-		    	    step = 0.3964;
-		    	    third = 0.1713;
-		    	    fourth = 0.0818;
-		    	    fifth = 0.0574;
-		    		sixth = 0.0435;
-		    		seventh = 0.0195;
-		    		octave = 0.0353;
-		    		range = 25;
-		    		era = "Classical";
-		    	}
-		    	else if(epoch=="romantic") {
-		    		playNote(68);
-		    		uni = 0.207;
-		    	    step = 0.2791;
-		    	    third = 0.1112;
-		    	    fourth = 0.0649;
-		    	    fifth = 0.0416;
-		    		sixth = 0.0282;
-		    		seventh = 0.0123;
-		    		octave = 0.0217;
-		    		range = 30;
-		    		era = "Romantic";
-		    	}
-		    	else if(epoch=="modern") {
-		    		playNote(70);
-		    		uni = 0.3086;
-		    	    step = 0.2153;
-		    	    third = 0.1011;
-		    	    fourth = 0.1053;
-		    	    fifth = 0.0723;
-		    		sixth = 0.0591;
-		    		seventh = 0.0364;
-		    		octave = 0.0571;
-		    		range = 37;
-		    		era = "Modern";
-		    	}	
-		    	else {
-		    		System.out.println("Woah, how'd you manage that bud?");
-		    	}
+	    	Epoch newEpoch = epochs.get(epoch);
+	    	playNote(newEpoch.getStart());
+	    	uni = newEpoch.getUni();
+	    	step = newEpoch.getStep();
+	    	third = newEpoch.getThird();
+	    	fourth = newEpoch.getFourth();
+	    	fifth = newEpoch.getFifth();
+	    	sixth = newEpoch.getSixth();
+	    	seventh = newEpoch.getSeventh();
+	    	octave = newEpoch.getOctave();
+	    	range = newEpoch.getRange();
+	    	era = newEpoch.getEra();
+	    	
+//	    	
+//		    	if(epoch=="medieval") {
+//		    		playNote(60);
+//		    		uni = 0.1484;
+//		    		step = 0.4998;
+//		    		third = 0.1178;
+//		    		fourth = 0.0371;
+//		    		fifth = 0.0234;
+//		    		sixth = 0.004;
+//		    		seventh = 0.0014;
+//		    		octave = 0.0057;
+//		    		range = 14;
+//		    		era = "Medieval";
+//		    	}
+//		    	else if(epoch=="renaissance") {
+//		    		playNote(62);
+//		    		uni = 0.2571;
+//		    	    step = 0.4305;
+//		    	    third = 0.1061;
+//		    	    fourth = 0.0728;
+//		    	    fifth = 0.048;
+//		    		sixth = 0.0048;
+//		    		seventh = 0.0006;
+//		    		octave = 0.0094;
+//		    		range = 22;
+//		    		era = "Renaissance";
+//		    	}
+//		    	else if(epoch=="baroque") {
+//		    		playNote(64);
+//		    		uni = 0.2623;
+//		    	    step = 0.3558;
+//		    	    third = 0.1114;
+//		    	    fourth = 0.0728;
+//		    	    fifth = 0.0442;
+//		    		sixth = 0.0292;
+//		    		seventh = 0.0108;
+//		    		octave = 0.0379;
+//		    		range = 23;
+//		    		era = "Baroque";
+//		    	}
+//		    	else if(epoch=="classical") {
+//		    		playNote(66);
+//		    		uni = 0.148;
+//		    	    step = 0.3964;
+//		    	    third = 0.1713;
+//		    	    fourth = 0.0818;
+//		    	    fifth = 0.0574;
+//		    		sixth = 0.0435;
+//		    		seventh = 0.0195;
+//		    		octave = 0.0353;
+//		    		range = 25;
+//		    		era = "Classical";
+//		    	}
+//		    	else if(epoch=="romantic") {
+//		    		playNote(68);
+//		    		uni = 0.207;
+//		    	    step = 0.2791;
+//		    	    third = 0.1112;
+//		    	    fourth = 0.0649;
+//		    	    fifth = 0.0416;
+//		    		sixth = 0.0282;
+//		    		seventh = 0.0123;
+//		    		octave = 0.0217;
+//		    		range = 30;
+//		    		era = "Romantic";
+//		    	}
+//		    	else if(epoch=="modern") {
+//		    		playNote(70);
+//		    		uni = 0.3086;
+//		    	    step = 0.2153;
+//		    	    third = 0.1011;
+//		    	    fourth = 0.1053;
+//		    	    fifth = 0.0723;
+//		    		sixth = 0.0591;
+//		    		seventh = 0.0364;
+//		    		octave = 0.0571;
+//		    		range = 37;
+//		    		era = "Modern";
+//		    	}	
+//		    	else {
+//		    		System.out.println("Woah, how'd you manage that bud?");
+//		    	}
 	    }
     
 	    /*
@@ -711,6 +776,8 @@ public class CellularAutomataMusic  extends JFrame{
 	    }
 	}
   
+	
+	
 	/*
 	 * Method to play note value using MIDI synthesizer based upon input note
 	 * @param int representing the MIDI value of desired note.
