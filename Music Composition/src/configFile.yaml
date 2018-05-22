@@ -1,0 +1,77 @@
+medieval:
+  start : 60
+  uni : 0.1484
+  step : 0.4998
+  third : 0.1178
+  fourth : 0.0371
+  fifth : 0.0234
+  sixth : 0.004
+  seventh : 0.0014
+  octave : 0.0057
+  range : 14
+  era : Medieval
+ 
+renaissance:
+  start : 62
+  uni : 0.2571
+  step : 0.4305
+  third : 0.1061
+  fourth : 0.0728
+  fifth : 0.048
+  sixth : 0.0048
+  seventh : 0.0006
+  octave : 0.0094
+  range : 22
+  era : Renaissance
+
+baroque :
+  start : 64
+  uni : 0.2623
+  step : 0.3558
+  third : 0.1114
+  fourth : 0.0728
+  fifth : 0.0442
+  sixth : 0.0292
+  seventh : 0.0108
+  octave : 0.0379
+  range : 23
+  era : Baroque
+
+classical :
+  start : 66
+  uni : 0.148
+  step : 0.3964
+  third : 0.1713
+  fourth : 0.0818
+  fifth : 0.0574
+  sixth : 0.0435
+  seventh : 0.0195
+  octave : 0.0353
+  range : 25
+  era : Classical
+
+romantic :
+  start : 68
+  uni : 0.207
+  step : 0.2791
+  third : 0.1112
+  fourth : 0.0649
+  fifth : 0.0416
+  sixth : 0.0282
+  seventh : 0.0123
+  octave : 0.0217
+  range : 30
+  era : Romantic
+
+modern :
+  start : 70
+  uni : 0.3086
+  step : 0.2153
+  third : 0.1011
+  fourth : 0.1053
+  fifth : 0.0723
+  sixth : 0.0591
+  seventh : 0.0364
+  octave : 0.0571
+  range : 37
+  era : Modern
