@@ -1,4 +1,9 @@
+#Configuration file for Music Composition project
+
+#epoch
 medieval:
+
+  #values associated with each epoch
   start : 60
   uni : 0.1484
   step : 0.4998
@@ -10,8 +15,10 @@ medieval:
   octave : 0.0057
   range : 14
   era : Medieval
- 
+
+
 renaissance:
+
   start : 62
   uni : 0.2571
   step : 0.4305
@@ -24,7 +31,9 @@ renaissance:
   range : 22
   era : Renaissance
 
+
 baroque :
+
   start : 64
   uni : 0.2623
   step : 0.3558
@@ -37,7 +46,9 @@ baroque :
   range : 23
   era : Baroque
 
+
 classical :
+
   start : 66
   uni : 0.148
   step : 0.3964
@@ -50,7 +61,9 @@ classical :
   range : 25
   era : Classical
 
+
 romantic :
+
   start : 68
   uni : 0.207
   step : 0.2791
@@ -63,7 +76,9 @@ romantic :
   range : 30
   era : Romantic
 
+
 modern :
+
   start : 70
   uni : 0.3086
   step : 0.2153

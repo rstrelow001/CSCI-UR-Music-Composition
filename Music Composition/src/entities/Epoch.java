@@ -1,5 +1,11 @@
 package entities;
 
+/*
+ * Entity Class supporting Algorithmic Music Composition Software
+ * @author Ryan Strelow
+ * @version 1.0
+ * @since 05/22/18
+ */
 public class Epoch {
 	
 	private int start, range;

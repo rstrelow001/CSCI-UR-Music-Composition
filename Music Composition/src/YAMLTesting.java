@@ -11,7 +11,7 @@ public class YAMLTesting {
 		int start;
 		double uni;
 		Yaml yaml = new Yaml();
-		try (InputStream in = YAMLTesting.class.getResourceAsStream("/configFile.yaml")) {
+		try (InputStream in = YAMLTesting.class.getResourceAsStream("/textFiles/configFile.yaml")) {
 			LinkedHashMap<String, LinkedHashMap<String, Object>> configs = yaml.load(in);
 			System.out.println(configs);
 
