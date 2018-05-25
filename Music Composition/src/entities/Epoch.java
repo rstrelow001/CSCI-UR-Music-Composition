@@ -6,16 +6,23 @@ package entities;
  * @version 1.0
  * @since 05/22/18
  */
+
+import java.util.HashMap;
+
 public class Epoch {
 	
 	private int start, range;
 	
-	private double uni, step, third, fourth, fifth, sixth, seventh, octave;
+	private double uni, step, third, fourth, fifth, sixth, seventh, octave, rest;
 	
 	private String era;
 	
+	private HashMap<String, DurationProbability> noteProbabilities;
+	
+	private DurationProbability currentProbability;
+	
 	public Epoch(int start, double uni, double step, double third, double fourth, double fifth,
-			double sixth, double seventh, double octave, int range, String era) {
+			double sixth, double seventh, double octave, double rest, int range, String era, HashMap<String, DurationProbability> noteProbabilities) {
 		
 		this.setStart(start);
 		this.setUni(uni);
@@ -26,9 +33,20 @@ public class Epoch {
 		this.setSixth(sixth);
 		this.setSeventh(seventh);
 		this.setOctave(octave);
+		this.setRest(rest);
 		this.setRange(range);
 		this.setEra(era);
+		this.setNoteProbabilities(noteProbabilities);
+		
+		//remove once prev rhythm is incorporated
+		this.setCurrentProbability(noteProbabilities.get("allNotes"));
+		
 	}
+	
+//	public void changeDurationProbability(String newNoteDuration) {
+//		DurationProbability newProbability = noteProbabilities.get(newNoteDuration);
+//		this.setCurrentProbability(newProbability);		
+//	}
 
 	public int getStart() {
 		return start;
@@ -110,12 +128,36 @@ public class Epoch {
 		this.octave = octave;
 	}
 
+	public double getRest() {
+		return rest;
+	}
+
+	public void setRest(double rest) {
+		this.rest = rest;
+	}
+
 	public String getEra() {
 		return era;
 	}
 
 	public void setEra(String era) {
 		this.era = era;
+	}
+
+	public HashMap<String, DurationProbability> getNoteProbabilities() {
+		return noteProbabilities;
+	}
+
+	public void setNoteProbabilities(HashMap<String, DurationProbability> noteProbabilities) {
+		this.noteProbabilities = noteProbabilities;
+	}
+
+	public DurationProbability getCurrentProbability() {
+		return currentProbability;
+	}
+
+	public void setCurrentProbability(DurationProbability currentProbability) {
+		this.currentProbability = currentProbability;
 	}
 	
 	

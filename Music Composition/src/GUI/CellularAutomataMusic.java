@@ -10,6 +10,8 @@ package GUI;
 
 import java.awt.BorderLayout;
 
+
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -28,12 +30,15 @@ import javax.sound.midi.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
 
 import org.yaml.snakeyaml.Yaml;
 
 import entities.Epoch;
+import entities.Note;
+import entities.DurationProbability;
 import controllers.MusicCompositionController;
 
 public class CellularAutomataMusic  extends JFrame{
@@ -46,7 +51,7 @@ public class CellularAutomataMusic  extends JFrame{
 	// variables to track total number of interval occurrences
 	int t;
     // variables to track the occurrences of each interval for testing
-    int[] totals = new int[8];
+    int[] totals = new int[16];
     // variable to hold string value representing era
     String era;
     // Boolean variable representing
@@ -135,7 +140,10 @@ public class CellularAutomataMusic  extends JFrame{
 	    // variables to ensure the composer runs linearly
 	    public int myOctave = 5, currentDiff = 0, range, start;
 	    // variable to store the probability of each interval
-	    double uni, step, third, fourth, fifth, sixth, seventh, octave;
+	    double uni, step, third, fourth, fifth, sixth, seventh, octave, rest;
+	    // variables to store the probability of the next note type
+		double toEighthNote, toQuarterNote, toHalfNote, toWholeNote;		
+	    double toEighthRest, toQuarterRest, toHalfRest, toWholeRest;
 	    // boolean to see if an epoch has been selected
 	    boolean selected = false;
 	    //grid to display automata-model
@@ -194,37 +202,64 @@ public class CellularAutomataMusic  extends JFrame{
 	     */
 	    public void setEpochs() {
 	    	epochs = new HashMap<String, Epoch>();
+	    	HashMap<String, DurationProbability> durationProbabilities = new HashMap<String, DurationProbability>();
 	    	
 			Yaml yaml = new Yaml();
 			try (InputStream in = CellularAutomataMusic.class.getResourceAsStream("../textFiles/configFile.yaml")) {
-				LinkedHashMap<String, LinkedHashMap<String, Object>> configs = yaml.load(in);
+				Map<String, Map<String, Map<String, Object>>> configs = yaml.load(in);
 				System.out.println(configs);
 
 				Set<String> epochNames = configs.keySet();
 				for (String currentEpochName : epochNames) {
-					LinkedHashMap<String, Object> epochValues = configs.get(currentEpochName);
-					start = (Integer)epochValues.get("start");
-					uni = (Double)epochValues.get("uni");
-					step = (Double)epochValues.get("step");
-					third = (Double)epochValues.get("third");
-					fourth = (Double)epochValues.get("fourth");
-					fifth = (Double)epochValues.get("fifth");
-					sixth = (Double)epochValues.get("sixth");
-					seventh = (Double)epochValues.get("seventh");
-					octave = (Double)epochValues.get("octave");
-					range = (Integer)epochValues.get("range");
-					era = (String)epochValues.get("era");
-					Epoch newEpoch = new Epoch(start, uni, step, third, fourth, fifth, sixth, seventh, octave, range, era);
-					epochs.put(currentEpochName, newEpoch);					
-				}				
+					Map<String, Map<String, Object>> epochVariables = configs.get(currentEpochName);
+					Set<String> epochVariableNames = epochVariables.keySet();
+					for (String currentEpochVariable : epochVariableNames) {
+						if (currentEpochVariable.equals("interval")) {
+							Map<String, Object> epochIntervalValues = epochVariables.get(currentEpochVariable);
+							start = (Integer)epochIntervalValues.get("start");
+							uni = (Double)epochIntervalValues.get("uni");
+							step = (Double)epochIntervalValues.get("step");
+							third = (Double)epochIntervalValues.get("third");
+							fourth = (Double)epochIntervalValues.get("fourth");
+							fifth = (Double)epochIntervalValues.get("fifth");
+							sixth = (Double)epochIntervalValues.get("sixth");
+							seventh = (Double)epochIntervalValues.get("seventh");
+							octave = (Double)epochIntervalValues.get("octave");
+							rest = (Double)epochIntervalValues.get("rest");
+							range = (Integer)epochIntervalValues.get("range");
+							era = (String)epochIntervalValues.get("era");	
+						}
+						else if (currentEpochVariable.equals("rhythm")) {
+							Map<String, Object> epochRhythmValues = epochVariables.get(currentEpochVariable);
+							Set<String> rhythmVariableNames = epochRhythmValues.keySet();
+							for (String currentRhythmVariableName : rhythmVariableNames) {
+								Map<String, Object> currentRhythmValues = (Map<String, Object>)epochRhythmValues.get(currentRhythmVariableName);
+								toEighthNote = (Double)currentRhythmValues.get("eighthNote");
+								toQuarterNote = (Double)currentRhythmValues.get("quarterNote");	
+								toHalfNote = (Double)currentRhythmValues.get("halfNote");	
+								toWholeNote = (Double)currentRhythmValues.get("wholeNote");	
+								toEighthRest = (Double)currentRhythmValues.get("eighthRest");	
+								toQuarterRest = (Double)currentRhythmValues.get("quarterRest");	
+								toHalfRest = (Double)currentRhythmValues.get("halfRest");	
+								toWholeRest = (Double)currentRhythmValues.get("wholeRest");	
+								
+								DurationProbability probability = new DurationProbability(toEighthNote, toQuarterNote, toHalfNote, toWholeNote, toEighthRest, toQuarterRest, toHalfRest, toWholeRest);
+								durationProbabilities.put(currentRhythmVariableName, probability);
+							}					
+						}
+					}
+					Epoch newEpoch = new Epoch(start, uni, step, third, fourth, fifth, sixth, seventh, octave, rest, range, era, durationProbabilities);
+					epochs.put(currentEpochName, newEpoch);	
+
+				}									
 			}
 			catch(IOException ioe) {
 				System.out.println("Sorry!");
 			}
 	    }
-	    	
-	
-    
+
+
+
 	    /*
 	     * (non-Javadoc)
 	     * Action Listener for all buttons, compose, terminate, medieval,
@@ -255,6 +290,11 @@ public class CellularAutomataMusic  extends JFrame{
 		    		val+=2;
 		    	if(d==1)
 		    		val+=1;
+		    	
+		    	//accounts for rests (need to know last non rest)
+		    	if (val == 14) {
+		    		val = checkLastNote(2);		    		
+		    	}
 		      
 		    	//shifts bottom n-1 sequences up to make room for next sequence
 		    	for (int h = 0; h < board_size.height; h++){
@@ -266,7 +306,6 @@ public class CellularAutomataMusic  extends JFrame{
 		    	//repaints the bottom line sequence based on rule
 		    	if (e.getSource().equals(timer) && analysis == false){
 		    		int newNote = musicCompController.ruleGenerator(val);
-		    		
 		    		if (newNote >= 8){
 		    			grid[0][board_size.width-1] = black;
 		    			newNote = newNote-8;
@@ -387,6 +426,42 @@ public class CellularAutomataMusic  extends JFrame{
 		        musicCompController.changeEpoch("modern");
 		        selected = true;
 		    }
+	    }
+	    
+	    
+	    /*
+	     * helper method to find the last none rest
+	     * @param offset  the offset from bottom of the grid
+	     */
+	    private int checkLastNote(int offset) {
+		    //reads binary value of last sequence
+	    	int a = 0, b = 0, c = 0, d = 0, val = 0;
+	      
+	    	//counts binary from board for conversion to decimal
+	    	if (grid[0][board_size.width-offset]  == black)
+	    		a = 1;
+	    	if (grid[1][board_size.width-offset]  == black)
+	    		b = 1;
+	    	if (grid[2][board_size.width-offset]  == black)
+	    		c = 1;
+	    	if (grid[3][board_size.width-offset]  == black)
+	    		d = 1;
+	    
+	    	//converts binary sequence into decimal with variable val
+	    	if(a==1)
+	    		val+=8;
+	    	if(b==1)
+	    		val+=4;
+	    	if(c==1)
+	    		val+=2;
+	    	if(d==1)
+	    		val+=1;
+	    	
+	    	//recursively call to find last usable note
+	    	if (val == 14)
+	    		return checkLastNote(++offset);
+	    	else
+	    		return val;
 	    }
 	}  
 }

@@ -10,6 +10,7 @@ package controllers;
 
 import java.util.HashMap;
 
+
 import javax.sound.midi.Instrument;
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
@@ -17,6 +18,8 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Synthesizer;
 
 import entities.Epoch;
+import entities.Note;
+import entities.DurationProbability;
 
 public class MusicCompositionController {
 
@@ -25,13 +28,16 @@ public class MusicCompositionController {
     // variables to ensure the composer runs linearly
     public int myOctave = 5, currentDiff = 0, range, start;
     // variable to store the probability of each interval
-    double uni, step, third, fourth, fifth, sixth, seventh, octave;
+    double uni, step, third, fourth, fifth, sixth, seventh, octave, rest;
+    // variables to store the probability of the next note type
+	double toEighthNote, toQuarterNote, toHalfNote, toWholeNote;		
+    double toEighthRest, toQuarterRest, toHalfRest, toWholeRest;
     // boolean to see if an epoch has been selected
     boolean selected = false;
-	// variables to track total number of interval occurrences
-	int t;
+	// variables to track total length of composition, total notes, and total rests
+	int t, totalNotes, totalRests;
     // variables to track the occurrences of each interval for testing
-    int[] totals = new int[8];
+    int[] totals = new int[17];
     // variable to hold string value representing era
     String era;
     //map that contains all the epochs and their values
@@ -48,7 +54,7 @@ public class MusicCompositionController {
      */
     public void changeEpoch(String epoch) {
     	Epoch newEpoch = epochs.get(epoch);
-    	playNote(newEpoch.getStart());
+ //   	playNote(newEpoch.getStart());
     	uni = newEpoch.getUni();
     	step = newEpoch.getStep();
     	third = newEpoch.getThird();
@@ -57,11 +63,118 @@ public class MusicCompositionController {
     	sixth = newEpoch.getSixth();
     	seventh = newEpoch.getSeventh();
     	octave = newEpoch.getOctave();
+    	rest = newEpoch.getRest();
     	range = newEpoch.getRange();
     	era = newEpoch.getEra();   	
+    	
+    	toEighthNote = newEpoch.getCurrentProbability().getToEighthNote();
+    	toQuarterNote = newEpoch.getCurrentProbability().getToQuarterNote();
+    	toHalfNote = newEpoch.getCurrentProbability().getToHalfNote();
+    	toWholeNote = newEpoch.getCurrentProbability().getToWholeNote();
+    	toEighthRest = newEpoch.getCurrentProbability().getToEighthRest();
+    	toQuarterRest = newEpoch.getCurrentProbability().getToQuarterRest();
+    	toHalfRest = newEpoch.getCurrentProbability().getToHalfRest();
+    	toWholeRest = newEpoch.getCurrentProbability().getToWholeRest();
     }
-	
     
+    
+   // public Note createNote(Note prevNote) {  	
+    	//String newNoteDuration = rhythmRuleGenerator(prevNote.getDuration());
+    	//if (!newNoteDuration.equals(prevNote.getDuration()))
+    	//	epoch.changeDurationProbability(newNoteDuration);  
+    	//int newNotePitch = ruleGenerator(prevNote.getPitch());
+    	//return new Note(newNotePitch, newNoteDuration);
+    //}
+	    
+    /*
+     * Method designed to generate a new musical note value based on given previous note value
+     * @param Boolean isRest  Represents if the note is a rest or not
+     * @returns String newNoteDuration
+     * */	
+	public String rhythmRuleGenerator(Boolean isRest){
+
+		double running = 0.0;
+		double value = Math.random();
+		//System.out.println(value);
+
+		String newNoteDuration;
+
+		/* Resets the valFound var to false for next note generation */
+		boolean valFound = false;
+
+		/* checks which range the generated number falls in and produces a
+		 * note duration based on this value. Once note duration is found, valFound is set to
+		 * true, and no other if statements are reached. It will access each
+		 * if statement until the correct is found, increasing running total
+		 * as it goes. */
+
+		if (!isRest) {
+			if (value <= toEighthNote){
+				totals[9]+=1;
+				newNoteDuration = "toEighthNote";
+				valFound = true;
+				System.out.println("Duration: Eighth Note");
+			}
+			running += toEighthNote;
+			if ((value <= toQuarterNote + running) && valFound == false){
+				totals[10]+=1;
+				newNoteDuration = "toQuarterNote";
+				valFound = true;
+				System.out.println("Duration: Quarter Note");
+			}
+			running += toQuarterNote;
+			if (value <= toHalfNote + running && valFound == false){
+				totals[11]+=1;
+				newNoteDuration = "toHalfNote";
+				valFound = true;
+				System.out.println("Duration: Half Note");
+			}
+			running += toHalfNote;
+			if (value <= toWholeNote + running && valFound == false){
+				totals[12]+=1;
+				newNoteDuration = "toWholeNote";
+				valFound = true;
+				System.out.println("Duration: Whole Note");
+			}
+			else
+				newNoteDuration = "Oops!";
+		}
+		else {
+			if (value <= toEighthRest){
+				totals[13]+=1;
+				newNoteDuration = "toEighthRest";
+				valFound = true;
+				System.out.println("Duration: Eighth Rest");
+			}
+			running += toEighthRest;
+			if ((value <= toQuarterRest + running) && valFound == false){
+				totals[14]+=1;
+				newNoteDuration = "toQuarterRest";
+				valFound = true;
+				System.out.println("Duration: Quarter Rest");
+			}
+			running += toQuarterRest;
+			if (value <= toHalfRest + running && valFound == false){
+				totals[15]+=1;
+				newNoteDuration = "toHalfRest";
+				valFound = true;
+				System.out.println("Duration: Half Rest");
+			}
+			running += toHalfRest;
+			if (value <= toWholeNote + running && valFound == false){
+				totals[16]+=1;
+				newNoteDuration = "toWholeRest";
+				valFound = true;
+				System.out.println("Duration: Whole Rest");
+			}
+			else
+				newNoteDuration = "Oops!";
+		}
+
+		return newNoteDuration;
+	}
+	
+	
     /*
      * Method designed to generate a new musical note value based on given previous note value
      * @param int prevVal
@@ -71,7 +184,6 @@ public class MusicCompositionController {
 		if (prevVal == 0){
 			return 1;
 		}
-
 		/* Sets ascLim and descLim to half of the average range of the 
 		 * given epoch. DescLim gets the ceiling arbitrarily*/
 		int ascLim = range/2;
@@ -93,6 +205,9 @@ public class MusicCompositionController {
 
 		/* Resets the valFound var to false for next note generation */
 		boolean valFound = false;
+		
+		/* boolean signifying if the note is a rest*/
+		boolean isRest = false;
 
 		/* checks which range the generated number falls in and produces a
 		 * note based on this value. Once note is found, valFound is set to
@@ -102,6 +217,7 @@ public class MusicCompositionController {
 		if (value <= uni){
 			totals[0]+=1;
 			t+=1;
+			totalNotes+=1;
 			diff = 0;
 			valFound = true;
 			System.out.println("Unison");
@@ -110,6 +226,7 @@ public class MusicCompositionController {
 		if ((value <= step + running) && valFound == false){
 			totals[1]+=1;
 			t+=1;
+			totalNotes+=1;
 			diff =  1;
 			valFound = true;
 			System.out.println("Step");
@@ -118,6 +235,7 @@ public class MusicCompositionController {
 		if (value <= third + running && valFound == false){
 			totals[2]+=1;
 			t+=1;
+			totalNotes+=1;
 			diff =  2;
 			valFound = true;
 			System.out.println("Third");
@@ -126,6 +244,7 @@ public class MusicCompositionController {
 		if (value <= fourth + running && valFound == false){
 			totals[3]+=1;
 			t+=1;
+			totalNotes+=1;
 			diff =  3;
 			valFound = true;
 			System.out.println("Forth");
@@ -134,6 +253,7 @@ public class MusicCompositionController {
 		if (value <= fifth + running && valFound == false){
 			totals[4]+=1;
 			t+=1;
+			totalNotes+=1;
 			diff =  4;
 			valFound = true;
 			System.out.println("Fifth");
@@ -142,6 +262,7 @@ public class MusicCompositionController {
 		if (value <= sixth + running && valFound == false){
 			totals[5]+=1;
 			t+=1;
+			totalNotes+=1;
 			diff =  5;
 			valFound = true;
 			System.out.println("Sixth");
@@ -150,6 +271,7 @@ public class MusicCompositionController {
 		if (value <= seventh + running && valFound == false){
 			totals[6]+=1;
 			t+=1;
+			totalNotes+=1;
 			diff =  6;
 			valFound = true;
 			System.out.println("Seventh");
@@ -158,9 +280,20 @@ public class MusicCompositionController {
 		if (value <= octave + running && valFound == false){
 			totals[7]+=1;
 			t+=1;
+			totalNotes+=1;
 			diff =  7;
 			valFound = true;
 			System.out.println("Octave");
+		}
+		running += octave;
+		if (value <= rest + running && valFound == false){
+			totals[8]+=1;
+			t+=1;
+			totalRests+=1;
+			valFound = true;
+			isRest = true;
+			prevVal = 14;
+			System.out.println("Rest****************");
 		}
 
 		//System.out.println((currentDiff+diff) +": total diff");
@@ -204,10 +337,29 @@ public class MusicCompositionController {
 			}
 		}
 		System.out.println(newVal + " " + ascending);
-		int noteVal = toNote(newVal, ascending);
+		
+		String durationType = rhythmRuleGenerator(isRest);
+		int duration = 500;
+		if (durationType.equals("toEighthNote") || durationType.equals("toEighthRest"))
+			duration = 250;
+		else if (durationType.equals("toQuarterNote") || durationType.equals("toQuarterRest"))
+			duration = 500;
+		else if (durationType.equals("toHalfNote") || durationType.equals("toHalfRest"))
+			duration = 1000;
+		else if (durationType.equals("toWholeNote") || durationType.equals("toWholeRest"))
+			duration = 2000;
+		
+		int noteVal;
+		if (isRest) {
+			noteVal = prevVal;
+			try  {
+				Thread.sleep(duration); }
+			catch( InterruptedException e ) {}
+		}
+		else {
+			noteVal = toNote(newVal, ascending, duration);
+		}
 
-		//System.out.println(prevVal);
-		//newVal = 1+((int)(Math.random()*12));
 		return noteVal;
 	}
 
@@ -295,7 +447,7 @@ public class MusicCompositionController {
 	 * @param int val - Value of note (1-13) generated by the rule system
 	 * @returns String letter value equivelant to corresponding int value
 	 * */
-	public int toNote(int val, Boolean asc){
+	public int toNote(int val, Boolean asc, int duration) {
 		int noteVal;
 		int C = myOctave * 12;
 
@@ -351,7 +503,7 @@ public class MusicCompositionController {
 			return 0;
 		}
 		//System.out.println(noteVal);
-		playNote(noteVal);
+		playNote(noteVal, duration);
 		return val;
 	}
 
@@ -360,7 +512,7 @@ public class MusicCompositionController {
 	 * Method to play note value using MIDI synthesizer based upon input note
 	 * @param int representing the MIDI value of desired note.
 	 */
-	public void playNote(int i) { 
+	public void playNote(int i, int duration) { 
 	    try{
 	    	/* Create a new Synthesizer and open it. 
 	    	 */
@@ -376,7 +528,7 @@ public class MusicCompositionController {
 		    	mChannels[0].noteOn(i, 120);//On channel 0, play note number i with velocity 120
 		    	try {
 		    		//Following line controls duration of notes played. 1000 used for samples of 30 seconds. 750 used for samples of 15 seconds
-		    		Thread.sleep(750); // wait time in milliseconds to control duration
+		    		Thread.sleep(duration); // wait time in milliseconds to control duration
 		    	}
 		    	catch( InterruptedException e ) {}
 	    } 
@@ -392,6 +544,8 @@ public class MusicCompositionController {
 		
 		return "Total length of composition: "+t+"\n"
 				+"\tStatistics:\n"
+				+"\nTotal Notes:\t " + totalNotes + "\n"
+				+"\nTotal Rests:\t " + totalRests + "\n"
 				+"\nUnison:\t "+((double)totals[0]/t)
 				+"\nStep:\t "+((double)totals[1]/t)
 				+"\nThird:\t "+((double)totals[2]/t)
@@ -399,7 +553,16 @@ public class MusicCompositionController {
 				+"\nFifth:\t "+((double)totals[4]/t)
 				+"\nSixth:\t "+((double)totals[5]/t)
 				+"\nSeventh:\t "+((double)totals[6]/t)
-				+"\nOctave:\t "+((double)totals[7]/t);
+				+"\nOctave:\t "+((double)totals[7]/t)
+				+"\nRests:\t "+((double)totals[8]/t)
+				+"\nEighth Notes:\t "+((double)totals[9]/totalNotes)
+				+"\nQuarter Notes:\t "+((double)totals[10]/totalNotes)
+				+"\nHalf Notes:\t "+((double)totals[11]/totalNotes)
+				+"\nWhole Notes:\t "+((double)totals[12]/totalNotes)
+				+"\nEighth Rests:\t "+((double)totals[13]/totalRests)
+				+"\nQuarter Rests:\t "+((double)totals[14]/totalRests)
+				+"\nHalf Rests:\t "+((double)totals[15]/totalRests)
+				+"\nWhole Rests:\t "+((double)totals[16]/totalRests);
 	}
 	
 	
@@ -437,7 +600,7 @@ public class MusicCompositionController {
 	 */
 	public void clearStats() {
 		//loops through all saved data and resets to 0 for future processing
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < totals.length; i++) {
 			totals[i] = 0;
 		}
 		t = 0;
