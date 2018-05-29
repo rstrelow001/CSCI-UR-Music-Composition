@@ -89,15 +89,12 @@ public class MusicCompositionController {
     /*
      * Method designed to generate a new musical note value based on given previous note value
      * @param Boolean isRest  Represents if the note is a rest or not
-     * @returns String newNoteDuration
+     * @returns int newNoteDuration
      * */	
-	public String rhythmRuleGenerator(Boolean isRest){
+	public int rhythmRuleGenerator(Boolean isRest){
 
 		double running = 0.0;
 		double value = Math.random();
-		//System.out.println(value);
-
-		String newNoteDuration;
 
 		/* Resets the valFound var to false for next note generation */
 		boolean valFound = false;
@@ -107,68 +104,65 @@ public class MusicCompositionController {
 		 * true, and no other if statements are reached. It will access each
 		 * if statement until the correct is found, increasing running total
 		 * as it goes. */
-
+		int defaultEighthLength = 500;
+		int newNoteDuration = defaultEighthLength;
 		if (!isRest) {
 			if (value <= toEighthNote){
 				totals[9]+=1;
-				newNoteDuration = "toEighthNote";
+				newNoteDuration = defaultEighthLength;
 				valFound = true;
 				System.out.println("Duration: Eighth Note");
 			}
 			running += toEighthNote;
 			if ((value <= toQuarterNote + running) && valFound == false){
 				totals[10]+=1;
-				newNoteDuration = "toQuarterNote";
+				newNoteDuration = defaultEighthLength * 2;
 				valFound = true;
 				System.out.println("Duration: Quarter Note");
 			}
 			running += toQuarterNote;
 			if (value <= toHalfNote + running && valFound == false){
 				totals[11]+=1;
-				newNoteDuration = "toHalfNote";
+				newNoteDuration = defaultEighthLength * 4;
 				valFound = true;
 				System.out.println("Duration: Half Note");
 			}
 			running += toHalfNote;
 			if (value <= toWholeNote + running && valFound == false){
 				totals[12]+=1;
-				newNoteDuration = "toWholeNote";
+				newNoteDuration = defaultEighthLength * 8;
 				valFound = true;
 				System.out.println("Duration: Whole Note");
 			}
-			else
-				newNoteDuration = "Oops!";
 		}
 		else {
 			if (value <= toEighthRest){
 				totals[13]+=1;
-				newNoteDuration = "toEighthRest";
+				newNoteDuration = defaultEighthLength;
 				valFound = true;
 				System.out.println("Duration: Eighth Rest");
 			}
 			running += toEighthRest;
 			if ((value <= toQuarterRest + running) && valFound == false){
 				totals[14]+=1;
-				newNoteDuration = "toQuarterRest";
+				newNoteDuration = defaultEighthLength * 2;
 				valFound = true;
 				System.out.println("Duration: Quarter Rest");
 			}
 			running += toQuarterRest;
 			if (value <= toHalfRest + running && valFound == false){
 				totals[15]+=1;
-				newNoteDuration = "toHalfRest";
+				newNoteDuration = defaultEighthLength * 4;
 				valFound = true;
 				System.out.println("Duration: Half Rest");
 			}
 			running += toHalfRest;
 			if (value <= toWholeNote + running && valFound == false){
 				totals[16]+=1;
-				newNoteDuration = "toWholeRest";
+				newNoteDuration = defaultEighthLength * 8;
 				valFound = true;
 				System.out.println("Duration: Whole Rest");
 			}
-			else
-				newNoteDuration = "Oops!";
 		}
 
 		return newNoteDuration;
@@ -338,16 +332,16 @@ public class MusicCompositionController {
 		}
 		System.out.println(newVal + " " + ascending);
 		
-		String durationType = rhythmRuleGenerator(isRest);
-		int duration = 500;
-		if (durationType.equals("toEighthNote") || durationType.equals("toEighthRest"))
-			duration = 250;
-		else if (durationType.equals("toQuarterNote") || durationType.equals("toQuarterRest"))
-			duration = 500;
-		else if (durationType.equals("toHalfNote") || durationType.equals("toHalfRest"))
-			duration = 1000;
-		else if (durationType.equals("toWholeNote") || durationType.equals("toWholeRest"))
-			duration = 2000;
+		//String durationType = rhythmRuleGenerator(isRest);
+		int duration= rhythmRuleGenerator(isRest);
+//		if (durationType.equals("toEighthNote") || durationType.equals("toEighthRest"))
+//			duration = 250;
+//		else if (durationType.equals("toQuarterNote") || durationType.equals("toQuarterRest"))
+//			duration = 500;
+//		else if (durationType.equals("toHalfNote") || durationType.equals("toHalfRest"))
+//			duration = 1000;
+//		else if (durationType.equals("toWholeNote") || durationType.equals("toWholeRest"))
+//			duration = 2000;
 		
 		int noteVal;
 		if (isRest) {
