@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class Epoch {
 	
-	private int start, range;
+	private int range;
 	
 	private double uni, step, third, fourth, fifth, sixth, seventh, octave, rest;
 	
@@ -21,10 +21,9 @@ public class Epoch {
 	
 	private DurationProbability currentProbability;
 	
-	public Epoch(int start, double uni, double step, double third, double fourth, double fifth,
+	public Epoch(double uni, double step, double third, double fourth, double fifth,
 			double sixth, double seventh, double octave, double rest, int range, String era, HashMap<String, DurationProbability> noteProbabilities) {
 		
-		this.setStart(start);
 		this.setUni(uni);
 		this.setStep(step);
 		this.setThird(third);
@@ -39,7 +38,7 @@ public class Epoch {
 		this.setNoteProbabilities(noteProbabilities);
 		
 		//remove once prev rhythm is incorporated
-		this.setCurrentProbability(noteProbabilities.get("allNotes"));
+		this.setCurrentProbability(noteProbabilities.get("DEFAULT_PROBABILITIES"));
 		
 	}
 	
@@ -48,13 +47,6 @@ public class Epoch {
 //		this.setCurrentProbability(newProbability);		
 //	}
 
-	public int getStart() {
-		return start;
-	}
-
-	public void setStart(int start) {
-		this.start = start;
-	}
 
 	public int getRange() {
 		return range;

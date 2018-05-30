@@ -52,8 +52,6 @@ public class CellularAutomataMusic  extends JFrame{
 	int t;
     // variables to track the occurrences of each interval for testing
     int[] totals = new int[16];
-    // variable to hold string value representing era
-    String era;
     // Boolean variable representing
     Boolean analysis = false;
     //map that contains all the epochs and their values
@@ -138,12 +136,7 @@ public class CellularAutomataMusic  extends JFrame{
 	    // Timer for playing notes evenly
 	    private Timer timer;
 	    // variables to ensure the composer runs linearly
-	    public int myOctave = 5, currentDiff = 0, range, start;
-	    // variable to store the probability of each interval
-	    double uni, step, third, fourth, fifth, sixth, seventh, octave, rest;
-	    // variables to store the probability of the next note type
-		double toEighthNote, toQuarterNote, toHalfNote, toWholeNote;		
-	    double toEighthRest, toQuarterRest, toHalfRest, toWholeRest;
+	    public int myOctave = 5, currentDiff = 0;
 	    // boolean to see if an epoch has been selected
 	    boolean selected = false;
 	    //grid to display automata-model
@@ -201,6 +194,23 @@ public class CellularAutomataMusic  extends JFrame{
 	     * Method to initially set up the epochs with their values
 	     */
 	    public void setEpochs() {
+		    // variables to store the probability of the next note type
+			double toTwentyEighthNote = 0.0, toTwentyForthNote = 0.0, toTwentiethNote = 0.0, toSixteenthNote = 0.0, toTwelfthNote = 0.0,
+					toEighthNote = 0.0, toDottedEighthNote = 0.0, toSixthNote = 0.0,
+					toQuarterNote = 0.0, toDottedQuarterNote = 0.0, toHalfNote = 0.0, toDottedHalfNote = 0.0,
+					toWholeNote = 0.0, toDottedWholeNote = 0.0;
+			
+		    double toEighthRest = 0.0, toQuarterRest = 0.0, 
+		    		toHalfRest = 0.0,  toDottedHalfRest = 0.0,
+		    		toWholeRest = 0.0, toDottedWholeRest = 0.0;
+		    
+		    // varialbes about the epoch
+		    int range = 0;
+		    String era = "";
+		    
+		    // variable to store the probability of each interval (or rest)
+		    double uni = 0.0, step = 0.0, third = 0.0, fourth = 0.0, fifth = 0.0, sixth = 0.0, seventh = 0.0, octave = 0.0, rest = 0.0;
+		    
 	    	epochs = new HashMap<String, Epoch>();
 	    	HashMap<String, DurationProbability> durationProbabilities = new HashMap<String, DurationProbability>();
 	    	
@@ -214,9 +224,8 @@ public class CellularAutomataMusic  extends JFrame{
 					Map<String, Map<String, Object>> epochVariables = configs.get(currentEpochName);
 					Set<String> epochVariableNames = epochVariables.keySet();
 					for (String currentEpochVariable : epochVariableNames) {
-						if (currentEpochVariable.equals("interval")) {
+						if (currentEpochVariable.equals("intervalProbabilities")) {
 							Map<String, Object> epochIntervalValues = epochVariables.get(currentEpochVariable);
-							start = (Integer)epochIntervalValues.get("start");
 							uni = (Double)epochIntervalValues.get("uni");
 							step = (Double)epochIntervalValues.get("step");
 							third = (Double)epochIntervalValues.get("third");
@@ -225,30 +234,46 @@ public class CellularAutomataMusic  extends JFrame{
 							sixth = (Double)epochIntervalValues.get("sixth");
 							seventh = (Double)epochIntervalValues.get("seventh");
 							octave = (Double)epochIntervalValues.get("octave");
-							rest = (Double)epochIntervalValues.get("rest");
-							range = (Integer)epochIntervalValues.get("range");
-							era = (String)epochIntervalValues.get("era");	
+							rest = (Double)epochIntervalValues.get("rest");	
 						}
-						else if (currentEpochVariable.equals("rhythm")) {
-							Map<String, Object> epochRhythmValues = epochVariables.get(currentEpochVariable);
-							Set<String> rhythmVariableNames = epochRhythmValues.keySet();
-							for (String currentRhythmVariableName : rhythmVariableNames) {
-								Map<String, Object> currentRhythmValues = (Map<String, Object>)epochRhythmValues.get(currentRhythmVariableName);
-								toEighthNote = (Double)currentRhythmValues.get("eighthNote");
-								toQuarterNote = (Double)currentRhythmValues.get("quarterNote");	
-								toHalfNote = (Double)currentRhythmValues.get("halfNote");	
-								toWholeNote = (Double)currentRhythmValues.get("wholeNote");	
-								toEighthRest = (Double)currentRhythmValues.get("eighthRest");	
-								toQuarterRest = (Double)currentRhythmValues.get("quarterRest");	
-								toHalfRest = (Double)currentRhythmValues.get("halfRest");	
-								toWholeRest = (Double)currentRhythmValues.get("wholeRest");	
-								
-								DurationProbability probability = new DurationProbability(toEighthNote, toQuarterNote, toHalfNote, toWholeNote, toEighthRest, toQuarterRest, toHalfRest, toWholeRest);
-								durationProbabilities.put(currentRhythmVariableName, probability);
-							}					
+						else if (currentEpochVariable.equals("noteProbabilities")) {
+							Map<String, Object> epochNoteValues = epochVariables.get(currentEpochVariable);
+							toTwentyEighthNote = (Double)epochNoteValues.get("twentyEighthNote");
+							toTwentyForthNote = (Double)epochNoteValues.get("twentyForthNote");
+							toTwentiethNote = (Double)epochNoteValues.get("twentiethNote");
+							toSixteenthNote = (Double)epochNoteValues.get("sixteenthNote");
+							toTwelfthNote = (Double)epochNoteValues.get("twelfthNote");
+							toEighthNote = (Double)epochNoteValues.get("eighthNote");
+							toDottedEighthNote = (Double)epochNoteValues.get("dottedEighthNote");
+							toSixthNote = (Double)epochNoteValues.get("sixthNote");
+							toQuarterNote = (Double)epochNoteValues.get("quarterNote");
+							toDottedQuarterNote = (Double)epochNoteValues.get("dottedQuarterNote");
+							toHalfNote = (Double)epochNoteValues.get("halfNote");
+							toDottedHalfNote = (Double)epochNoteValues.get("dottedHalfNote");
+							toWholeNote = (Double)epochNoteValues.get("wholeNote");
+							toDottedWholeNote = (Double)epochNoteValues.get("dottedWholeNote");							
+									
+						}
+						else if(currentEpochVariable.equals("restProbabilities")) {
+							Map<String, Object> epochRestValues = epochVariables.get(currentEpochVariable);
+							toEighthRest = (Double)epochRestValues.get("eighthRest");
+							toQuarterRest = (Double)epochRestValues.get("quarterRest");
+							toHalfRest = (Double)epochRestValues.get("halfRest");
+							toDottedHalfRest = (Double)epochRestValues.get("dottedHalfRest");
+							toWholeRest = (Double)epochRestValues.get("wholeRest");
+							toDottedWholeRest = (Double)epochRestValues.get("dottedWholeRest");
+						}
+						else if (currentEpochVariable.equals("otherValues")) {
+							Map<String, Object> epochOtherValues = epochVariables.get(currentEpochVariable);
+							range = (Integer)epochOtherValues.get("range");
+							era = (String)epochOtherValues.get("era");
 						}
 					}
-					Epoch newEpoch = new Epoch(start, uni, step, third, fourth, fifth, sixth, seventh, octave, rest, range, era, durationProbabilities);
+					DurationProbability probability = new DurationProbability(toTwentyEighthNote, toTwentyForthNote, toTwentiethNote, toSixteenthNote, toTwelfthNote,
+							toEighthNote, toDottedEighthNote, toSixthNote, toQuarterNote, toDottedQuarterNote, toHalfNote, toDottedHalfNote, toWholeNote, toDottedWholeNote,
+							toEighthRest, toQuarterRest, toHalfRest, toDottedHalfRest, toWholeRest, toDottedWholeRest);
+					durationProbabilities.put("DEFAULT_PROBABILITIES", probability);
+					Epoch newEpoch = new Epoch(uni, step, third, fourth, fifth, sixth, seventh, octave, rest, range, era, durationProbabilities);
 					epochs.put(currentEpochName, newEpoch);	
 
 				}									
