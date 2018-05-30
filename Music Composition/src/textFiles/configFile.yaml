@@ -48,4 +48,170 @@ medieval:
     range : 14
     defaultDuration : 500
     
+    
+
+#******************************************************************
+      
+renaissance:
+
+  interval:
+
+    start : 62
+    uni : 0.2571
+    step : 0.4305
+    third : 0.1061
+    fourth : 0.0728
+    fifth : 0.048
+    sixth : 0.0048
+    seventh : 0.0006
+    octave : 0.0094
+    rest : 0.1
+    range : 22
+    era : Renaissance
+    
+  rhythm:
+   
+    allNotes:  
+      eighthNote :  0.25   
+      quarterNote : 0.5
+      halfNote : 0.15
+      wholeNote : 0.1
+      eighthRest :  0.05   
+      quarterRest : 0.5
+      halfRest : 0.25
+      wholeRest : 0.20
+ 
+          
+#**********************************************************************
+
+baroque :
+
+  interval:
+
+    start : 64
+    uni : 0.2623
+    step : 0.3558
+    third : 0.1114
+    fourth : 0.0728
+    fifth : 0.0442
+    sixth : 0.0292
+    seventh : 0.0108
+    octave : 0.0379
+    rest : 0.1
+    range : 23
+    era : Baroque
+    
+  rhythm:
+  
+    allNotes:  
+      eighthNote :  0.25   
+      quarterNote : 0.5
+      halfNote : 0.15
+      wholeNote : 0.1
+      eighthRest :  0.05   
+      quarterRest : 0.5
+      halfRest : 0.25
+      wholeRest : 0.20
+
+          
+#********************************************************************************
+
+classical :
+
+  interval:
+
+    start : 66
+    uni : 0.148
+    step : 0.3964
+    third : 0.1713
+    fourth : 0.0818
+    fifth : 0.0574
+    sixth : 0.0435
+    seventh : 0.0195
+    octave : 0.0353
+    rest : 0.1
+    range : 25
+    era : Classical
+    
+  rhythm:
+  
+    allNotes:  
+      eighthNote :  0.25   
+      quarterNote : 0.5
+      halfNote : 0.15
+      wholeNote : 0.1
+      eighthRest :  0.05   
+      quarterRest : 0.5
+      halfRest : 0.25
+      wholeRest : 0.20
+
+      
+#************************************************************
+
+romantic :
+
+  interval:
+  
+    start : 68
+    uni : 0.207
+    step : 0.2791
+    third : 0.1112
+    fourth : 0.0649
+    fifth : 0.0416
+    sixth : 0.0282
+    seventh : 0.0123
+    octave : 0.0217
+    rest : 0.1
+    range : 30
+    era : Romantic
+    
+  rhythm:
+  
+    allNotes:  
+      eighthNote :  0.25   
+      quarterNote : 0.5
+      halfNote : 0.15
+      wholeNote : 0.1
+      eighthRest :  0.05   
+      quarterRest : 0.5
+      halfRest : 0.25
+      wholeRest : 0.20
+
+      
+#****************************************************************
+
+modern :
+
+  interval:
+
+    start : 70
+    uni : 0.3086
+    step : 0.2153
+    third : 0.1011
+    fourth : 0.1053
+    fifth : 0.0723
+    sixth : 0.0591
+    seventh : 0.0364
+    octave : 0.0571
+    rest : 0.1
+    range : 37
+    era : Modern
+    
+  rhythm:
+  
+    allNotes:  
+      eighthNote :  0.25   
+      quarterNote : 0.5
+      halfNote : 0.15
+      wholeNote : 0.1
+      eighthRest :  0.05   
+      quarterRest : 0.5
+      halfRest : 0.25
+      wholeRest : 0.20
+  
+
+
+
+
+    
       
