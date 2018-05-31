@@ -46,7 +46,7 @@ medieval:
   
     era : Medieval
     range : 14
-    defaultDuration : 500
+    defaultDuration : 4000
     
     
 
@@ -54,9 +54,8 @@ medieval:
       
 renaissance:
 
-  interval:
+  intervalProbabilities:
 
-    start : 62
     uni : 0.2571
     step : 0.4305
     third : 0.1061
@@ -66,29 +65,47 @@ renaissance:
     seventh : 0.0006
     octave : 0.0094
     rest : 0.1
-    range : 22
-    era : Renaissance
     
-  rhythm:
+  noteProbabilities:  
    
-    allNotes:  
-      eighthNote :  0.25   
-      quarterNote : 0.5
-      halfNote : 0.15
-      wholeNote : 0.1
-      eighthRest :  0.05   
-      quarterRest : 0.5
-      halfRest : 0.25
-      wholeRest : 0.20
- 
+    twentyEighthNote : 0.0015
+    twentyForthNote : 0.0013 
+    twentiethNote : 0.0043
+    sixteenthNote : 0.0073
+    twelfthNote : 0.0361
+    eighthNote : 0.1589
+    dottedEighthNote : 0.0009
+    sixthNote : 0.0121
+    quarterNote : 0.2641
+    dottedQuarterNote :  0.0136 
+    halfNote : 0.2125
+    dottedHalfNote : 0.1322
+    wholeNote : 0.062
+    dottedWholeNote : 0.0933
+      
+  restProbabilities: 
+   
+    eighthRest : 0.0308
+    quarterRest : 0.3548
+    halfRest : 0.174
+    dottedHalfRest : 0.3708
+    wholeRest : 0.008
+    dottedWholeRest : 0.0616
+    
+  otherValues:
+  
+    era : Renaissance
+    range : 22
+    defaultDuration : 4000
+    
+    
           
 #**********************************************************************
 
 baroque :
 
-  interval:
+  intervalProbabilities:
 
-    start : 64
     uni : 0.2623
     step : 0.3558
     third : 0.1114
@@ -98,29 +115,47 @@ baroque :
     seventh : 0.0108
     octave : 0.0379
     rest : 0.1
-    range : 23
-    era : Baroque
     
-  rhythm:
+  noteProbabilities:  
   
-    allNotes:  
-      eighthNote :  0.25   
-      quarterNote : 0.5
-      halfNote : 0.15
-      wholeNote : 0.1
-      eighthRest :  0.05   
-      quarterRest : 0.5
-      halfRest : 0.25
-      wholeRest : 0.20
-
+    twentyEighthNote : 0.0015
+    twentyForthNote : 0.0013 
+    twentiethNote : 0.0043
+    sixteenthNote : 0.0073
+    twelfthNote : 0.0361
+    eighthNote : 0.1589
+    dottedEighthNote : 0.0009
+    sixthNote : 0.0121
+    quarterNote : 0.2641
+    dottedQuarterNote :  0.0136 
+    halfNote : 0.2125
+    dottedHalfNote : 0.1322
+    wholeNote : 0.062
+    dottedWholeNote : 0.0933
+      
+  restProbabilities: 
+   
+    eighthRest : 0.0308
+    quarterRest : 0.3548
+    halfRest : 0.174
+    dottedHalfRest : 0.3708
+    wholeRest : 0.008
+    dottedWholeRest : 0.0616
+    
+  otherValues:
+  
+    era : Baroque
+    range : 23
+    defaultDuration : 4000
+    
+    
           
 #********************************************************************************
 
 classical :
 
-  interval:
+  intervalProbabilities:
 
-    start : 66
     uni : 0.148
     step : 0.3964
     third : 0.1713
@@ -130,29 +165,47 @@ classical :
     seventh : 0.0195
     octave : 0.0353
     rest : 0.1
-    range : 25
-    era : Classical
-    
-  rhythm:
+   
+  noteProbabilities:  
   
-    allNotes:  
-      eighthNote :  0.25   
-      quarterNote : 0.5
-      halfNote : 0.15
-      wholeNote : 0.1
-      eighthRest :  0.05   
-      quarterRest : 0.5
-      halfRest : 0.25
-      wholeRest : 0.20
+    twentyEighthNote : 0.0015
+    twentyForthNote : 0.0013 
+    twentiethNote : 0.0043
+    sixteenthNote : 0.0073
+    twelfthNote : 0.0361
+    eighthNote : 0.1589
+    dottedEighthNote : 0.0009
+    sixthNote : 0.0121
+    quarterNote : 0.2641
+    dottedQuarterNote :  0.0136 
+    halfNote : 0.2125
+    dottedHalfNote : 0.1322
+    wholeNote : 0.062
+    dottedWholeNote : 0.0933
+      
+  restProbabilities: 
+   
+    eighthRest : 0.0308
+    quarterRest : 0.3548
+    halfRest : 0.174
+    dottedHalfRest : 0.3708
+    wholeRest : 0.008
+    dottedWholeRest : 0.0616
+    
+  otherValues:
+  
+    era : Classical
+    range : 25
+    defaultDuration : 4000
 
+      
       
 #************************************************************
 
 romantic :
 
-  interval:
+  intervalProbabilities:
   
-    start : 68
     uni : 0.207
     step : 0.2791
     third : 0.1112
@@ -162,29 +215,47 @@ romantic :
     seventh : 0.0123
     octave : 0.0217
     rest : 0.1
-    range : 30
-    era : Romantic
     
-  rhythm:
+  noteProbabilities:  
   
-    allNotes:  
-      eighthNote :  0.25   
-      quarterNote : 0.5
-      halfNote : 0.15
-      wholeNote : 0.1
-      eighthRest :  0.05   
-      quarterRest : 0.5
-      halfRest : 0.25
-      wholeRest : 0.20
+    twentyEighthNote : 0.0015
+    twentyForthNote : 0.0013 
+    twentiethNote : 0.0043
+    sixteenthNote : 0.0073
+    twelfthNote : 0.0361
+    eighthNote : 0.1589
+    dottedEighthNote : 0.0009
+    sixthNote : 0.0121
+    quarterNote : 0.2641
+    dottedQuarterNote :  0.0136 
+    halfNote : 0.2125
+    dottedHalfNote : 0.1322
+    wholeNote : 0.062
+    dottedWholeNote : 0.0933
+      
+  restProbabilities: 
+   
+    eighthRest : 0.0308
+    quarterRest : 0.3548
+    halfRest : 0.174
+    dottedHalfRest : 0.3708
+    wholeRest : 0.008
+    dottedWholeRest : 0.0616
+    
+  otherValues:
+  
+    era : Romantic
+    range : 30
+    defaultDuration : 4000
 
+      
       
 #****************************************************************
 
-modern :
+modern:
 
-  interval:
+  intervalProbabilities:
 
-    start : 70
     uni : 0.3086
     step : 0.2153
     third : 0.1011
@@ -194,24 +265,37 @@ modern :
     seventh : 0.0364
     octave : 0.0571
     rest : 0.1
-    range : 37
+    
+  noteProbabilities:  
+  
+    twentyEighthNote : 0.0015
+    twentyForthNote : 0.0013 
+    twentiethNote : 0.0043
+    sixteenthNote : 0.0073
+    twelfthNote : 0.0361
+    eighthNote : 0.1589
+    dottedEighthNote : 0.0009
+    sixthNote : 0.0121
+    quarterNote : 0.2641
+    dottedQuarterNote :  0.0136 
+    halfNote : 0.2125
+    dottedHalfNote : 0.1322
+    wholeNote : 0.062
+    dottedWholeNote : 0.0933
+      
+  restProbabilities: 
+   
+    eighthRest : 0.0308
+    quarterRest : 0.3548
+    halfRest : 0.174
+    dottedHalfRest : 0.3708
+    wholeRest : 0.008
+    dottedWholeRest : 0.0616
+    
+  otherValues:
+  
     era : Modern
-    
-  rhythm:
-  
-    allNotes:  
-      eighthNote :  0.25   
-      quarterNote : 0.5
-      halfNote : 0.15
-      wholeNote : 0.1
-      eighthRest :  0.05   
-      quarterRest : 0.5
-      halfRest : 0.25
-      wholeRest : 0.20
-  
+    range : 37
+    defaultDuration : 4000
 
-
-
-
-    
       

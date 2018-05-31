@@ -10,8 +10,6 @@ package GUI;
 
 import java.awt.BorderLayout;
 
-
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -29,7 +27,6 @@ import javax.sound.midi.*;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
@@ -191,7 +188,7 @@ public class CellularAutomataMusic  extends JFrame{
 	    
 	    
 	    /*
-	     * Method to initially set up the epochs with their values
+	     * Method to initially set up the epochs with their values by reading a YAML file
 	     */
 	    public void setEpochs() {
 		    // variables to store the probability of the next note type
@@ -205,7 +202,7 @@ public class CellularAutomataMusic  extends JFrame{
 		    		toWholeRest = 0.0, toDottedWholeRest = 0.0;
 		    
 		    // varialbes about the epoch
-		    int range = 0;
+		    int range = 0, defaultDuration = 2000;
 		    String era = "";
 		    
 		    // variable to store the probability of each interval (or rest)
@@ -251,8 +248,7 @@ public class CellularAutomataMusic  extends JFrame{
 							toHalfNote = (Double)epochNoteValues.get("halfNote");
 							toDottedHalfNote = (Double)epochNoteValues.get("dottedHalfNote");
 							toWholeNote = (Double)epochNoteValues.get("wholeNote");
-							toDottedWholeNote = (Double)epochNoteValues.get("dottedWholeNote");							
-									
+							toDottedWholeNote = (Double)epochNoteValues.get("dottedWholeNote");																
 						}
 						else if(currentEpochVariable.equals("restProbabilities")) {
 							Map<String, Object> epochRestValues = epochVariables.get(currentEpochVariable);
@@ -267,13 +263,14 @@ public class CellularAutomataMusic  extends JFrame{
 							Map<String, Object> epochOtherValues = epochVariables.get(currentEpochVariable);
 							range = (Integer)epochOtherValues.get("range");
 							era = (String)epochOtherValues.get("era");
+							defaultDuration = (Integer)epochOtherValues.get("defaultDuration");
 						}
 					}
 					DurationProbability probability = new DurationProbability(toTwentyEighthNote, toTwentyForthNote, toTwentiethNote, toSixteenthNote, toTwelfthNote,
 							toEighthNote, toDottedEighthNote, toSixthNote, toQuarterNote, toDottedQuarterNote, toHalfNote, toDottedHalfNote, toWholeNote, toDottedWholeNote,
 							toEighthRest, toQuarterRest, toHalfRest, toDottedHalfRest, toWholeRest, toDottedWholeRest);
 					durationProbabilities.put("DEFAULT_PROBABILITIES", probability);
-					Epoch newEpoch = new Epoch(uni, step, third, fourth, fifth, sixth, seventh, octave, rest, range, era, durationProbabilities);
+					Epoch newEpoch = new Epoch(uni, step, third, fourth, fifth, sixth, seventh, octave, rest, range, defaultDuration, era, durationProbabilities);
 					epochs.put(currentEpochName, newEpoch);	
 
 				}									
@@ -331,6 +328,9 @@ public class CellularAutomataMusic  extends JFrame{
 		    	//repaints the bottom line sequence based on rule
 		    	if (e.getSource().equals(timer) && analysis == false){
 		    		int newNote = musicCompController.ruleGenerator(val);
+		    		//int newNote;
+		    		//Note note = musicCompController.createNote(new Note(val, 0));
+		    		//newNote = note.getPitch();
 		    		if (newNote >= 8){
 		    			grid[0][board_size.width-1] = black;
 		    			newNote = newNote-8;

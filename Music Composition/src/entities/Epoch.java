@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class Epoch {
 	
-	private int range;
+	private int range, defaultDuration;
 	
 	private double uni, step, third, fourth, fifth, sixth, seventh, octave, rest;
 	
@@ -22,7 +22,7 @@ public class Epoch {
 	private DurationProbability currentProbability;
 	
 	public Epoch(double uni, double step, double third, double fourth, double fifth,
-			double sixth, double seventh, double octave, double rest, int range, String era, HashMap<String, DurationProbability> noteProbabilities) {
+			double sixth, double seventh, double octave, double rest, int range, int defaultDuration, String era, HashMap<String, DurationProbability> noteProbabilities) {
 		
 		this.setUni(uni);
 		this.setStep(step);
@@ -34,6 +34,7 @@ public class Epoch {
 		this.setOctave(octave);
 		this.setRest(rest);
 		this.setRange(range);
+		this.setDefaultDuration(defaultDuration);		
 		this.setEra(era);
 		this.setNoteProbabilities(noteProbabilities);
 		
@@ -134,6 +135,14 @@ public class Epoch {
 
 	public void setEra(String era) {
 		this.era = era;
+	}
+
+	public int getDefaultDuration() {
+		return defaultDuration;
+	}
+
+	public void setDefaultDuration(int defaultDuration) {
+		this.defaultDuration = defaultDuration;
 	}
 
 	public HashMap<String, DurationProbability> getNoteProbabilities() {

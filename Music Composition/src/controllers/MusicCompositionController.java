@@ -26,12 +26,12 @@ public class MusicCompositionController {
 	// variable to store the current Epoch
 	private Epoch epoch;	
     // variables to ensure the composer runs linearly
-    public int myOctave = 5, currentDiff = 0, range, start;
+    public int myOctave = 5, currentDiff = 0, range, defaultDuration;
     // variable to store the probability of each interval
     double uni, step, third, fourth, fifth, sixth, seventh, octave, rest;
     // variables to store the probability of the next note type
 	double toTwentyEighthNote, toTwentyForthNote, toTwentiethNote, toSixteenthNote, toTwelfthNote,
-		toEighthNote, toDottedEighthNote, toQuarterNote, toDottedQuarterNote, 
+		toEighthNote, toDottedEighthNote, toSixthNote, toQuarterNote, toDottedQuarterNote, 
 		toHalfNote, toDottedHalfNote, toWholeNote, toDottedWholeNote;		
     double toEighthRest, toQuarterRest, toHalfRest, toDottedHalfRest, toWholeRest, toDottedWholeRest;
     // boolean to see if an epoch has been selected
@@ -39,7 +39,7 @@ public class MusicCompositionController {
 	// variables to track total length of composition, total notes, and total rests
 	int t, totalNotes, totalRests;
     // variables to track the occurrences of each interval for testing
-    int[] totals = new int[17];
+    int[] totals = new int[29];
     // variable to hold string value representing era
     String era;
     //map that contains all the epochs and their values
@@ -66,6 +66,7 @@ public class MusicCompositionController {
     	octave = newEpoch.getOctave();
     	rest = newEpoch.getRest();
     	range = newEpoch.getRange();
+    	defaultDuration = newEpoch.getDefaultDuration();
     	era = newEpoch.getEra();   
     	
     	toTwentyEighthNote = newEpoch.getCurrentProbability().getToTwentyEighthNote();
@@ -75,6 +76,7 @@ public class MusicCompositionController {
     	toTwelfthNote = newEpoch.getCurrentProbability().getToTwelfthNote();
     	toEighthNote = newEpoch.getCurrentProbability().getToEighthNote();
     	toDottedEighthNote = newEpoch.getCurrentProbability().getToDottedEighthNote();
+    	toSixthNote = newEpoch.getCurrentProbability().getToSixthNote();
     	toQuarterNote = newEpoch.getCurrentProbability().getToQuarterNote();
     	toDottedQuarterNote = newEpoch.getCurrentProbability().getToDottedQuarterNote();
     	toHalfNote = newEpoch.getCurrentProbability().getToHalfNote();
@@ -91,20 +93,32 @@ public class MusicCompositionController {
     }
     
     
-   // public Note createNote(Note prevNote) {  	
-    	//String newNoteDuration = rhythmRuleGenerator(prevNote.getDuration());
-    	//if (!newNoteDuration.equals(prevNote.getDuration()))
-    	//	epoch.changeDurationProbability(newNoteDuration);  
-    	//int newNotePitch = ruleGenerator(prevNote.getPitch());
-    	//return new Note(newNotePitch, newNoteDuration);
-    //}
+//    public Note createNote(Note prevNote) { 
+//    	int newNotePitch = ruleGenerator(prevNote.getPitch());
+//    	if (newNotePitch == -1)
+//    		return prevNote;
+//    	int newNoteDuration = rhythmRuleGenerator(prevNote.getDuration(), newNotePitch);
+//    	
+//		System.out.println("New Value = " + newNotePitch);
+//    	//pitch will be 14 if it is supposed to be a rest
+//    	if (newNotePitch == 14) {
+//			try  {
+//				Thread.sleep(newNoteDuration); }
+//			catch( InterruptedException e ) {}
+//    	}
+//    	else {
+//    		toNote(newNotePitch, newNoteDuration);
+//    	}
+//    	
+//    	return new Note(newNotePitch, newNoteDuration);
+//    }
 	    
     /*
      * Method designed to generate a new musical note value based on given previous note value
      * @param Boolean isRest  Represents if the note is a rest or not
      * @returns int newNoteDuration
      * */	
-	public int rhythmRuleGenerator(Boolean isRest){
+	public int rhythmRuleGenerator(int prevDuration, int newPitch){
 
 		double running = 0.0;
 		double value = Math.random();
@@ -117,96 +131,103 @@ public class MusicCompositionController {
 		 * true, and no other if statements are reached. It will access each
 		 * if statement until the correct is found, increasing running total
 		 * as it goes. */
-		int baseDuration = 4000;
-		int newNoteDuration = baseDuration;
-		if (!isRest) {
+		//int defaultDuration = 4000;
+		int newNoteDuration = defaultDuration;
+		if (newPitch != 14) {
 			if (value <= toTwentyEighthNote){
-				//totals[9]+=1;
-				newNoteDuration = baseDuration/28;
+				totals[9]+=1;
+				newNoteDuration = defaultDuration/28;
 				valFound = true;
 				System.out.println("Duration: Twenty-Eighth Note");
 			}
 			running += toTwentyEighthNote;
 			if (value <= toTwentyForthNote + running && valFound == false){
-				//totals[9]+=1;
-				newNoteDuration = baseDuration/24;
+				totals[10]+=1;
+				newNoteDuration = defaultDuration/24;
 				valFound = true;
 				System.out.println("Duration: Twenty-Forth Note");
 			}
 			running += toTwentyForthNote;
 			if (value <= toTwentiethNote + running && valFound == false){
-				//totals[9]+=1;
-				newNoteDuration = baseDuration/20;
+				totals[11]+=1;
+				newNoteDuration = defaultDuration/20;
 				valFound = true;
 				System.out.println("Duration: Twentieth Note");
 			}
 			running += toTwentiethNote;
 			if (value <= toSixteenthNote + running && valFound == false){
-				//totals[9]+=1;
-				newNoteDuration = baseDuration/16;
+				totals[12]+=1;
+				newNoteDuration = defaultDuration/16;
 				valFound = true;
 				System.out.println("Duration: Sixteenth Note");
 			}
 			running += toSixteenthNote;
 			if (value <= toTwelfthNote + running && valFound == false){
-				//totals[9]+=1;
-				newNoteDuration = baseDuration/12;
+				totals[13]+=1;
+				newNoteDuration = defaultDuration/12;
 				valFound = true;
 				System.out.println("Duration: Twelfth Note");
 			}
 			running += toTwelfthNote;
 			if (value <= toEighthNote + running && valFound == false){
-				totals[9]+=1;
-				newNoteDuration = baseDuration/8;
+				totals[14]+=1;
+				newNoteDuration = defaultDuration/8;
 				valFound = true;
 				System.out.println("Duration: Eighth Note");
 			}
 			running += toEighthNote;
 			if (value <= toDottedEighthNote + running && valFound == false){
-				//totals[9]+=1;
-				newNoteDuration = baseDuration/8 + baseDuration/16;
+				totals[15]+=1;
+				newNoteDuration = defaultDuration/8 + defaultDuration/16;
 				valFound = true;
 				System.out.println("Duration: Dotted-Eighth Note");
 			}
-			running += toEighthNote;
+			running += toDottedEighthNote;
+			if (value <= toSixthNote + running && valFound == false){
+				totals[16]+=1;
+				newNoteDuration = defaultDuration/8 + defaultDuration/16;
+				valFound = true;
+				System.out.println("Duration: Sixth Note");
+			}
+			running += toSixthNote;
 			if ((value <= toQuarterNote + running) && valFound == false){
-				totals[10]+=1;
-				newNoteDuration = baseDuration/4;
+				totals[17]+=1;
+				newNoteDuration = defaultDuration/4;
 				valFound = true;
 				System.out.println("Duration: Quarter Note");
 			}
 			running += toQuarterNote;
 			if (value <= toDottedQuarterNote + running && valFound == false){
-				//totals[9]+=1;
-				newNoteDuration = baseDuration/4 + baseDuration/8;
+				totals[18]+=1;
+				newNoteDuration = defaultDuration/4 + defaultDuration/8;
 				valFound = true;
 				System.out.println("Duration: Dotted-Quarter Note");
 			}
 			running += toDottedQuarterNote;
 			if (value <= toHalfNote + running && valFound == false){
-				totals[11]+=1;
-				newNoteDuration = baseDuration * 4;
+				totals[19]+=1;
+				newNoteDuration = defaultDuration/2;
 				valFound = true;
 				System.out.println("Duration: Half Note");
 			}
 			running += toHalfNote;
 			if (value <= toDottedHalfNote + running && valFound == false){
-				//totals[9]+=1;
-				newNoteDuration = baseDuration/2 + baseDuration/4;
+				totals[20]+=1;
+				newNoteDuration = defaultDuration/2 + defaultDuration/4;
 				valFound = true;
 				System.out.println("Duration: Dotted-Half Note");
 			}
 			running += toDottedHalfNote;
 			if (value <= toWholeNote + running && valFound == false){
-				totals[12]+=1;
-				newNoteDuration = baseDuration;
+				totals[21]+=1;
+				newNoteDuration = defaultDuration;
 				valFound = true;
 				System.out.println("Duration: Whole Note");
 			}
 			running += toWholeNote;
 			if (value <= toDottedWholeNote + running && valFound == false){
-				//totals[9]+=1;
-				newNoteDuration = baseDuration + baseDuration/2;
+				totals[22]+=1;
+				newNoteDuration = defaultDuration + defaultDuration/2;
 				valFound = true;
 				System.out.println("Duration: Dotted-Whole Note");
 			}
@@ -214,45 +235,45 @@ public class MusicCompositionController {
 		}
 		else {
 			if (value <= toEighthRest){
-				totals[13]+=1;
-				newNoteDuration = baseDuration/8;
+				totals[23]+=1;
+				newNoteDuration = defaultDuration/8;
 				valFound = true;
-				System.out.println("Duration: Eighth Rest\n");
+				System.out.println("Duration: Eighth Rest");
 			}
 			running += toEighthRest;
 			if ((value <= toQuarterRest + running) && valFound == false){
-				totals[14]+=1;
-				newNoteDuration = baseDuration/4;
+				totals[24]+=1;
+				newNoteDuration = defaultDuration/4;
 				valFound = true;
-				System.out.println("Duration: Quarter Rest\n");
+				System.out.println("Duration: Quarter Rest");
 			}
 			running += toQuarterRest;
 			if (value <= toHalfRest + running && valFound == false){
-				totals[15]+=1;
-				newNoteDuration = baseDuration/2;
+				totals[25]+=1;
+				newNoteDuration = defaultDuration/2;
 				valFound = true;
-				System.out.println("Duration: Half Rest\n");
+				System.out.println("Duration: Half Rest");
 			}
 			running += toHalfRest;
 			if (value <= toDottedHalfRest + running && valFound == false){
-				//totals[15]+=1;
-				newNoteDuration = baseDuration/2 + baseDuration/4;
+				totals[26]+=1;
+				newNoteDuration = defaultDuration/2 + defaultDuration/4;
 				valFound = true;
-				System.out.println("Duration: Dotted-Half Rest\n");
+				System.out.println("Duration: Dotted-Half Rest");
 			}
 			running += toDottedHalfRest;
 			if (value <= toWholeNote + running && valFound == false){
-				totals[16]+=1;
-				newNoteDuration = baseDuration;
+				totals[27]+=1;
+				newNoteDuration = defaultDuration;
 				valFound = true;
-				System.out.println("Duration: Whole Rest\n");
+				System.out.println("Duration: Whole Rest");
 			}
 			running += toWholeRest;
 			if (value <= toDottedWholeRest + running && valFound == false){
-				//totals[15]+=1;
-				newNoteDuration = baseDuration + baseDuration/2;
+				totals[28]+=1;
+				newNoteDuration = defaultDuration + defaultDuration/2;
 				valFound = true;
-				System.out.println("Duration: Dotted-Whole Rest\n");
+				System.out.println("Duration: Dotted-Whole Rest");
 			}
 			
 		}
@@ -277,7 +298,7 @@ public class MusicCompositionController {
 
 		double running = 0.0;
 		double value = Math.random();
-		System.out.println(value);
+		//System.out.println(value);
 
 		int newVal;
 		int diff = 0;
@@ -300,13 +321,14 @@ public class MusicCompositionController {
 		 * true, and no other if statements are reached. It will access each
 		 * if statement until the correct is found, increasing running total
 		 * as it goes. */
+		
 		if (value <= uni){
 			totals[0]+=1;
 			t+=1;
 			totalNotes+=1;
 			diff = 0;
 			valFound = true;
-			System.out.println("Unison");
+			System.out.println("Interval: Unison");
 		}
 		running += uni;
 		if ((value <= step + running) && valFound == false){
@@ -315,7 +337,7 @@ public class MusicCompositionController {
 			totalNotes+=1;
 			diff =  1;
 			valFound = true;
-			System.out.println("Step");
+			System.out.println("Interval: Step");
 		}
 		running += step;
 		if (value <= third + running && valFound == false){
@@ -324,7 +346,7 @@ public class MusicCompositionController {
 			totalNotes+=1;
 			diff =  2;
 			valFound = true;
-			System.out.println("Third");
+			System.out.println("Interval: Third");
 		}
 		running += third;
 		if (value <= fourth + running && valFound == false){
@@ -333,7 +355,7 @@ public class MusicCompositionController {
 			totalNotes+=1;
 			diff =  3;
 			valFound = true;
-			System.out.println("Forth");
+			System.out.println("Interval: Forth");
 		}
 		running += fourth;
 		if (value <= fifth + running && valFound == false){
@@ -342,7 +364,7 @@ public class MusicCompositionController {
 			totalNotes+=1;
 			diff =  4;
 			valFound = true;
-			System.out.println("Fifth");
+			System.out.println("Interval: Fifth");
 		}
 		running += fifth;
 		if (value <= sixth + running && valFound == false){
@@ -351,7 +373,7 @@ public class MusicCompositionController {
 			totalNotes+=1;
 			diff =  5;
 			valFound = true;
-			System.out.println("Sixth");
+			System.out.println("Interval: Sixth");
 		}
 		running += sixth;
 		if (value <= seventh + running && valFound == false){
@@ -360,7 +382,7 @@ public class MusicCompositionController {
 			totalNotes+=1;
 			diff =  6;
 			valFound = true;
-			System.out.println("Seventh");
+			System.out.println("Interval: Seventh");
 		}
 		running += seventh;
 		if (value <= octave + running && valFound == false){
@@ -369,7 +391,7 @@ public class MusicCompositionController {
 			totalNotes+=1;
 			diff =  7;
 			valFound = true;
-			System.out.println("Octave");
+			System.out.println("Interval: Octave");
 		}
 		running += octave;
 		if (value <= rest + running && valFound == false){
@@ -379,8 +401,10 @@ public class MusicCompositionController {
 			valFound = true;
 			isRest = true;
 			prevVal = 14;
-			System.out.println("Rest****************");
+			System.out.println("Interval: Rest");
 		}
+		if (!valFound)
+			return -1;
 
 		//System.out.println((currentDiff+diff) +": total diff");
 		if (ascending && currentDiff + diff >= ascLim) {
@@ -394,7 +418,7 @@ public class MusicCompositionController {
 		System.out.println("Ascending = "+ascending);
 		if(ascending){
 			currentDiff += diff;
-			System.out.println(currentDiff);
+			System.out.println("Current Difference = " + currentDiff);
 			newVal = prevVal;
 			for (int i = 0; i < diff; i++){
 				if (newVal == 5 || newVal == 12)
@@ -409,7 +433,7 @@ public class MusicCompositionController {
 		}
 		else{
 			currentDiff -= diff;
-			System.out.println(currentDiff);
+			System.out.println("Current Difference = " + currentDiff);
 			newVal = prevVal;
 			for (int i = 0; i < diff; i++){
 				if (newVal == 6 || newVal == 13 || newVal == 1)
@@ -422,31 +446,27 @@ public class MusicCompositionController {
 				}
 			}
 		}
-		System.out.println(newVal + " " + ascending);
 		
-		//String durationType = rhythmRuleGenerator(isRest);
-		int duration= rhythmRuleGenerator(isRest);
-//		if (durationType.equals("toEighthNote") || durationType.equals("toEighthRest"))
-//			duration = 250;
-//		else if (durationType.equals("toQuarterNote") || durationType.equals("toQuarterRest"))
-//			duration = 500;
-//		else if (durationType.equals("toHalfNote") || durationType.equals("toHalfRest"))
-//			duration = 1000;
-//		else if (durationType.equals("toWholeNote") || durationType.equals("toWholeRest"))
-//			duration = 2000;
-		
-		int noteVal;
-		if (isRest) {
-			noteVal = prevVal;
-			try  {
-				Thread.sleep(duration); }
-			catch( InterruptedException e ) {}
+		//return newVal;
+		if (valFound) {
+			int duration= rhythmRuleGenerator(0, newVal);
+			System.out.println("New Value = " + newVal);
+			
+			int noteVal;
+			if (isRest) {
+				System.out.println();				
+				noteVal = prevVal;
+				try  {
+					Thread.sleep(duration); }
+				catch( InterruptedException e ) {}
+			}
+			else {				
+				noteVal = toNote(newVal, duration);
+			}
+			return noteVal;
 		}
-		else {
-			noteVal = toNote(newVal, ascending, duration);
-		}
-
-		return noteVal;
+		else 
+			return prevVal;
 	}
 
 	
@@ -533,57 +553,57 @@ public class MusicCompositionController {
 	 * @param int val - Value of note (1-13) generated by the rule system
 	 * @returns String letter value equivelant to corresponding int value
 	 * */
-	public int toNote(int val, Boolean asc, int duration) {
+	public int toNote(int val, int duration) {
 		int noteVal;
 		int C = myOctave * 12;
 
 		if(val == 1 || val == 13){
 			noteVal = C+0;
-			System.out.println("C\n");
+			System.out.println("New Pitch = C\n");
 		}
 		else if(val == 2){
 			noteVal = C+1;
-			System.out.println("C#/D-\n");
+			System.out.println("New Pitch = C#/D-\n");
 		}
 		else if(val == 3){
 			noteVal = C+2;
-			System.out.println("D\n");
+			System.out.println("New Pitch = D\n");
 		}
 		else if(val == 4){
 			noteVal = C+3;
-			System.out.println("D#/E-\n");
+			System.out.println("New Pitch = D#/E-\n");
 		}
 		else if(val == 5){
 			noteVal = C+4;
-			System.out.println("E\n");
+			System.out.println("New Pitch = E\n");
 		}
 		else if(val == 6){
 			noteVal = C+5;
-			System.out.println("F\n");
+			System.out.println("New Pitch = F\n");
 		}
 		else if(val == 7){
 			noteVal = C+6;
-			System.out.println("F#/G-\n");
+			System.out.println("New Pitch = F#/G-\n");
 		}
 		else if(val == 8){
 			noteVal = C+7;
-			System.out.println("G\n");
+			System.out.println("New Pitch = G\n");
 		}
 		else if(val == 9){
 			noteVal = C+8;
-			System.out.println("G#/A-\n");
+			System.out.println("New Pitch = G#/A-\n");
 		}
 		else if(val == 10){
 			noteVal = C+9;
-			System.out.println("A\n");
+			System.out.println("New Pitch = A\n");
 		}
 		else if(val == 11){
 			noteVal = C+10;
-			System.out.println("A#/B-\n");
+			System.out.println("New Pitch = A#/B-\n");
 		}
 		else if(val == 12){
 			noteVal = C+11;
-			System.out.println("B\n");
+			System.out.println("New Pitch = B\n");
 		}
 		else {
 			return 0;
@@ -640,15 +660,27 @@ public class MusicCompositionController {
 				+"\nSixth:\t "+((double)totals[5]/t)
 				+"\nSeventh:\t "+((double)totals[6]/t)
 				+"\nOctave:\t "+((double)totals[7]/t)
-				+"\nRests:\t "+((double)totals[8]/t)
-				+"\nEighth Notes:\t "+((double)totals[9])
-				+"\nQuarter Notes:\t "+((double)totals[10])
-				+"\nHalf Notes:\t "+((double)totals[11])
-				+"\nWhole Notes:\t "+((double)totals[12])
-				+"\nEighth Rests:\t "+((double)totals[13])
-				+"\nQuarter Rests:\t "+((double)totals[14])
-				+"\nHalf Rests:\t "+((double)totals[15])
-				+"\nWhole Rests:\t "+((double)totals[16]);
+				+"\nRests:\t "+((double)totals[8]/t) + "\n"
+				+"\nTwenty-Eighth Notes:\t "+((double)totals[9]/totalNotes)
+				+"\nTwenty-Forth Notes:\t "+((double)totals[10]/totalNotes)
+				+"\nTwentieth Notes:\t "+((double)totals[11]/totalNotes)
+				+"\nSixteenth Notes:\t "+((double)totals[12]/totalNotes)
+				+"\nTwelfth Notes:\t "+((double)totals[13]/totalNotes)
+				+"\nEighth Notes:\t "+((double)totals[14]/totalNotes)
+				+"\nDotted-Eighth Notes:\t "+((double)totals[15]/totalNotes)
+				+"\nSixth Notes:\t "+((double)totals[16]/totalNotes)
+				+"\nQuarter Notes:\t "+((double)totals[17]/totalNotes)
+				+"\nDotted-Quarter Notes:\t "+((double)totals[18]/totalNotes)
+				+"\nHalf Notes:\t "+((double)totals[19]/totalNotes)
+				+"\nDotted-Half Notes:\t "+((double)totals[20]/totalNotes)
+				+"\nWhole Notes:\t "+((double)totals[21]/totalNotes)
+				+"\nDotted-Whole Notes:\t "+((double)totals[22]/totalNotes)+"\n"
+				+"\nEighth Rests:\t "+((double)totals[23]/totalRests)
+				+"\nQuarter Rests:\t "+((double)totals[24]/totalRests)
+				+"\nHalf Rests:\t "+((double)totals[25]/totalRests)
+				+"\nDotted-Half Rests:\t "+((double)totals[26]/totalRests)
+				+"\nWhole Rests:\t "+((double)totals[27]/totalRests)
+				+"\nDotted-Whole Rests:\t "+((double)totals[28]/totalRests);
 	}
 	
 	

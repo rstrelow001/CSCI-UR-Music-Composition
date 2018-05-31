@@ -2,20 +2,19 @@ package entities;
 
 public class Note {
 	
-	private String duration;
+	private int duration, pitch;
 	
-	private int pitch;
 	
-	public Note(int pitch, String duration) {
+	public Note(int pitch, int duration) {
 		this.setPitch(pitch);
 		this.setDuration(duration);
 	}
 
-	public String getDuration() {
+	public int getDuration() {
 		return duration;
 	}
 
-	public void setDuration(String duration) {
+	public void setDuration(int duration) {
 		this.duration = duration;
 	}
 
@@ -26,7 +25,5 @@ public class Note {
 	public void setPitch(int pitch) {
 		this.pitch = pitch;
 	}
-
-
 
 }
