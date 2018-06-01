@@ -482,6 +482,8 @@ public class MusicCompositionController {
 
 		/* Resets the valFound var to false for next note generation */
 		boolean valFound = false;
+		//lets the duration generator know if it is a rest
+		boolean isRest = false;
 
 		/* checks which range the generated number falls in and produces a
 		 * note based on this value. Once note is found, valFound is set to
@@ -491,51 +493,69 @@ public class MusicCompositionController {
 		if (value <= uni){
 			totals[0]+=1;
 			t+=1;
+			totalNotes+=1;
 			valFound = true;
 		}
 		running += uni;
 		if ((value <= step + running) && valFound == false){
 			totals[1]+=1;
 			t+=1;
+			totalNotes+=1;
 			valFound = true;
 		}
 		running += step;
 		if (value <= third + running && valFound == false){
 			totals[2]+=1;
 			t+=1;
+			totalNotes+=1;
 			valFound = true;
 		}
 		running += third;
 		if (value <= fourth + running && valFound == false){
 			totals[3]+=1;
 			t+=1;
+			totalNotes+=1;
 			valFound = true;
 		}
 		running += fourth;
 		if (value <= fifth + running && valFound == false){
 			totals[4]+=1;
 			t+=1;
+			totalNotes+=1;
 			valFound = true;
 		}
 		running += fifth;
 		if (value <= sixth + running && valFound == false){
 			totals[5]+=1;
 			t+=1;
+			totalNotes+=1;
 			valFound = true;
 		}
 		running += sixth;
 		if (value <= seventh + running && valFound == false){
 			totals[6]+=1;
 			t+=1;
+			totalNotes+=1;
 			valFound = true;
 		}
 		running += seventh;
 		if (value <= octave + running && valFound == false){
 			totals[7]+=1;
 			t+=1;
+			totalNotes+=1;
 			valFound = true;
 		}
+		if (value <= rest + running && valFound == false){
+			totals[8]+=1;
+			t+=1;
+			totalRests+=1;
+			valFound = true;
+			isRest = true;
+		}
+		if (!valFound)
+			return;
 
+		rhythmRuleGeneratorAnalysis(isRest);
 		/* When the composer has generated 100 notes, 
 		 * it automatically calculates the results and prints 
 		 * for analysis process */
@@ -543,6 +563,131 @@ public class MusicCompositionController {
 			System.out.println(kernResults());
 			//JOptionPane.showMessageDialog(null,kernResults());
 			clearStats();
+		}
+	}
+	
+	
+    /*
+     * Method designed to generate a new musical note value based on given previous note value
+     * @param Boolean isRest  Represents if the note is a rest or not
+     * @returns int newNoteDuration
+     * */	
+	public void rhythmRuleGeneratorAnalysis(boolean isRest){
+
+		double running = 0.0;
+		double value = Math.random();
+
+		/* Resets the valFound var to false for next note generation */
+		boolean valFound = false;
+
+		/* checks which range the generated number falls in and produces a
+		 * note duration based on this value. Once note duration is found, valFound is set to
+		 * true, and no other if statements are reached. It will access each
+		 * if statement until the correct is found, increasing running total
+		 * as it goes. */
+		//int defaultDuration = 4000;
+		if (!isRest) {
+			if (value <= toTwentyEighthNote){
+				totals[9]+=1;
+				valFound = true;
+			}
+			running += toTwentyEighthNote;
+			if (value <= toTwentyForthNote + running && valFound == false){
+				totals[10]+=1;
+				valFound = true;
+			}
+			running += toTwentyForthNote;
+			if (value <= toTwentiethNote + running && valFound == false){
+				totals[11]+=1;
+				valFound = true;
+			}
+			running += toTwentiethNote;
+			if (value <= toSixteenthNote + running && valFound == false){
+				totals[12]+=1;
+				valFound = true;
+			}
+			running += toSixteenthNote;
+			if (value <= toTwelfthNote + running && valFound == false){
+				totals[13]+=1;
+				valFound = true;
+			}
+			running += toTwelfthNote;
+			if (value <= toEighthNote + running && valFound == false){
+				totals[14]+=1;
+				valFound = true;
+			}
+			running += toEighthNote;
+			if (value <= toDottedEighthNote + running && valFound == false){
+				totals[15]+=1;
+				valFound = true;
+			}
+			running += toDottedEighthNote;
+			if (value <= toSixthNote + running && valFound == false){
+				totals[16]+=1;
+				valFound = true;
+			}
+			running += toSixthNote;
+			if ((value <= toQuarterNote + running) && valFound == false){
+				totals[17]+=1;
+				valFound = true;
+			}
+			running += toQuarterNote;
+			if (value <= toDottedQuarterNote + running && valFound == false){
+				totals[18]+=1;
+				valFound = true;
+			}
+			running += toDottedQuarterNote;
+			if (value <= toHalfNote + running && valFound == false){
+				totals[19]+=1;
+				valFound = true;
+			}
+			running += toHalfNote;
+			if (value <= toDottedHalfNote + running && valFound == false){
+				totals[20]+=1;
+				valFound = true;
+			}
+			running += toDottedHalfNote;
+			if (value <= toWholeNote + running && valFound == false){
+				totals[21]+=1;
+				valFound = true;
+			}
+			running += toWholeNote;
+			if (value <= toDottedWholeNote + running && valFound == false){
+				totals[22]+=1;
+				valFound = true;
+			}		
+		}
+		else {
+			if (value <= toEighthRest){
+				totals[23]+=1;
+				valFound = true;
+			}
+			running += toEighthRest;
+			if ((value <= toQuarterRest + running) && valFound == false){
+				totals[24]+=1;
+				valFound = true;
+			}
+			running += toQuarterRest;
+			if (value <= toHalfRest + running && valFound == false){
+				totals[25]+=1;
+				valFound = true;
+			}
+			running += toHalfRest;
+			if (value <= toDottedHalfRest + running && valFound == false){
+				totals[26]+=1;
+				valFound = true;
+			}
+			running += toDottedHalfRest;
+			if (value <= toWholeNote + running && valFound == false){
+				totals[27]+=1;
+				valFound = true;
+			}
+			running += toWholeRest;
+			if (value <= toDottedWholeRest + running && valFound == false){
+				totals[28]+=1;
+				valFound = true;
+			}
+			
 		}
 	}
 
@@ -708,7 +853,27 @@ public class MusicCompositionController {
 				+","+((double)totals[5]/t)
 				+","+((double)totals[6]/t)
 				+","+((double)totals[7]/t)
-				+","+((double)max/t)
+				+","+((double)totals[8]/t)
+				+","+((double)totals[9]/totalNotes)
+				+","+((double)totals[10]/totalNotes)
+				+","+((double)totals[11]/totalNotes)
+				+","+((double)totals[12]/totalNotes)
+				+","+((double)totals[13]/totalNotes)
+				+","+((double)totals[14]/totalNotes)
+				+","+((double)totals[15]/totalNotes)
+				+","+((double)totals[16]/totalNotes)
+				+","+((double)totals[17]/totalNotes)
+				+","+((double)totals[18]/totalNotes)
+				+","+((double)totals[19]/totalNotes)
+				+","+((double)totals[20]/totalNotes)
+				+","+((double)totals[21]/totalNotes)
+				+","+((double)totals[22]/totalNotes)
+				+","+((double)totals[23]/totalRests)
+				+","+((double)totals[24]/totalRests)
+				+","+((double)totals[25]/totalRests)
+				+","+((double)totals[26]/totalRests)
+				+","+((double)totals[27]/totalRests)
+				+","+((double)totals[28]/totalRests)
 				+","+era;
 	}
 
@@ -722,6 +887,8 @@ public class MusicCompositionController {
 			totals[i] = 0;
 		}
 		t = 0;
+		totalNotes = 0;
+		totalRests = 0;
 	}
 
 }
