@@ -195,23 +195,11 @@ public class CellularAutomataMusic  extends JFrame{
 	     * Method to initially set up the epochs with their values by reading a YAML file
 	     */
 	    public void setEpochMeasureValues() {
-		    // variables to store the probability of the next note type
-			double toTwentyEighthNote = 0.0, toTwentyForthNote = 0.0, toTwentiethNote = 0.0, toSixteenthNote = 0.0, toTwelfthNote = 0.0,
-					toEighthNote = 0.0, toDottedEighthNote = 0.0, toSixthNote = 0.0,
-					toQuarterNote = 0.0, toDottedQuarterNote = 0.0, toHalfNote = 0.0, toDottedHalfNote = 0.0,
-					toWholeNote = 0.0, toDottedWholeNote = 0.0;
-			
-		    double toEighthRest = 0.0, toQuarterRest = 0.0, 
-		    		toHalfRest = 0.0,  toDottedHalfRest = 0.0,
-		    		toWholeRest = 0.0, toDottedWholeRest = 0.0;
 		    
 		    // varialbes about the epoch
 		    int range = 0, defaultDuration = 2000;
 		    String era = "";
-		    
-		    // variable to store the probability of each interval (or rest)
-		    double uni = 0.0, step = 0.0, third = 0.0, fourth = 0.0, fifth = 0.0, sixth = 0.0, seventh = 0.0, octave = 0.0, rest = 0.0;
-		    
+		      
 	    	epochs = new HashMap<String, Epoch>();
 	    	HashMap<String, DurationProbability> durationProbabilities = new HashMap<String, DurationProbability>();
 
@@ -258,11 +246,8 @@ public class CellularAutomataMusic  extends JFrame{
 							defaultDuration = (Integer)epochOtherValues.get("defaultDuration");
 						}
 					}
-					DurationProbability probability = new DurationProbability(toTwentyEighthNote, toTwentyForthNote, toTwentiethNote, toSixteenthNote, toTwelfthNote,
-							toEighthNote, toDottedEighthNote, toSixthNote, toQuarterNote, toDottedQuarterNote, toHalfNote, toDottedHalfNote, toWholeNote, toDottedWholeNote,
-							toEighthRest, toQuarterRest, toHalfRest, toDottedHalfRest, toWholeRest, toDottedWholeRest);
-					durationProbabilities.put("DEFAULT_PROBABILITIES", probability);
-					Epoch newEpoch = new Epoch(measureTypes, measureSizes, uni, step, third, fourth, fifth, sixth, seventh, octave, rest, range, defaultDuration, era, durationProbabilities);
+
+					Epoch newEpoch = new Epoch(measureTypes, measureSizes, range, defaultDuration, era);
 					epochs.put(currentEpochName, newEpoch);	
 
 				}									
@@ -271,99 +256,6 @@ public class CellularAutomataMusic  extends JFrame{
 				System.out.println("Sorry!");
 			}
 			running = true;
-	    }
-	    /*
-	     * Method to initially set up the epochs with their values by reading a YAML file
-	     */
-	    public void setEpochs() {
-		    // variables to store the probability of the next note type
-			double toTwentyEighthNote = 0.0, toTwentyForthNote = 0.0, toTwentiethNote = 0.0, toSixteenthNote = 0.0, toTwelfthNote = 0.0,
-					toEighthNote = 0.0, toDottedEighthNote = 0.0, toSixthNote = 0.0,
-					toQuarterNote = 0.0, toDottedQuarterNote = 0.0, toHalfNote = 0.0, toDottedHalfNote = 0.0,
-					toWholeNote = 0.0, toDottedWholeNote = 0.0;
-			
-		    double toEighthRest = 0.0, toQuarterRest = 0.0, 
-		    		toHalfRest = 0.0,  toDottedHalfRest = 0.0,
-		    		toWholeRest = 0.0, toDottedWholeRest = 0.0;
-		    
-		    // varialbes about the epoch
-		    int range = 0, defaultDuration = 2000;
-		    String era = "";
-		    
-		    // variable to store the probability of each interval (or rest)
-		    double uni = 0.0, step = 0.0, third = 0.0, fourth = 0.0, fifth = 0.0, sixth = 0.0, seventh = 0.0, octave = 0.0, rest = 0.0;
-		    
-	    	epochs = new HashMap<String, Epoch>();
-	    	HashMap<String, DurationProbability> durationProbabilities = new HashMap<String, DurationProbability>();
-	    	
-			Yaml yaml = new Yaml();
-			try (InputStream in = CellularAutomataMusic.class.getResourceAsStream("../textFiles/configFile.yaml")) {
-				Map<String, Map<String, Map<String, Object>>> configs = yaml.load(in);
-				System.out.println(configs);
-
-				Set<String> epochNames = configs.keySet();
-				for (String currentEpochName : epochNames) {
-					Map<String, Map<String, Object>> epochVariables = configs.get(currentEpochName);
-					Set<String> epochVariableNames = epochVariables.keySet();
-					for (String currentEpochVariable : epochVariableNames) {
-						if (currentEpochVariable.equals("intervalProbabilities")) {
-							Map<String, Object> epochIntervalValues = epochVariables.get(currentEpochVariable);
-							uni = (Double)epochIntervalValues.get("uni");
-							step = (Double)epochIntervalValues.get("step");
-							third = (Double)epochIntervalValues.get("third");
-							fourth = (Double)epochIntervalValues.get("fourth");
-							fifth = (Double)epochIntervalValues.get("fifth");
-							sixth = (Double)epochIntervalValues.get("sixth");
-							seventh = (Double)epochIntervalValues.get("seventh");
-							octave = (Double)epochIntervalValues.get("octave");
-							rest = (Double)epochIntervalValues.get("rest");	
-							double TestValue = (Double)epochIntervalValues.get("1-2-3-5");
-						}
-						else if (currentEpochVariable.equals("noteProbabilities")) {
-							Map<String, Object> epochNoteValues = epochVariables.get(currentEpochVariable);
-							toTwentyEighthNote = (Double)epochNoteValues.get("twentyEighthNote");
-							toTwentyForthNote = (Double)epochNoteValues.get("twentyForthNote");
-							toTwentiethNote = (Double)epochNoteValues.get("twentiethNote");
-							toSixteenthNote = (Double)epochNoteValues.get("sixteenthNote");
-							toTwelfthNote = (Double)epochNoteValues.get("twelfthNote");
-							toEighthNote = (Double)epochNoteValues.get("eighthNote");
-							toDottedEighthNote = (Double)epochNoteValues.get("dottedEighthNote");
-							toSixthNote = (Double)epochNoteValues.get("sixthNote");
-							toQuarterNote = (Double)epochNoteValues.get("quarterNote");
-							toDottedQuarterNote = (Double)epochNoteValues.get("dottedQuarterNote");
-							toHalfNote = (Double)epochNoteValues.get("halfNote");
-							toDottedHalfNote = (Double)epochNoteValues.get("dottedHalfNote");
-							toWholeNote = (Double)epochNoteValues.get("wholeNote");
-							toDottedWholeNote = (Double)epochNoteValues.get("dottedWholeNote");																
-						}
-						else if(currentEpochVariable.equals("restProbabilities")) {
-							Map<String, Object> epochRestValues = epochVariables.get(currentEpochVariable);
-							toEighthRest = (Double)epochRestValues.get("eighthRest");
-							toQuarterRest = (Double)epochRestValues.get("quarterRest");
-							toHalfRest = (Double)epochRestValues.get("halfRest");
-							toDottedHalfRest = (Double)epochRestValues.get("dottedHalfRest");
-							toWholeRest = (Double)epochRestValues.get("wholeRest");
-							toDottedWholeRest = (Double)epochRestValues.get("dottedWholeRest");
-						}
-						else if (currentEpochVariable.equals("otherValues")) {
-							Map<String, Object> epochOtherValues = epochVariables.get(currentEpochVariable);
-							range = (Integer)epochOtherValues.get("range");
-							era = (String)epochOtherValues.get("era");
-							defaultDuration = (Integer)epochOtherValues.get("defaultDuration");
-						}
-					}
-					DurationProbability probability = new DurationProbability(toTwentyEighthNote, toTwentyForthNote, toTwentiethNote, toSixteenthNote, toTwelfthNote,
-							toEighthNote, toDottedEighthNote, toSixthNote, toQuarterNote, toDottedQuarterNote, toHalfNote, toDottedHalfNote, toWholeNote, toDottedWholeNote,
-							toEighthRest, toQuarterRest, toHalfRest, toDottedHalfRest, toWholeRest, toDottedWholeRest);
-					durationProbabilities.put("DEFAULT_PROBABILITIES", probability);
-					Epoch newEpoch = new Epoch(uni, step, third, fourth, fifth, sixth, seventh, octave, rest, range, defaultDuration, era, durationProbabilities);
-					epochs.put(currentEpochName, newEpoch);	
-
-				}									
-			}
-			catch(IOException ioe) {
-				System.out.println("Sorry!");
-			}
 	    }
 
 	    
@@ -374,24 +266,56 @@ public class CellularAutomataMusic  extends JFrame{
 	    	while(newDurations.hasNextDuration() && running) {
 	    		Note newNote = newDurations.nextDuration();
 	    		System.out.println("Duration: " + newNote.getDurationName());
-	    	    System.out.println(newNote.getDuration());
+	    	    System.out.println("Time Value: " + newNote.getDuration());
 	    		if (!newNote.isRest()) {
 	    			int newInterval = newIntervals.nextInterval();
 	    			System.out.println("Interval: " + newInterval);
 	    			prevPitch = musicCompController.playNextNote(newInterval, prevPitch, newNote.getDuration());
+	    			drawSequence(prevPitch);
 	    		}
 	    		else {
+	    			System.out.println();
+	    			drawSequence(14);
 	    			try  {
 	    				Thread.sleep(newNote.getDuration()); }
 	    			catch( InterruptedException e ) {}
 	    		}
 	    	}
-	    	System.out.println("-------------END OF MEASURE");
+	    	System.out.println("-------------END OF MEASURE--------------\n");
 	    	newDurations.resetDurations();
 	    	newIntervals.resetIntervals();
 	    	
 	    }
 
+	    
+	    public void drawSequence(int newVal) {
+	    	if (newVal >= 8){
+    			grid[0][board_size.width-1] = black;
+    			newVal = newVal-8;
+    		}
+    		else
+    			grid[0][board_size.width-1] = white;
+    		if (newVal >= 4){
+    			grid[1][board_size.width-1] = black;
+    			newVal = newVal-4;
+    		}
+    		else
+    			grid[1][board_size.width-1] = white;
+    		if (newVal >= 2){
+    			grid[2][board_size.width-1] = black;
+    			newVal = newVal-2;
+    		}
+    		else
+    			grid[2][board_size.width-1] = white;
+    		if (newVal >= 1){
+    			grid[3][board_size.width-1] = black;
+    			newVal = newVal-1;
+    		}
+    		else
+    			grid[3][board_size.width-1] = white;
+    		repaint();
+    		Color[][] newGrid = new Color[board_size.height][board_size.width];
+	    }
 	    /*
 	     * (non-Javadoc)
 	     * Action Listener for all buttons, compose, terminate, medieval,
@@ -437,10 +361,8 @@ public class CellularAutomataMusic  extends JFrame{
 	      
 		    	//repaints the bottom line sequence based on rule
 		    	if (e.getSource().equals(timer) && analysis == false){
-		    		int newNote = musicCompController.ruleGenerator(val);
-		    		//int newNote;
-		    		//Note note = musicCompController.createNote(new Note(val, 0));
-		    		//newNote = note.getPitch();
+		    		//int newNote = runGenerator();
+		    		int newNote = 0;
 		    		if (newNote >= 8){
 		    			grid[0][board_size.width-1] = black;
 		    			newNote = newNote-8;
