@@ -10,6 +10,7 @@ package controllers;
 
 import java.util.HashMap;
 
+import java.util.ArrayList;
 
 import javax.sound.midi.Instrument;
 import javax.sound.midi.MidiChannel;
@@ -20,6 +21,8 @@ import javax.sound.midi.Synthesizer;
 import entities.Epoch;
 import entities.Note;
 import entities.DurationProbability;
+import entities.MeasureDurations;
+import entities.MeasureIntervals;
 
 public class MusicCompositionController {
 
@@ -34,6 +37,9 @@ public class MusicCompositionController {
 		toEighthNote, toDottedEighthNote, toSixthNote, toQuarterNote, toDottedQuarterNote, 
 		toHalfNote, toDottedHalfNote, toWholeNote, toDottedWholeNote;		
     double toEighthRest, toQuarterRest, toHalfRest, toDottedHalfRest, toWholeRest, toDottedWholeRest;
+    // Variable to hold measure types with their durations for the current epoch
+    ArrayList<MeasureDurations> measureTypes;
+    HashMap<Integer, ArrayList<MeasureIntervals>> measureIntervals;
     // boolean to see if an epoch has been selected
     boolean selected = false;
 	// variables to track total length of composition, total notes, and total rests
@@ -90,6 +96,9 @@ public class MusicCompositionController {
     	toDottedHalfRest = newEpoch.getCurrentProbability().getToDottedHalfRest();
     	toWholeRest = newEpoch.getCurrentProbability().getToWholeRest();
     	toDottedWholeRest = newEpoch.getCurrentProbability().getToDottedWholeRest();
+    	
+    	measureTypes = newEpoch.getDurationPatterns();
+    	measureIntervals = newEpoch.getIntervalPatterns();
     }
     
     
@@ -112,7 +121,78 @@ public class MusicCompositionController {
 //    	
 //    	return new Note(newNotePitch, newNoteDuration);
 //    }
-	    
+
+    
+    
+    /*
+     * Method designed to generate a new musical note value based on given previous note value
+     * @param Boolean isRest  Represents if the note is a rest or not
+     * @returns int newNoteDuration
+     * */	
+	public MeasureDurations measureDurationsGenerator(){
+		
+		int i = 0;
+		MeasureDurations tempMeasure = measureTypes.get(0);
+		/* Resets the valFound var to false for next note generation */
+		boolean valFound = false;
+		
+		double running = 0.0;
+		double value = Math.random();
+		
+		while (!valFound && i < measureTypes.size()) {
+			tempMeasure = measureTypes.get(i);
+			double measureProbability = tempMeasure.getProbability();
+			if (value <= measureProbability + running) 
+				valFound = true;
+			
+			running += measureProbability;
+			i++;
+		}
+		
+
+		return tempMeasure;
+
+
+	}
+	
+	
+	public MeasureIntervals measureIntervalsGenerator(int size){
+		
+		System.out.println(size);
+		int i = 0;
+		double newTotalProbability = 0;
+		ArrayList<MeasureIntervals> availableIntervals = measureIntervals.get(size);
+		System.out.println(availableIntervals.size());
+		for (MeasureIntervals nextMeasure: availableIntervals) {
+			newTotalProbability += nextMeasure.getProbability();
+		}
+		for (MeasureIntervals nextMeasure: availableIntervals) {
+			nextMeasure.setProbability(nextMeasure.getProbability()/newTotalProbability);
+		}
+		MeasureIntervals tempMeasure = availableIntervals.get(0);
+		/* Resets the valFound var to false for next note generation */
+		boolean valFound = false;
+		
+		double running = 0.0;
+		double value = Math.random();
+		
+		while (!valFound && i < availableIntervals.size()) {
+			tempMeasure = availableIntervals.get(i);
+			double measureProbability = tempMeasure.getProbability();
+			if (value <= measureProbability + running) 
+				valFound = true;
+			
+			running += measureProbability;
+			i++;
+		}
+		
+
+		return tempMeasure;
+
+
+	}
+	
+	
     /*
      * Method designed to generate a new musical note value based on given previous note value
      * @param Boolean isRest  Represents if the note is a rest or not
@@ -468,6 +548,95 @@ public class MusicCompositionController {
 		else 
 			return prevVal;
 	}
+	
+	
+	 /*
+     * Method designed to generate a new musical note value based on given previous note value
+     * @param int prevVal
+     * @returns int newVal
+     * */	
+	public int playNextNote(int newInterval, int prevVal, int duration){
+		if (prevVal == 0){
+			//TODO: add stuff to play C
+			toNote(1, duration);
+			return 1;
+		}
+		/* Sets ascLim and descLim to half of the average range of the 
+		 * given epoch. DescLim gets the ceiling arbitrarily*/
+		int ascLim = range/2;
+		int descLim= (range/2) + (range%2);
+
+		double running = 0.0;
+		double value = Math.random();
+		//System.out.println(value);
+
+		int newVal;
+		int diff = 0;
+		int direction = (int)(Math.random()*2);
+
+		/* determines before each note whether it was generated to be ascending
+		 * or descending. This process is regulated with ascLim and descLim */
+		boolean ascending = false;
+		if(direction == 1)
+			ascending = true;
+
+		/* Resets the valFound var to false for next note generation */
+		boolean valFound = false;
+		
+		/* boolean signifying if the note is a rest*/
+		boolean isRest = false;
+
+
+
+		//System.out.println((currentDiff+diff) +": total diff");
+		if (ascending && currentDiff + newInterval >= ascLim) {
+			System.out.println("Switched, too high");
+			ascending = false;
+		}
+		if (!ascending && -1*(currentDiff - newInterval) >= descLim) {
+			System.out.println("Switched, too low");
+			ascending = true;
+		}
+		System.out.println("Ascending = "+ascending);
+		if(ascending){
+			currentDiff += newInterval;
+			System.out.println("Current Difference = " + currentDiff);
+			newVal = prevVal;
+			for (int i = 0; i < newInterval; i++){
+				if (newVal == 5 || newVal == 12)
+					newVal += 1;
+				else
+					newVal += 2;
+				if (newVal > 12) {
+					myOctave++;
+					newVal -= 12;
+				}
+			}
+		}
+		else{
+			currentDiff -= newInterval;
+			System.out.println("Current Difference = " + currentDiff);
+			newVal = prevVal;
+			for (int i = 0; i < newInterval; i++){
+				if (newVal == 6 || newVal == 13 || newVal == 1)
+					newVal -= 1;
+				else
+					newVal -= 2;
+				if (newVal < 1) {
+					newVal += 12;
+					myOctave--;
+				}
+			}
+		}
+		
+		//return newVal;
+
+		int	noteVal = toNote(newVal, duration);
+
+		return noteVal;
+
+
+	}
 
 	
 	/*
@@ -772,9 +941,11 @@ public class MusicCompositionController {
 		    	
 		    	//get and load default instrument and channel lists
 		    	Instrument[] instr = midiSynth.getDefaultSoundbank().getInstruments();
+		    	//Instrument[] instr = midiSynth.getAvailableInstruments();
+		    	//System.out.println("Number of instruments: " + instr.length);
 		    	MidiChannel[] mChannels = midiSynth.getChannels();
 		      
-		    	midiSynth.loadInstrument(instr[0]);//load an instrument
+		    	midiSynth.loadInstrument(instr[120]);//load an instrument
 		    	mChannels[0].noteOff(i);//turn off the previous note
 		    	mChannels[0].noteOn(i, 120);//On channel 0, play note number i with velocity 120
 		    	try {

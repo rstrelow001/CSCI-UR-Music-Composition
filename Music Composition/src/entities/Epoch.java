@@ -8,6 +8,7 @@ package entities;
  */
 
 import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Epoch {
 	
@@ -20,6 +21,36 @@ public class Epoch {
 	private HashMap<String, DurationProbability> noteProbabilities;
 	
 	private DurationProbability currentProbability;
+	
+	private ArrayList<MeasureDurations> durationPatterns;
+	
+	private HashMap<Integer, ArrayList<MeasureIntervals>> intervalPatterns;
+	
+	public Epoch(ArrayList<MeasureDurations> durationPatterns, HashMap<Integer, ArrayList<MeasureIntervals>> intervalPatterns, double uni, double step, double third, double fourth, double fifth,
+			double sixth, double seventh, double octave, double rest, int range, int defaultDuration, String era, HashMap<String, DurationProbability> noteProbabilities) {
+		
+		this.setUni(uni);
+		this.setStep(step);
+		this.setThird(third);
+		this.setFourth(fourth);
+		this.setFifth(fifth);
+		this.setSixth(sixth);
+		this.setSeventh(seventh);
+		this.setOctave(octave);
+		this.setRest(rest);
+		this.setRange(range);
+		this.setDefaultDuration(defaultDuration);		
+		this.setEra(era);
+		this.setNoteProbabilities(noteProbabilities);
+		this.setDurationPatterns(durationPatterns);
+		this.setIntervalPatterns(intervalPatterns);
+		
+		
+		//remove once prev rhythm is incorporated
+		this.setCurrentProbability(noteProbabilities.get("DEFAULT_PROBABILITIES"));
+		
+	}
+	
 	
 	public Epoch(double uni, double step, double third, double fourth, double fifth,
 			double sixth, double seventh, double octave, double rest, int range, int defaultDuration, String era, HashMap<String, DurationProbability> noteProbabilities) {
@@ -38,11 +69,11 @@ public class Epoch {
 		this.setEra(era);
 		this.setNoteProbabilities(noteProbabilities);
 		
+		
 		//remove once prev rhythm is incorporated
 		this.setCurrentProbability(noteProbabilities.get("DEFAULT_PROBABILITIES"));
 		
 	}
-	
 //	public void changeDurationProbability(String newNoteDuration) {
 //		DurationProbability newProbability = noteProbabilities.get(newNoteDuration);
 //		this.setCurrentProbability(newProbability);		
@@ -159,6 +190,24 @@ public class Epoch {
 
 	public void setCurrentProbability(DurationProbability currentProbability) {
 		this.currentProbability = currentProbability;
+	}
+
+	public ArrayList<MeasureDurations> getDurationPatterns() {
+		return durationPatterns;
+	}
+
+	public void setDurationPatterns(ArrayList<MeasureDurations> durationPatterns) {
+		this.durationPatterns = durationPatterns;
+	}
+
+
+	public HashMap<Integer, ArrayList<MeasureIntervals>> getIntervalPatterns() {
+		return intervalPatterns;
+	}
+
+
+	public void setIntervalPatterns(HashMap<Integer, ArrayList<MeasureIntervals>> intervalPatterns) {
+		this.intervalPatterns = intervalPatterns;
 	}
 	
 	
