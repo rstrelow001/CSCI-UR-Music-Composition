@@ -20,7 +20,6 @@ import javax.sound.midi.Synthesizer;
 
 import entities.Epoch;
 import entities.Note;
-import entities.DurationProbability;
 import entities.MeasureDurations;
 import entities.MeasureIntervals;
 
@@ -66,9 +65,8 @@ public class MusicCompositionController {
     
       
     /*
-     * Method designed to generate a new musical note value based on given previous note value
-     * @param Boolean isRest  Represents if the note is a rest or not
-     * @returns int newNoteDuration
+     * Method designed to generate a new measure of durations
+     * @returns a randomly generated measure of intervals
      * */	
 	public MeasureDurations measureDurationsGenerator(){
 		
@@ -96,7 +94,11 @@ public class MusicCompositionController {
 
 	}
 	
-	
+    /*
+     * Method designed to generate a new measure of interval
+     * @param size  only allows the generator to pick a group of intervals that fit the size specified
+     * @returns a new measure of intervals
+     * */	
 	public MeasureIntervals measureIntervalsGenerator(int size){
 		
 		int i = 0;
@@ -324,39 +326,7 @@ public class MusicCompositionController {
 	 */
 	public String printResults() {
 		
-		return "Total length of composition: "+t+"\n"
-				+"\tStatistics:\n"
-				+"\nTotal Notes:\t " + totalNotes + "\n"
-				+"\nTotal Rests:\t " + totalRests + "\n"
-				+"\nUnison:\t "+((double)totals[0]/t)
-				+"\nStep:\t "+((double)totals[1]/t)
-				+"\nThird:\t "+((double)totals[2]/t)
-				+"\nForth:\t "+((double)totals[3]/t)
-				+"\nFifth:\t "+((double)totals[4]/t)
-				+"\nSixth:\t "+((double)totals[5]/t)
-				+"\nSeventh:\t "+((double)totals[6]/t)
-				+"\nOctave:\t "+((double)totals[7]/t)
-				+"\nRests:\t "+((double)totals[8]/t) + "\n"
-				+"\nTwenty-Eighth Notes:\t "+((double)totals[9]/totalNotes)
-				+"\nTwenty-Forth Notes:\t "+((double)totals[10]/totalNotes)
-				+"\nTwentieth Notes:\t "+((double)totals[11]/totalNotes)
-				+"\nSixteenth Notes:\t "+((double)totals[12]/totalNotes)
-				+"\nTwelfth Notes:\t "+((double)totals[13]/totalNotes)
-				+"\nEighth Notes:\t "+((double)totals[14]/totalNotes)
-				+"\nDotted-Eighth Notes:\t "+((double)totals[15]/totalNotes)
-				+"\nSixth Notes:\t "+((double)totals[16]/totalNotes)
-				+"\nQuarter Notes:\t "+((double)totals[17]/totalNotes)
-				+"\nDotted-Quarter Notes:\t "+((double)totals[18]/totalNotes)
-				+"\nHalf Notes:\t "+((double)totals[19]/totalNotes)
-				+"\nDotted-Half Notes:\t "+((double)totals[20]/totalNotes)
-				+"\nWhole Notes:\t "+((double)totals[21]/totalNotes)
-				+"\nDotted-Whole Notes:\t "+((double)totals[22]/totalNotes)+"\n"
-				+"\nEighth Rests:\t "+((double)totals[23]/totalRests)
-				+"\nQuarter Rests:\t "+((double)totals[24]/totalRests)
-				+"\nHalf Rests:\t "+((double)totals[25]/totalRests)
-				+"\nDotted-Half Rests:\t "+((double)totals[26]/totalRests)
-				+"\nWhole Rests:\t "+((double)totals[27]/totalRests)
-				+"\nDotted-Whole Rests:\t "+((double)totals[28]/totalRests);
+		return "Nothing here.....";
 	}
 	
 	

@@ -4,15 +4,29 @@ import java.util.ArrayList;
 
 public class MeasureIntervals {
 	
+	/*
+	 * the number of intervals for this measure
+	 */
 	private int length;	
 	
+	/*
+	 * the current position in the measure
+	 */
 	private int currentPosition;
-		
+	
+	/*
+	 * the intervals that make up this measure
+	 */
 	private ArrayList<Integer> intervals;
 	
+	/*
+	 * the probability of this measure occurring
+	 */
 	private double probability;
 		
-	
+	/*
+	 * default constructor
+	 */
 	public MeasureIntervals(String type, double probability) {
 		this.setProbability(probability);
 		intervals =  new ArrayList<Integer>();
@@ -33,12 +47,17 @@ public class MeasureIntervals {
 		this.length = intervals.size();
 	}
 	
-	
+	/*
+	 * checks to see if there are intervals left in the measure
+	 * @return  true if there is a next, false otherwise
+	 */
 	public boolean hasNextInterval() {
 		return (currentPosition < intervals.size());	
 	}
 	
-	
+	/*
+	 * resets the position in the measure to zero for future iterations over the measure
+	 */
 	public void resetIntervals() {
 		this.currentPosition = 0;
 	}

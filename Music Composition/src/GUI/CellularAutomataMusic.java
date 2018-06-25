@@ -38,15 +38,23 @@ import entities.MeasureDurations;
 import entities.MeasureIntervals;
 import entities.Epoch;
 import entities.Note;
-import entities.DurationProbability;
 import controllers.MusicCompositionController;
 
 public class CellularAutomataMusic  extends JFrame{
-  
+
+	/*
+	 * Colors used to recreate musical notes visually
+	 */
 	private static final Color white = Color.WHITE, black = Color.BLACK;
 	  
 	private Board board;
+	/*
+	 * Controls the compostion of music generation
+	 */
 	private MusicCompositionController musicCompController;
+	/*
+	 * buttons to allow the user to select different epochs
+	 */
 	private JButton start_pause, medieval, renaissance, baroque, classical, romantic, modern;
 	// variables to track total number of interval occurrences
 	int t;
@@ -137,8 +145,6 @@ public class CellularAutomataMusic  extends JFrame{
 	    private boolean run, running;
 	    // Timer for playing notes evenly
 	    private Timer timer;
-	    // variables to ensure the composer runs linearly
-	    public int myOctave = 5, currentDiff = 0;
 	    // boolean to see if an epoch has been selected
 	    boolean selected = false;
 	    //grid to display automata-model
@@ -201,46 +207,66 @@ public class CellularAutomataMusic  extends JFrame{
 		    String era = "";
 		      
 	    	epochs = new HashMap<String, Epoch>();
-	    	HashMap<String, DurationProbability> durationProbabilities = new HashMap<String, DurationProbability>();
-
 	    	
 			Yaml yaml = new Yaml();
 			try (InputStream in = CellularAutomataMusic.class.getResourceAsStream("../textFiles/configFile.yaml")) {
-				Map<String, Map<String, Map<String, Object>>> configs = yaml.load(in);
+				Map<String, Map<String, Object>> configs = yaml.load(in);
 				System.out.println(configs);
 
 				Set<String> epochNames = configs.keySet();
 				for (String currentEpochName : epochNames) {
-					Map<String, Map<String, Object>> epochVariables = configs.get(currentEpochName);
+					Map<String, Object> epochVariables = configs.get(currentEpochName);
 					Set<String> epochVariableNames = epochVariables.keySet();
 					
 			    	ArrayList<MeasureDurations> measureTypes = new ArrayList<MeasureDurations>();
 			    	HashMap<Integer, ArrayList<MeasureIntervals>> measureSizes = new HashMap<Integer, ArrayList<MeasureIntervals>>();
 					
 					for (String currentEpochVariable : epochVariableNames) {
-						
+						//all values under "measureDurations" in the YAML file will be read in here
 						if (currentEpochVariable.equals("measureDurations")) {
-							Map<String, Object> epochMeasureDurationValues = epochVariables.get(currentEpochVariable);
-							Set<String> durationNames = epochMeasureDurationValues.keySet();
-							for (String durationType: durationNames) {
-								measureTypes.add(new MeasureDurations(durationType, (Double)epochMeasureDurationValues.get(durationType)));								
+							Object tempValue = epochVariables.get(currentEpochVariable);
+
+							if (tempValue instanceof String) {
+								String configLocation = epochVariables.get(currentEpochVariable).toString(); 
+								measureTypes = readDurationsYAML(configLocation);								
+							}
+							else {								
+								Map<String, Object> epochMeasureDurationValues = (Map<String, Object>)epochVariables.get(currentEpochVariable);
+								Set<String> durationNames = epochMeasureDurationValues.keySet();
+								for (Object durationType: durationNames) {
+									String temp = durationType.toString();
+									if (durationType instanceof Double)
+										temp = temp.substring(0, temp.length()-1);
+									measureTypes.add(new MeasureDurations(temp, (Double)epochMeasureDurationValues.get(durationType)));								
+								}
 							}
 						}
+						//all values under "measureIntervals" in the YAML file will be read in here
 						else if (currentEpochVariable.equals("measureIntervals")) {
-							Map<String, Object> epochMeasureIntervalValues = epochVariables.get(currentEpochVariable);
-							Set<String> intervalNames = epochMeasureIntervalValues.keySet();
-							for (String intervalType: intervalNames) {
-								MeasureIntervals tempInterval = new MeasureIntervals(intervalType, (Double)epochMeasureIntervalValues.get(intervalType));
-								int intervalSize = tempInterval.getSize();
-								ArrayList<MeasureIntervals> currentAvailableIntervals = measureSizes.get(intervalSize);
-								if (currentAvailableIntervals == null) 
-									currentAvailableIntervals = new ArrayList<MeasureIntervals>();
-								currentAvailableIntervals.add(tempInterval);								
-								measureSizes.put(intervalSize, currentAvailableIntervals);									
+							Object tempValue = epochVariables.get(currentEpochVariable);
+
+							if (tempValue instanceof String) {
+								String configLocation = epochVariables.get(currentEpochVariable).toString(); 
+								measureSizes = readIntervalsYAML(configLocation);															
+							}
+							else {
+								Map<String, Object> epochMeasureIntervalValues = (Map<String, Object>)epochVariables.get(currentEpochVariable);
+								Set<String> intervalNames = epochMeasureIntervalValues.keySet();
+								for (Object intervalType: intervalNames) {
+									String temp = intervalType.toString();				
+									MeasureIntervals tempInterval = new MeasureIntervals(temp, (Double)epochMeasureIntervalValues.get(intervalType));
+									int intervalSize = tempInterval.getSize();
+									ArrayList<MeasureIntervals> currentAvailableIntervals = measureSizes.get(intervalSize);
+									if (currentAvailableIntervals == null) 
+										currentAvailableIntervals = new ArrayList<MeasureIntervals>();
+									currentAvailableIntervals.add(tempInterval);								
+									measureSizes.put(intervalSize, currentAvailableIntervals);									
+								}
 							}
 						}
+						//all values under "otherValues" in the YAML file will be read in here
 						else if (currentEpochVariable.equals("otherValues")) {
-							Map<String, Object> epochOtherValues = epochVariables.get(currentEpochVariable);
+							Map<String, Object> epochOtherValues = (Map<String, Object>)epochVariables.get(currentEpochVariable);
 							range = (Integer)epochOtherValues.get("range");
 							era = (String)epochOtherValues.get("era");
 							defaultDuration = (Integer)epochOtherValues.get("defaultDuration");
@@ -249,7 +275,6 @@ public class CellularAutomataMusic  extends JFrame{
 
 					Epoch newEpoch = new Epoch(measureTypes, measureSizes, range, defaultDuration, era);
 					epochs.put(currentEpochName, newEpoch);	
-
 				}									
 			}
 			catch(IOException ioe) {
@@ -257,12 +282,75 @@ public class CellularAutomataMusic  extends JFrame{
 			}
 			running = true;
 	    }
-
 	    
+	    /*
+	     * Helper method to initially set up the epochs with their values by reading YAML Files
+	     * @param fileLocation  a string of where the yaml file is located
+	     * @return  the measure durations associated with the epoch
+	     */
+	    private ArrayList<MeasureDurations> readDurationsYAML(String fileLocation) {
+	    	ArrayList<MeasureDurations> measures = new ArrayList<MeasureDurations>();
+	    	Yaml yaml = new Yaml();
+			try (InputStream in = CellularAutomataMusic.class.getResourceAsStream(fileLocation)) {
+				Map<String, Object> durationProbabilities = yaml.load(in);
+				System.out.println(durationProbabilities);
+				Set<String> durationNames = durationProbabilities.keySet();
+				for (Object durationType: durationNames) {
+					String temp = durationType.toString();
+					if (durationType instanceof Double)
+						temp = temp.substring(0, temp.length()-1);
+					measures.add(new MeasureDurations(temp, (Double)durationProbabilities.get(durationType)));								
+				}
+													
+			}
+			catch(IOException ioe) {
+				System.out.println("Sorry!");
+			}
+			return measures;
+	    }
+	    
+	    
+	    /*
+	     * Helper method to initially set up the epochs with their values by reading YAML Files
+	     * @param fileLocation  a string of where the yaml file is located
+	     * @return  the measure intervals associated with the epoch
+	     */
+	    private HashMap<Integer, ArrayList<MeasureIntervals>> readIntervalsYAML(String fileLocation) {
+	    	HashMap<Integer, ArrayList<MeasureIntervals>> measureSizes = new HashMap<Integer, ArrayList<MeasureIntervals>>();
+	    	Yaml yaml = new Yaml();
+			try (InputStream in = CellularAutomataMusic.class.getResourceAsStream(fileLocation)) {
+				Map<String, Object> intervalProbabilities = yaml.load(in);
+				System.out.println(intervalProbabilities);
+				Set<String> intervalNames = intervalProbabilities.keySet();
+				for (Object intervalType: intervalNames) {
+					String temp = intervalType.toString();				
+					MeasureIntervals tempInterval = new MeasureIntervals(temp, (Double)intervalProbabilities.get(intervalType));
+					int intervalSize = tempInterval.getSize();
+					ArrayList<MeasureIntervals> currentAvailableIntervals = measureSizes.get(intervalSize);
+					if (currentAvailableIntervals == null) 
+						currentAvailableIntervals = new ArrayList<MeasureIntervals>();
+					currentAvailableIntervals.add(tempInterval);								
+					measureSizes.put(intervalSize, currentAvailableIntervals);									
+				}
+													
+			}
+			catch(IOException ioe) {
+				System.out.println("Sorry!");
+			}
+			return measureSizes;
+	    }
+
+	    /*
+	     * method to generate a new measure with durations and intervals
+	     */
 	    public void runGenerator() {
 	    	
 	    	MeasureDurations newDurations = musicCompController.measureDurationsGenerator();
-	    	MeasureIntervals newIntervals = musicCompController.measureIntervalsGenerator(newDurations.getSize());
+	    	MeasureIntervals newIntervals;
+	    	if (newDurations.getSize() > 0)
+	    		newIntervals = musicCompController.measureIntervalsGenerator(newDurations.getSize());
+	    	else
+	    		newIntervals = musicCompController.measureIntervalsGenerator(2);
 	    	while(newDurations.hasNextDuration() && running) {
 	    		Note newNote = newDurations.nextDuration();
 	    		System.out.println("Duration: " + newNote.getDurationName());
@@ -270,11 +358,12 @@ public class CellularAutomataMusic  extends JFrame{
 	    		if (!newNote.isRest()) {
 	    			int newInterval = newIntervals.nextInterval();
 	    			System.out.println("Interval: " + newInterval);
-	    			prevPitch = musicCompController.playNextNote(newInterval, prevPitch, newNote.getDuration());
+	    			prevPitch = musicCompController.playNextNote(newInterval, prevPitch, newNote.getDuration());	    			
 	    			drawSequence(prevPitch);
 	    		}
 	    		else {
 	    			System.out.println();
+	    			//System.out.println(newDurations.getSize());
 	    			drawSequence(14);
 	    			try  {
 	    				Thread.sleep(newNote.getDuration()); }
@@ -288,7 +377,21 @@ public class CellularAutomataMusic  extends JFrame{
 	    }
 
 	    
+	    /*
+	     * method to visually show the music being generated
+	     * @param newVal the value to show
+	     */
 	    public void drawSequence(int newVal) {
+	    	//System.out.println(newVal);
+	    	
+	    	//shifts bottom n-1 sequences up to make room for next sequence
+	    	for (int h = 0; h < board_size.height; h++){
+	    		for (int w = 0; w < board_size.width-1; w++){
+	    			grid[h][w] = grid[h][w+1];
+	    		}
+	    	}
+      
+	    	
 	    	if (newVal >= 8){
     			grid[0][board_size.width-1] = black;
     			newVal = newVal-8;
@@ -316,6 +419,8 @@ public class CellularAutomataMusic  extends JFrame{
     		repaint();
     		Color[][] newGrid = new Color[board_size.height][board_size.width];
 	    }
+	    
+	    
 	    /*
 	     * (non-Javadoc)
 	     * Action Listener for all buttons, compose, terminate, medieval,
@@ -402,7 +507,7 @@ public class CellularAutomataMusic  extends JFrame{
 			    	if(run){
 			    		timer.stop();
 			    		//JOptionPane.showMessageDialog(null,printResults());
-			    		JOptionPane.showMessageDialog(null,musicCompController.printResults());
+			    		//JOptionPane.showMessageDialog(null,musicCompController.printResults());
 			    		start_pause.setText("Compose");
 			    }
 			    else {

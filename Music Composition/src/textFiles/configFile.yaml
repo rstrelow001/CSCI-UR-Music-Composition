@@ -4,67 +4,27 @@
 medieval:
 
   #values associated with each epoch
-  intervalProbabilities:
   
-    uni : 0.1484
-    step : 0.4998
-    third : 0.1178
-    fourth : 0.0371
-    fifth : 0.0234
-    sixth : 0.004
-    seventh : 0.0014
-    octave : 0.0057
-    rest : 0.1389
-      
-  noteProbabilities:  
+  measureIntervals: ../textFiles/medieval/intervals/3_2_time.yaml
   
-    twentyEighthNote : 0.0015
-    twentyForthNote : 0.0013 
-    twentiethNote : 0.0043
-    sixteenthNote : 0.0073
-    twelfthNote : 0.0361
-    eighthNote : 0.1589
-    dottedEighthNote : 0.0009
-    sixthNote : 0.0121
-    quarterNote : 0.2641
-    dottedQuarterNote :  0.0136 
-    halfNote : 0.2125
-    dottedHalfNote : 0.1322
-    wholeNote : 0.062
-    dottedWholeNote : 0.0933
-      
-  restProbabilities: 
-   
-    eighthRest : 0.0308
-    quarterRest : 0.3548
-    halfRest : 0.174
-    dottedHalfRest : 0.3708
-    wholeRest : 0.008
-    dottedWholeRest : 0.0616
+  measureDurations: ../textFiles/medieval/durations/3_2_time.yaml
     
   otherValues:
   
     era : Medieval
     range : 14
     defaultDuration : 4000
-    
-  measureIntervals:
   
-    1-2-4-3 : 0.4
-    1-2-1-1 : 0.4
-    1-2 : 0.1
-    2-1-2 : 0.1
   
-  measureDurations:
   
-    4.-4-4-2 : 0.1
-    4-4-4-4 : 0.1
-    4r-4-4r-8-8 : 0.6
-    2-2 : 0.1
-    2-4-4r : 0.1
+  
+  
+  
+  
+  
+  
+  
     
-    
-
 #******************************************************************
       
 renaissance:
