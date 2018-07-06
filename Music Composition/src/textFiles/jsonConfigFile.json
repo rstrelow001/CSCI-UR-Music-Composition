@@ -1,0 +1,29 @@
+[{"epoch":
+ 		{"era" : "medieval","range" : 14, "defaultDuration" : 4000,
+ 		"measureIntervals" : "../textFiles/medieval/intervals/3_2_time.yaml",
+ 	    "measureDurations" : "../textFiles/medieval/durations/3_2_time.yaml"}},
+ 	    
+{"epoch":
+ 		{"era" : "renaissance","range" : 22, "defaultDuration" : 4000,
+ 		"measureIntervals" : "../textFiles/medieval/intervals/3_2_time.yaml",
+ 	    "measureDurations" : "../textFiles/medieval/durations/3_2_time.yaml"}},
+ 	    
+{"epoch":
+ 		{"era" : "baroque","range" : 23, "defaultDuration" : 4000,
+ 		"measureIntervals" : "../textFiles/medieval/intervals/3_2_time.yaml",
+ 	    "measureDurations" : "../textFiles/medieval/durations/3_2_time.yaml"}},
+ 	    
+{"epoch":
+ 		{"era" : "classical","range" : 25, "defaultDuration" : 4000,
+ 		"measureIntervals" : "../textFiles/medieval/intervals/3_2_time.yaml",
+ 	    "measureDurations" : "../textFiles/medieval/durations/3_2_time.yaml"}},
+ 	    
+{"epoch":
+ 		{"era" : "romantic","range" : 30, "defaultDuration" : 4000,
+ 		"measureIntervals" : "../textFiles/medieval/intervals/3_2_time.yaml",
+ 	    "measureDurations" : "../textFiles/medieval/durations/3_2_time.yaml"}},	 
+ 	    
+{"epoch":
+ 		{"era" : "modern","range" : 37, "defaultDuration" : 4000,
+ 		"measureIntervals" : "../textFiles/medieval/intervals/3_2_time.yaml",
+ 	    "measureDurations" : "../textFiles/medieval/durations/3_2_time.yaml"}}]
