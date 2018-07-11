@@ -141,19 +141,18 @@ public class CellularAutomataMusic  extends JFrame{
 	    boolean selected = false;
 	    //grid to display automata-model
 	    private Color[][] grid;
-    
-	    
+
+
 	    /*
 	     * Default constructor for Board object
 	     */
 	    public Board(){
-	    		board_size = DEFAULT_SIZE;
-	    		cell_size = DEFAULT_CELL;
-			interval = DEFAULT_INTERVAL;
-			fill_ratio = DEFAULT_RATIO;
-			run = false;
-			  
-			
+	    	board_size = DEFAULT_SIZE;
+	    	cell_size = DEFAULT_CELL;
+	    	interval = DEFAULT_INTERVAL;
+	    	fill_ratio = DEFAULT_RATIO;
+	    	run = false;
+		
 			grid = new Color[board_size.height + 1][board_size.width + 1];
 			for (int h = 0; h < board_size.height; h++)
 				for (int w = 0; w < board_size.width; w++){
@@ -162,6 +161,8 @@ public class CellularAutomataMusic  extends JFrame{
 					//grid[h][w] = black;
 					//else grid[h][w] = white;
 					grid[h][w] = white;
+					//if (w == 14)
+					//	grid[h][w] = black;
 				}
 			timer = new Timer(interval, this);
 			
@@ -197,10 +198,11 @@ public class CellularAutomataMusic  extends JFrame{
 	    	
 	    	MeasureDurations newDurations = musicCompController.measureDurationsGenerator();
 	    	MeasureIntervals newIntervals;
-	    	if (newDurations.getSize() > 0)
-	    		newIntervals = musicCompController.measureIntervalsGenerator(newDurations.getSize());
-	    	else
-	    		newIntervals = musicCompController.measureIntervalsGenerator(2);
+	    	//if (newDurations.getSize() > 0)
+	    	//	newIntervals = musicCompController.measureIntervalsGenerator(newDurations.getSize());
+	    	//else
+	    	//	newIntervals = musicCompController.measureIntervalsGenerator(2);
+	    	newIntervals = musicCompController.EpochIntervalGenerator(newDurations.getSize());
 	    	while(newDurations.hasNextDuration()) {
 	    		Note newNote = newDurations.nextDuration();
 	    		System.out.println("Duration: " + newNote.getDurationName());
@@ -233,14 +235,18 @@ public class CellularAutomataMusic  extends JFrame{
 	     * @param newVal the value to show
 	     */
 	    public void drawSequence(int newVal) {
-	    	//System.out.println(newVal);
-	    	System.out.println("tried to draw!"); 
+	    	//System.out.println("tried to draw!"); 
 	    	//shifts bottom n-1 sequences up to make room for next sequence
+	    	
+	    	int count = 0;
 	    	for (int h = 0; h < board_size.height; h++){
+	    		
 	    		for (int w = 0; w < board_size.width-1; w++){
 	    			grid[h][w] = grid[h][w+1];
+	    			count++;
 	    		}
 	    	}
+	    	System.out.println(count);
       
 	    	
 	    	if (newVal >= 8){
@@ -268,6 +274,7 @@ public class CellularAutomataMusic  extends JFrame{
     		else
     			grid[3][board_size.width-1] = white;
     		repaint();
+    		//paintComponent(grid);
     		Color[][] newGrid = new Color[board_size.height][board_size.width];
 	    }
 	    

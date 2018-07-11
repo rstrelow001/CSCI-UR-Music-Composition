@@ -32,6 +32,7 @@ public class MusicCompositionController {
     // variable to store the probability of each interval
     // Variable to hold measure types with their durations for the current epoch
     ArrayList<MeasureDurations> measureTypes;
+    ArrayList<Double> epochIntervals;
     HashMap<Integer, ArrayList<MeasureIntervals>> measureIntervals;
     // boolean to see if an epoch has been selected
     boolean selected = false;
@@ -60,7 +61,8 @@ public class MusicCompositionController {
     	era = newEpoch.getEra();   
     	
     	measureTypes = newEpoch.getDurationPatterns();
-    	measureIntervals = newEpoch.getIntervalPatterns();
+    	//measureIntervals = newEpoch.getIntervalPatterns();
+    	epochIntervals = newEpoch.getSingleIntervals();
     }
     
       
@@ -131,6 +133,32 @@ public class MusicCompositionController {
 		return tempMeasure;
 
 
+	}
+	
+	public MeasureIntervals EpochIntervalGenerator(int size) {
+		MeasureIntervals newMeasure = new MeasureIntervals();
+		
+		for (int i = 0; i < size; i++) {
+			boolean valFound = false;
+
+			while (!valFound ) {
+				double running = 0.0;
+				double value = Math.random();
+
+				int j = 0;
+				while (!valFound && j < epochIntervals.size()) {
+					double probability = epochIntervals.get(j);
+					if (value <= probability + running) {
+						valFound = true;
+						newMeasure.addInterval(j);						
+					}
+
+					running += probability;
+					j++;
+				}
+			}
+		}
+		return newMeasure;		
 	}
 	
 	
@@ -307,7 +335,7 @@ public class MusicCompositionController {
 		    	//System.out.println("Number of instruments: " + instr.length);
 		    	MidiChannel[] mChannels = midiSynth.getChannels();
 		      
-		    	midiSynth.loadInstrument(instr[120]);//load an instrument
+		    	midiSynth.loadInstrument(instr[0]);//load an instrument
 		    	mChannels[0].noteOff(i);//turn off the previous note
 		    	mChannels[0].noteOn(i, 120);//On channel 0, play note number i with velocity 120
 		    	try {

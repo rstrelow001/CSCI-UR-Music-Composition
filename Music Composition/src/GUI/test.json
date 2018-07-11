@@ -1,9 +1,0 @@
-[{"epoch":
- 		{"era" : "medieval","measureIntervals" : "../textFiles/medieval/intervals/3_2_time.yaml",
- 	    "measureDurations" : "../textFiles/medieval/durations/3_2_time.yaml",
- 	    "range" : 14, "defaultDuration" : 4000}},
- {"epoch":
- 		{"era" : "classical","measureIntervals" : "../textFiles/medieval/intervals/3_2_time.yaml",
- 	    "measureDurations" : "../textFiles/medieval/durations/3_2_time.yaml",
- 	    "range" : 14, "defaultDuration" : 4000}}]
- 

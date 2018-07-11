@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.FileNotFoundException;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,11 +18,16 @@ import org.yaml.snakeyaml.Yaml;
 
 import GUI.CellularAutomataMusic;
 import entities.Epoch;
+import entities.EpochIntervals;
 import entities.MeasureDurations;
 import entities.MeasureIntervals;
 
 public class InputController {	
 
+	 /*
+     * method to initially set up the epochs with their values by reading JSON and YAML Files
+     * @return  a map containing all the possible epochs
+     */
     public static HashMap<String, Epoch> readInput()  {
 	    
     	HashMap<String, Epoch> epochs = new HashMap<String, Epoch>();
@@ -30,8 +36,7 @@ public class InputController {
     	 try (FileReader reader = new FileReader("bin/textFiles/jsonConfigFile.json"))
          {
              //Read JSON file
-             Object obj = jsonParser.parse(reader);
-  
+             Object obj = jsonParser.parse(reader); 
              JSONArray employeeList = (JSONArray) obj;
              System.out.println(employeeList);
 
@@ -51,11 +56,17 @@ public class InputController {
          }
     	 return epochs;
      }
-  
+    
+    /*
+     * Helper method to create epoch objects
+     * @param epochObject  the JSON object that will be used to create an epoch
+     * @return  the epoch 
+     */
      private static Epoch parseEpochObject(JSONObject epochObject)
      {
     	 ArrayList<MeasureDurations> measureTypes = new ArrayList<MeasureDurations>();
-    	 HashMap<Integer, ArrayList<MeasureIntervals>> measureSizes = new HashMap<Integer, ArrayList<MeasureIntervals>>();
+    	 ArrayList<Double> epochIntervals = new ArrayList<Double>();
+    	 //HashMap<Integer, ArrayList<MeasureIntervals>> measureSizes = new HashMap<Integer, ArrayList<MeasureIntervals>>();
 	    	
          JSONObject epoch = (JSONObject) epochObject.get("epoch");
          
@@ -65,7 +76,8 @@ public class InputController {
           
          //Get the path for the measure intervals
          String intervalLocation = (String) epoch.get("measureIntervals"); 
-         measureSizes = readIntervalsYAML(intervalLocation);	
+         //measureSizes = readIntervalsYAML(intervalLocation);	
+         epochIntervals = readEpochIntervals(intervalLocation);
          System.out.println(intervalLocation);
           
          //Get the path for the measure durations
@@ -81,99 +93,11 @@ public class InputController {
          int defaultDuration = ((Long)epoch.get("defaultDuration")).intValue();
          System.out.println(defaultDuration);
          
-         Epoch newEpoch = new Epoch(measureTypes, measureSizes, range, defaultDuration, era);
-         return newEpoch;
-         //epochs.put(era, newEpoch);	
+         //Epoch newEpoch = new Epoch(measureTypes, measureSizes, range, defaultDuration, era);
+         Epoch newEpoch = new Epoch(measureTypes, epochIntervals, range, defaultDuration, era);
+         return newEpoch;	
      }
-    
-    /*
-     * Method to initially set up the epochs with their values by reading a YAML file
-     */
-//    public void setEpochMeasureValues() {
-//	    
-//	    // varialbes about the epoch
-//	    int range = 0, defaultDuration = 2000;
-//	    String era = "";
-//	      
-//    	epochs = new HashMap<String, Epoch>();
-//    	
-//		Yaml yaml = new Yaml();
-//		try (InputStream in = CellularAutomataMusic.class.getResourceAsStream("../textFiles/configFile.yaml")) {
-//			Map<String, Map<String, Object>> configs = yaml.load(in);
-//			System.out.println(configs);
-//
-//			Set<String> epochNames = configs.keySet();
-//			for (String currentEpochName : epochNames) {
-//				System.out.println(currentEpochName);
-//				Map<String, Object> epochVariables = configs.get(currentEpochName);
-//				Set<String> epochVariableNames = epochVariables.keySet();
-//				
-//		    	ArrayList<MeasureDurations> measureTypes = new ArrayList<MeasureDurations>();
-//		    	HashMap<Integer, ArrayList<MeasureIntervals>> measureSizes = new HashMap<Integer, ArrayList<MeasureIntervals>>();
-//				
-//				for (String currentEpochVariable : epochVariableNames) {
-//					//all values under "measureDurations" in the YAML file will be read in here
-//					if (currentEpochVariable.equals("measureDurations")) {
-//						Object tempValue = epochVariables.get(currentEpochVariable);
-//
-//						if (tempValue instanceof String) {
-//							String configLocation = epochVariables.get(currentEpochVariable).toString(); 
-//							measureTypes = readDurationsYAML(configLocation);								
-//						}
-//						else {								
-//							Map<String, Object> epochMeasureDurationValues = (Map<String, Object>)epochVariables.get(currentEpochVariable);
-//							Set<String> durationNames = epochMeasureDurationValues.keySet();
-//							for (Object durationType: durationNames) {
-//								String temp = durationType.toString();
-//								if (durationType instanceof Double)
-//									temp = temp.substring(0, temp.length()-1);
-//								measureTypes.add(new MeasureDurations(temp, (Double)epochMeasureDurationValues.get(durationType)));								
-//							}
-//						}
-//					}
-//					//all values under "measureIntervals" in the YAML file will be read in here
-//					else if (currentEpochVariable.equals("measureIntervals")) {
-//						Object tempValue = epochVariables.get(currentEpochVariable);
-//
-//						if (tempValue instanceof String) {
-//							String configLocation = epochVariables.get(currentEpochVariable).toString(); 
-//							measureSizes = readIntervalsYAML(configLocation);															
-//						}
-//						else {
-//							Map<String, Object> epochMeasureIntervalValues = (Map<String, Object>)epochVariables.get(currentEpochVariable);
-//							Set<String> intervalNames = epochMeasureIntervalValues.keySet();
-//							for (Object intervalType: intervalNames) {
-//								String temp = intervalType.toString();				
-//								MeasureIntervals tempInterval = new MeasureIntervals(temp, (Double)epochMeasureIntervalValues.get(intervalType));
-//								int intervalSize = tempInterval.getSize();
-//								ArrayList<MeasureIntervals> currentAvailableIntervals = measureSizes.get(intervalSize);
-//								if (currentAvailableIntervals == null) 
-//									currentAvailableIntervals = new ArrayList<MeasureIntervals>();
-//								currentAvailableIntervals.add(tempInterval);								
-//								measureSizes.put(intervalSize, currentAvailableIntervals);									
-//							}
-//						}
-//					}
-//					//all values under "otherValues" in the YAML file will be read in here
-//					else if (currentEpochVariable.equals("otherValues")) {
-//						Map<String, Object> epochOtherValues = (Map<String, Object>)epochVariables.get(currentEpochVariable);
-//						range = (Integer)epochOtherValues.get("range");
-//						era = (String)epochOtherValues.get("era");
-//						defaultDuration = (Integer)epochOtherValues.get("defaultDuration");
-//					}
-//				}
-//
-//				Epoch newEpoch = new Epoch(measureTypes, measureSizes, range, defaultDuration, era);
-//				epochs.put(currentEpochName, newEpoch);	
-//			}
-//			in.close();
-//		}
-//		catch(IOException ioe) {
-//			System.out.println("Sorry!");
-//		}
-//		running = true;
-//    }
-//    
+      
     
     /*
      * Helper method to initially set up the epochs with their values by reading YAML Files
@@ -191,7 +115,10 @@ public class InputController {
 				String temp = durationType.toString();
 				if (durationType instanceof Double)
 					temp = temp.substring(0, temp.length()-1);
-				measures.add(new MeasureDurations(temp, (Double)durationProbabilities.get(durationType)));								
+				String percentages = durationProbabilities.get(durationType).toString();
+				int split = percentages.indexOf(";");
+				String totalPercentage = percentages.substring(0, split-1);
+				measures.add(new MeasureDurations(temp, Double.parseDouble(totalPercentage)));								
 			}
 			in.close();									
 		}
@@ -200,8 +127,7 @@ public class InputController {
 		}			
 		return measures;
     }
-    
-    	    	    
+        	    	    
     
     /*
      * Helper method to initially set up the epochs with their values by reading YAML Files
@@ -230,6 +156,24 @@ public class InputController {
 			System.out.println("Sorry!");
 		}
 		return measureSizes;
+    }
+       
+    
+    private static ArrayList<Double> readEpochIntervals(String fileLocation) {
+    	ArrayList<Double> probabilities = new ArrayList<Double>();
+    	Yaml yaml = new Yaml();
+		try (InputStream in = CellularAutomataMusic.class.getResourceAsStream(fileLocation)) {
+			Map<Integer, Double> intervalProbabilities = yaml.load(in);
+			//System.out.println(intervalProbabilities);
+			Set<Integer> intervalNames = intervalProbabilities.keySet();
+			for (int intervalType: intervalNames) {
+				probabilities.add(intervalType-1, intervalProbabilities.get(intervalType));								
+			}													
+		}
+		catch(IOException ioe) {
+			System.out.println("Sorry!");
+		}
+		return probabilities;
     }
 	
 }

@@ -48,6 +48,14 @@ public class MeasureIntervals {
 	}
 	
 	/*
+	 * constructor if you want to add the intervals by hand
+	 */
+	public MeasureIntervals() {
+		intervals = new ArrayList<Integer>();
+		currentPosition = 0;
+	}
+	
+	/*
 	 * checks to see if there are intervals left in the measure
 	 * @return  true if there is a next, false otherwise
 	 */
@@ -85,6 +93,11 @@ public class MeasureIntervals {
 
 	public void setSize(int length) {
 		this.length = length;
+	}
+	
+	
+	public void addInterval(int interval) {
+		this.intervals.add(interval);
 	}
 	
 	

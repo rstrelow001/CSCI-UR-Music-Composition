@@ -1,29 +1,29 @@
 [{"epoch":
  		{"era" : "medieval","range" : 14, "defaultDuration" : 4000,
- 		"measureIntervals" : "../textFiles/medieval/intervals/3_2_time.yaml",
- 	    "measureDurations" : "../textFiles/medieval/durations/3_2_time.yaml"}},
+ 		"measureIntervals" : "../textFiles/medieval/intervals/medieval_Melody_Intervals.yaml",
+ 	    "measureDurations" : "../textFiles/medieval/durations/medieval_Melody_3_2.yaml"}},
  	    
 {"epoch":
  		{"era" : "renaissance","range" : 22, "defaultDuration" : 4000,
- 		"measureIntervals" : "../textFiles/medieval/intervals/3_2_time.yaml",
- 	    "measureDurations" : "../textFiles/medieval/durations/3_2_time.yaml"}},
+ 		"measureIntervals" : "../textFiles/renaissance/intervals/renaissance_Melody_Intervals.yaml",
+ 	    "measureDurations" : "../textFiles/renaissance/durations/renaissance_Melody_3_4.yaml"}},
  	    
 {"epoch":
  		{"era" : "baroque","range" : 23, "defaultDuration" : 4000,
- 		"measureIntervals" : "../textFiles/medieval/intervals/3_2_time.yaml",
- 	    "measureDurations" : "../textFiles/medieval/durations/3_2_time.yaml"}},
+ 		"measureIntervals" : "../textFiles/baroque/intervals/baroque_Melody_Intervals.yaml",
+ 	    "measureDurations" : "../textFiles/baroque/durations/baroque_Melody_3_8.yaml"}},
  	    
 {"epoch":
  		{"era" : "classical","range" : 25, "defaultDuration" : 4000,
- 		"measureIntervals" : "../textFiles/medieval/intervals/3_2_time.yaml",
- 	    "measureDurations" : "../textFiles/medieval/durations/3_2_time.yaml"}},
+ 		"measureIntervals" : "../textFiles/classical/intervals/classical_Melody_Intervals.yaml",
+ 	    "measureDurations" : "../textFiles/classical/durations/classical_Melody_6_8.yaml"}},
  	    
 {"epoch":
  		{"era" : "romantic","range" : 30, "defaultDuration" : 4000,
- 		"measureIntervals" : "../textFiles/medieval/intervals/3_2_time.yaml",
- 	    "measureDurations" : "../textFiles/medieval/durations/3_2_time.yaml"}},	 
+ 		"measureIntervals" : "../textFiles/romantic/intervals/romantic_Melody_Intervals.yaml",
+ 	    "measureDurations" : "../textFiles/romantic/durations/romantic_Melody_4_4.yaml"}},	 
  	    
 {"epoch":
  		{"era" : "modern","range" : 37, "defaultDuration" : 4000,
- 		"measureIntervals" : "../textFiles/medieval/intervals/3_2_time.yaml",
- 	    "measureDurations" : "../textFiles/medieval/durations/3_2_time.yaml"}}]
+ 		"measureIntervals" : "../textFiles/modern/intervals/modern_Melody_Intervals.yaml",
+ 	    "measureDurations" : "../textFiles/modern/durations/modern_Melody_4_4.yaml"}}]

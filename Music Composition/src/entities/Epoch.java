@@ -33,6 +33,12 @@ public class Epoch {
 	private ArrayList<MeasureDurations> durationPatterns;
 	
 	/*
+	 * the different durations that a measure can be 
+	 */
+	private ArrayList<Double> singleIntervals;
+	
+
+	/*
 	 * the different intervals that a measure can be
 	 */
 	private HashMap<Integer, ArrayList<MeasureIntervals>> intervalPatterns;
@@ -47,6 +53,18 @@ public class Epoch {
 		this.setEra(era);
 		this.setDurationPatterns(durationPatterns);
 		this.setIntervalPatterns(intervalPatterns);	
+	}
+	
+	/*
+	 * constructor if you are using intervals generated one at a time
+	 */
+	public Epoch(ArrayList<MeasureDurations> durationPatterns, ArrayList<Double> singleIntervals, int range, int defaultDuration, String era) {
+		
+		this.setRange(range);
+		this.setDefaultDuration(defaultDuration);		
+		this.setEra(era);
+		this.setDurationPatterns(durationPatterns);
+		this.setSingleIntervals(singleIntervals);			
 	}
 
 
@@ -96,6 +114,14 @@ public class Epoch {
 
 	public void setIntervalPatterns(HashMap<Integer, ArrayList<MeasureIntervals>> intervalPatterns) {
 		this.intervalPatterns = intervalPatterns;
+	}
+
+	public ArrayList<Double> getSingleIntervals() {
+		return singleIntervals;
+	}
+
+	public void setSingleIntervals(ArrayList<Double> singleIntervals) {
+		this.singleIntervals = singleIntervals;
 	}
 	
 	

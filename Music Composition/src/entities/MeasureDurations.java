@@ -40,19 +40,27 @@ public class MeasureDurations {
 		notes =  new ArrayList<Note>();
 		currentPosition = 0;
 		
-		int nextPosition = type.indexOf('-');
-		if (nextPosition == -1) {
-			convert(type);
+		int nextDash = type.indexOf('-');
+		
+		while (nextDash != type.length()-1) {
+			convert(type.substring(0, nextDash));
+			
+			type = type.substring(++nextDash);			
+			nextDash = type.indexOf('-');
 		}
-		else {
-			while (nextPosition != -1) {
-				convert(type.substring(0, nextPosition));
-
-				type = type.substring(++nextPosition);			
-				nextPosition = type.indexOf('-');	
-			}
-			convert(type);
-		}
+		convert(type.substring(0, nextDash));
+//		if (nextDash == -1) {
+//			convert(type);
+//		}
+//		else {
+//			while (nextDash != -1) {
+//				convert(type.substring(0, nextDash));
+//
+//				type = type.substring(++nextDash);			
+//				nextDash = type.indexOf('-');	
+//			}
+//			convert(type);
+//		}
 	}
 	
 	
