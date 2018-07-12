@@ -72,22 +72,25 @@ public class MusicCompositionController {
      * */	
 	public MeasureDurations measureDurationsGenerator(){
 		
-		int i = 0;
+		
 		MeasureDurations tempMeasure = measureTypes.get(0);
 		/* Resets the valFound var to false for next note generation */
 		boolean valFound = false;
 		
-		double running = 0.0;
-		double value = Math.random();
-		
-		while (!valFound && i < measureTypes.size()) {
-			tempMeasure = measureTypes.get(i);
-			double measureProbability = tempMeasure.getProbability();
-			if (value <= measureProbability + running) 
-				valFound = true;
-			
-			running += measureProbability;
-			i++;
+		while (!valFound) {
+			int i = 0;
+			double running = 0.0;
+			double value = Math.random();
+
+			while (!valFound && i < measureTypes.size()) {
+				tempMeasure = measureTypes.get(i);
+				double measureProbability = tempMeasure.getProbability();
+				if (value <= measureProbability + running) 
+					valFound = true;
+
+				running += measureProbability;
+				i++;
+			}
 		}
 		
 

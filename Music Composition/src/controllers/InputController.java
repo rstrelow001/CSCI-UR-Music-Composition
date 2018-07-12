@@ -111,6 +111,19 @@ public class InputController {
 			Map<String, Object> durationProbabilities = yaml.load(in);
 			System.out.println(durationProbabilities);
 			Set<String> durationNames = durationProbabilities.keySet();
+			Double maxOccurrence = 0.0;
+			for (Object durationType: durationNames) {
+				String temp = durationType.toString();
+				if (durationType instanceof Double)
+					temp = temp.substring(0, temp.length()-1);
+				String percentages = durationProbabilities.get(durationType).toString();
+				int split = percentages.indexOf(";");
+				Double filePercentage = Double.parseDouble(percentages.substring(split+1));
+				if (filePercentage > maxOccurrence) {
+					maxOccurrence = filePercentage;
+					//System.out.println("Updated max = " + maxOccurrence);
+				}
+			}
 			for (Object durationType: durationNames) {
 				String temp = durationType.toString();
 				if (durationType instanceof Double)
@@ -118,7 +131,8 @@ public class InputController {
 				String percentages = durationProbabilities.get(durationType).toString();
 				int split = percentages.indexOf(";");
 				String totalPercentage = percentages.substring(0, split-1);
-				measures.add(new MeasureDurations(temp, Double.parseDouble(totalPercentage)));								
+				Double filePercentage = Double.parseDouble(percentages.substring(split+1));
+				measures.add(new MeasureDurations(temp, Double.parseDouble(totalPercentage)/maxOccurrence*filePercentage));								
 			}
 			in.close();									
 		}

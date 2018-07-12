@@ -82,6 +82,13 @@ public class MeasureDurations {
 		}
 		
 		//determines if the noted is dotted
+		if (token.endsWith("..")) 
+		{
+			multiplier = 1.75;
+			token = token.substring(0, token.length()-2);	
+			convertedToken = "Double Dotted - ";
+		}
+		
 		if (token.endsWith(".")) 
 		{
 			multiplier = 1.5;

@@ -225,8 +225,7 @@ public class CellularAutomataMusic  extends JFrame{
 	    	}
 	    	System.out.println("-------------END OF MEASURE--------------\n");
 	    	newDurations.resetDurations();
-	    	newIntervals.resetIntervals();
-	    	
+	    	newIntervals.resetIntervals();	    	
 	    }
 
 	    
@@ -246,7 +245,7 @@ public class CellularAutomataMusic  extends JFrame{
 	    			count++;
 	    		}
 	    	}
-	    	System.out.println(count);
+	    	//System.out.println(count);
       
 	    	
 	    	if (newVal >= 8){
