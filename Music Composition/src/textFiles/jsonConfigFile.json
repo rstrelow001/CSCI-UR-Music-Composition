@@ -21,7 +21,7 @@
 {"epoch":
  		{"era" : "romantic","range" : 30, "defaultDuration" : 4000,
  		"measureIntervals" : "../textFiles/romantic/intervals/romantic_Melody_Intervals.yaml",
- 	    "measureDurations" : "../textFiles/romantic/durations/romantic_Melody_4_4.yaml"}},	 
+ 	    "measureDurations" : "../textFiles/romantic/durations/romantic_Melody_6_8.yaml"}},	 
  	    
 {"epoch":
  		{"era" : "modern","range" : 37, "defaultDuration" : 4000,

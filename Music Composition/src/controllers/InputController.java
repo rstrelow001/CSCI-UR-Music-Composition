@@ -119,10 +119,8 @@ public class InputController {
 				String percentages = durationProbabilities.get(durationType).toString();
 				int split = percentages.indexOf(";");
 				Double filePercentage = Double.parseDouble(percentages.substring(split+1));
-				if (filePercentage > maxOccurrence) {
-					maxOccurrence = filePercentage;
-					//System.out.println("Updated max = " + maxOccurrence);
-				}
+				if (filePercentage > maxOccurrence) 
+					maxOccurrence = filePercentage;									
 			}
 			for (Object durationType: durationNames) {
 				String temp = durationType.toString();
