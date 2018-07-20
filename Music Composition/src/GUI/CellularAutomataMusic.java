@@ -24,6 +24,7 @@ import javax.swing.Timer;
 import javax.swing.JOptionPane;
 
 import java.util.HashMap;
+import java.util.ArrayList;
 
 import entities.MeasureDurations;
 import entities.MeasureIntervals;
@@ -32,6 +33,7 @@ import entities.Note;
 
 import controllers.MusicCompositionController;
 import controllers.InputController;
+import controllers.midiOutputController;
 
 public class CellularAutomataMusic  extends JFrame{
 
@@ -133,6 +135,7 @@ public class CellularAutomataMusic  extends JFrame{
 	    private Dimension board_size;
 	    private int cell_size, interval, fill_ratio, prevPitch = 0;
 	    
+	    private int counter = 0;
 	    //boolean whether the composer is active
 	    private boolean run, running;
 	    // Timer for playing notes evenly
@@ -141,6 +144,8 @@ public class CellularAutomataMusic  extends JFrame{
 	    boolean selected = false;
 	    //grid to display automata-model
 	    private Color[][] grid;
+	    
+	    private ArrayList<Note> notes;
 
 
 	    /*
@@ -225,7 +230,35 @@ public class CellularAutomataMusic  extends JFrame{
 	    	}
 	    	System.out.println("-------------END OF MEASURE--------------\n");
 	    	newDurations.resetDurations();
-	    	newIntervals.resetIntervals();	    	
+	    	newIntervals.resetIntervals();	    
+	    }
+	    
+	    public void runBetterGenerator() {
+	    	
+	    	MeasureDurations newDurations = musicCompController.measureDurationsGenerator();
+	    	MeasureIntervals newIntervals;
+	    	//if (newDurations.getSize() > 0)
+	    	//	newIntervals = musicCompController.measureIntervalsGenerator(newDurations.getSize());
+	    	//else
+	    	//	newIntervals = musicCompController.measureIntervalsGenerator(2);
+	    	newIntervals = musicCompController.EpochIntervalGenerator(newDurations.getSize());
+	    	while(newDurations.hasNextDuration()) {
+	    		Note newNote = newDurations.nextDuration();
+	    		System.out.println("Duration: " + newNote.getDurationName());
+	    	    System.out.println("Time Value: " + newNote.getDuration());
+	    		if (!newNote.isRest()) {
+	    			int newInterval = newIntervals.nextInterval();
+	    			System.out.println("Interval: " + newInterval);
+	    			prevPitch = musicCompController.playNextNote(newInterval, prevPitch, newNote.getDuration());
+	    			newNote.setPitch(prevPitch);
+	    			drawSequence(prevPitch);
+	    			
+	    		}
+	    		//notes.add(newNote);
+	    	}
+	    	System.out.println("-------------END OF MEASURE--------------\n");
+	    	newDurations.resetDurations();
+	    	newIntervals.resetIntervals();
 	    }
 
 	    
@@ -356,12 +389,16 @@ public class CellularAutomataMusic  extends JFrame{
 		    	//repaints the bottom line sequence based on rule
 		    	if (e.getSource().equals(timer) && analysis == true){
 		    		//musicCompController.ruleGeneratorAnalysis();
-		    		runGenerator();
+		    		runBetterGenerator();
+		    		counter++;
+		    		if (counter > 5)
+		    			midiOutputController.outputMidi(notes, "test.mid");
+		    			System.exit(0);
 		    	}
 	      
 			//Start-Pause button processing
 			else if(e.getSource().equals(start_pause)){
-			    	if(run){
+			    	if(run) {
 			    		timer.stop();
 			    		//JOptionPane.showMessageDialog(null,printResults());
 			    		//JOptionPane.showMessageDialog(null,musicCompController.printResults());

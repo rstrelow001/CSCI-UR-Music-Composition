@@ -98,7 +98,7 @@ public class InputController {
          return newEpoch;	
      }
       
-    
+   
     /*
      * Helper method to initially set up the epochs with their values by reading YAML Files
      * @param fileLocation  a string of where the yaml file is located

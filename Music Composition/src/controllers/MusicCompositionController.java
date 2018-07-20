@@ -213,6 +213,8 @@ public class MusicCompositionController {
 			ascending = true;
 		}
 		System.out.println("Ascending = "+ascending);
+		
+		
 		if(ascending){
 			currentDiff += newInterval;
 			System.out.println("Current Difference = " + currentDiff);
@@ -226,7 +228,7 @@ public class MusicCompositionController {
 					myOctave++;
 					newVal -= 12;
 				}
-			}
+			}			
 		}
 		else{
 			currentDiff -= newInterval;
@@ -248,7 +250,7 @@ public class MusicCompositionController {
 
 		int	noteVal = toNote(newVal, duration);
 
-		return noteVal;
+		return newVal;
 
 
 	}
@@ -315,9 +317,9 @@ public class MusicCompositionController {
 		else {
 			return 0;
 		}
-		//System.out.println(noteVal);
-		playNote(noteVal, duration);
-		return val;
+		
+		//playNote(noteVal, duration);
+		return noteVal;
 	}
 
 	

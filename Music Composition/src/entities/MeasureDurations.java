@@ -125,7 +125,7 @@ public class MeasureDurations {
 		
 		duration *= multiplier;
 		
-		Note nextNote = new Note(duration, convertedToken, isRest);
+		Note nextNote = new Note(num, duration, convertedToken, isRest);
 		notes.add(nextNote);
 	}
 	
