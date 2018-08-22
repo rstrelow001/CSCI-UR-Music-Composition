@@ -24,7 +24,7 @@ public class midiOutputController {
 	public static void outputMidi(ArrayList<Note> notes, String fileName) {
 
 		try {
-			Sequence sequence = new Sequence(Sequence.PPQ, 500);
+			Sequence sequence = new Sequence(Sequence.PPQ, 1000);
 			addTrack(sequence, 16, notes);
 
 			int[] allowedTypes = MidiSystem.getMidiFileTypes(sequence);
@@ -36,60 +36,53 @@ public class midiOutputController {
 			}
 		}
 		catch (InvalidMidiDataException imde) {}
-		catch(IOException ioe) {}
+		catch(IOException ioe) {}  //Sequence, track, channel, messages
 	}
-	
-	
+
+
 	public static void addTrack(Sequence s, int instrument, ArrayList<Note> notes) {
-		
-		 Track track = s.createTrack(); // Begin with a new track
 
-		  // Set the instrument on channel 0	  
-		  ShortMessage sm = new ShortMessage();
+		Track track = s.createTrack(); // Begin with a new track
 
-		  try {
-			  sm.setMessage(ShortMessage.PROGRAM_CHANGE, 0, instrument, 0);
-			  track.add(new MidiEvent(sm, 0));
+		boolean sustain = false;
+		// Set the instrument on channel 0	  
+		ShortMessage sm = new ShortMessage();
 
-			  int n = 0; // current note in the array list
-			  int t = 0; // time in ticks for the composition
+		try {
+			sm.setMessage(ShortMessage.PROGRAM_CHANGE, 0, instrument, 0);
+			track.add(new MidiEvent(sm, 0));
+			
+			//adds sustain to the notes
+			if (sustain) {
+				sm.setMessage(ShortMessage.CONTROL_CHANGE, 0, 64, 64);
+				track.add(new MidiEvent(sm, 0));
+			}
 
-			  // These values persist and apply to all notes 'till changed
-			  int noteLength = 16; // default to quarter notes
-			  int velocity = 64; // default to middle volume
+			int n = 0; // current note in the array list
+			int t = 0; // time in ticks for the composition
+
+			// These values persist and apply to all notes 'till changed
+			int noteLength = 1000; // default to quarter notes
+			int velocity = 64; // default to middle volume
 
 
-			  while (n < notes.size()) {
-				  Note note = notes.get(n++);
-				  noteLength = note.getDuration();
-				  if (note.isRest()) 
-					  t += noteLength;			  
-				  else {
-					  ShortMessage on = new ShortMessage();
-					  on.setMessage(ShortMessage.NOTE_ON, 0, note.getPitch(), velocity);
-					  //on.setMessage(ShortMessage.NOTE_ON, 9, 56, velocity);
-					  ShortMessage off = new ShortMessage();
-					  off.setMessage(ShortMessage.NOTE_OFF, 0, note.getPitch(), velocity);
-					  //off.setMessage(ShortMessage.NOTE_OFF, 9, 56, velocity);
-					  track.add(new MidiEvent(on, t));
-					  track.add(new MidiEvent(off, t + noteLength));
-					  t += noteLength;
-				  }
-			  }
-		  } catch (InvalidMidiDataException imde) {}
+			while (n < notes.size()) {
+				Note note = notes.get(n++);
+				noteLength = note.getDuration();
+				if (note.isRest()) 
+					t += noteLength;			  
+				else {
+					ShortMessage on = new ShortMessage();
+					on.setMessage(ShortMessage.NOTE_ON, 0, note.getPitch(), velocity);
+					//on.setMessage(ShortMessage.NOTE_ON, 9, 56, velocity);
+					ShortMessage off = new ShortMessage();
+					off.setMessage(ShortMessage.NOTE_OFF, 0, note.getPitch(), velocity);
+					//off.setMessage(ShortMessage.NOTE_OFF, 9, 56, velocity);
+					track.add(new MidiEvent(on, t));
+					track.add(new MidiEvent(off, t + noteLength));
+					t += noteLength;
+				}
+			}
+		} catch (InvalidMidiDataException imde) {}
 	}
-
-	  // A convenience method to add a note to the track on channel 0
-	  public static void addNote(Track track, int startTick, int tickLength, int key, int velocity)
-	      throws InvalidMidiDataException {
-	    ShortMessage on = new ShortMessage();
-	    on.setMessage(ShortMessage.NOTE_ON, 0, key, velocity);
-	    //on.setMessage(ShortMessage.NOTE_ON, 9, 56, velocity);
-	    ShortMessage off = new ShortMessage();
-	    off.setMessage(ShortMessage.NOTE_OFF, 0, key, velocity);
-	    //off.setMessage(ShortMessage.NOTE_OFF, 9, 56, velocity);
-	    track.add(new MidiEvent(on, startTick));
-	    track.add(new MidiEvent(off, startTick + tickLength));
-	  }
-
 }

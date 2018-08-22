@@ -16,11 +16,12 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.yaml.snakeyaml.Yaml;
 
-import GUI.CellularAutomataMusic;
 import entities.Epoch;
-import entities.EpochIntervals;
 import entities.MeasureDurations;
-import entities.MeasureIntervals;
+
+/*
+ * class to read input from JSON and YAML files and add it to a map of Epoch Objects
+ */
 
 public class InputController {	
 
@@ -107,7 +108,7 @@ public class InputController {
     private static ArrayList<MeasureDurations> readDurationsYAML(String fileLocation) {
     	ArrayList<MeasureDurations> measures = new ArrayList<MeasureDurations>();
     	Yaml yaml = new Yaml();
-		try (InputStream in = CellularAutomataMusic.class.getResourceAsStream(fileLocation)) {
+		try (InputStream in = InputController.class.getResourceAsStream(fileLocation)) {
 			Map<String, Object> durationProbabilities = yaml.load(in);
 			System.out.println(durationProbabilities);
 			Set<String> durationNames = durationProbabilities.keySet();
@@ -146,35 +147,35 @@ public class InputController {
      * @param fileLocation  a string of where the yaml file is located
      * @return  the measure intervals associated with the epoch
      */
-    private static HashMap<Integer, ArrayList<MeasureIntervals>> readIntervalsYAML(String fileLocation) {
-    	HashMap<Integer, ArrayList<MeasureIntervals>> measureSizes = new HashMap<Integer, ArrayList<MeasureIntervals>>();
-    	Yaml yaml = new Yaml();
-		try (InputStream in = CellularAutomataMusic.class.getResourceAsStream(fileLocation)) {
-			Map<String, Object> intervalProbabilities = yaml.load(in);
-			System.out.println(intervalProbabilities);
-			Set<String> intervalNames = intervalProbabilities.keySet();
-			for (Object intervalType: intervalNames) {
-				String temp = intervalType.toString();				
-				MeasureIntervals tempInterval = new MeasureIntervals(temp, (Double)intervalProbabilities.get(intervalType));
-				int intervalSize = tempInterval.getSize();
-				ArrayList<MeasureIntervals> currentAvailableIntervals = measureSizes.get(intervalSize);
-				if (currentAvailableIntervals == null) 
-					currentAvailableIntervals = new ArrayList<MeasureIntervals>();
-				currentAvailableIntervals.add(tempInterval);								
-				measureSizes.put(intervalSize, currentAvailableIntervals);									
-			}													
-		}
-		catch(IOException ioe) {
-			System.out.println("Sorry!");
-		}
-		return measureSizes;
-    }
+//    private static HashMap<Integer, ArrayList<MeasureIntervals>> readIntervalsYAML(String fileLocation) {
+//    	HashMap<Integer, ArrayList<MeasureIntervals>> measureSizes = new HashMap<Integer, ArrayList<MeasureIntervals>>();
+//    	Yaml yaml = new Yaml();
+//		try (InputStream in = InputController.class.getResourceAsStream(fileLocation)) {
+//			Map<String, Object> intervalProbabilities = yaml.load(in);
+//			System.out.println(intervalProbabilities);
+//			Set<String> intervalNames = intervalProbabilities.keySet();
+//			for (Object intervalType: intervalNames) {
+//				String temp = intervalType.toString();				
+//				MeasureIntervals tempInterval = new MeasureIntervals(temp, (Double)intervalProbabilities.get(intervalType));
+//				int intervalSize = tempInterval.getSize();
+//				ArrayList<MeasureIntervals> currentAvailableIntervals = measureSizes.get(intervalSize);
+//				if (currentAvailableIntervals == null) 
+//					currentAvailableIntervals = new ArrayList<MeasureIntervals>();
+//				currentAvailableIntervals.add(tempInterval);								
+//				measureSizes.put(intervalSize, currentAvailableIntervals);									
+//			}													
+//		}
+//		catch(IOException ioe) {
+//			System.out.println("Sorry!");
+//		}
+//		return measureSizes;
+//    }
        
     
     private static ArrayList<Double> readEpochIntervals(String fileLocation) {
     	ArrayList<Double> probabilities = new ArrayList<Double>();
     	Yaml yaml = new Yaml();
-		try (InputStream in = CellularAutomataMusic.class.getResourceAsStream(fileLocation)) {
+		try (InputStream in = InputController.class.getResourceAsStream(fileLocation)) {
 			Map<Integer, Double> intervalProbabilities = yaml.load(in);
 			//System.out.println(intervalProbabilities);
 			Set<Integer> intervalNames = intervalProbabilities.keySet();
