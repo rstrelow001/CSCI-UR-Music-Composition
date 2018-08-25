@@ -8,45 +8,64 @@ package entities;
  */
 
 import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Epoch {
 	
-	private int range, defaultDuration;
+	/*
+	 * the maximum range that pitches can achieve
+	 */
+	private int range;
 	
-	private double uni, step, third, fourth, fifth, sixth, seventh, octave, rest;
+	/*
+	 * the default duration for a whole note;
+	 */
+	private int defaultDuration;
 	
-	private String era;
+	/*
+	 * the name of the era
+	 */
+	private String era;	
 	
-	private HashMap<String, DurationProbability> noteProbabilities;
+	/*
+	 * the different durations that a measure can be 
+	 */
+	private ArrayList<MeasureDurations> durationPatterns;
 	
-	private DurationProbability currentProbability;
+	/*
+	 * the different durations that a measure can be 
+	 */
+	private ArrayList<Double> singleIntervals;
 	
-	public Epoch(double uni, double step, double third, double fourth, double fifth,
-			double sixth, double seventh, double octave, double rest, int range, int defaultDuration, String era, HashMap<String, DurationProbability> noteProbabilities) {
+
+	/*
+	 * the different intervals that a measure can be
+	 */
+	private HashMap<Integer, ArrayList<MeasureIntervals>> intervalPatterns;
+	
+	/*
+	 * default constructor
+	 */
+	public Epoch(ArrayList<MeasureDurations> durationPatterns, HashMap<Integer, ArrayList<MeasureIntervals>> intervalPatterns, int range, int defaultDuration, String era) {
 		
-		this.setUni(uni);
-		this.setStep(step);
-		this.setThird(third);
-		this.setFourth(fourth);
-		this.setFifth(fifth);
-		this.setSixth(sixth);
-		this.setSeventh(seventh);
-		this.setOctave(octave);
-		this.setRest(rest);
 		this.setRange(range);
 		this.setDefaultDuration(defaultDuration);		
 		this.setEra(era);
-		this.setNoteProbabilities(noteProbabilities);
-		
-		//remove once prev rhythm is incorporated
-		this.setCurrentProbability(noteProbabilities.get("DEFAULT_PROBABILITIES"));
-		
+		this.setDurationPatterns(durationPatterns);
+		this.setIntervalPatterns(intervalPatterns);	
 	}
 	
-//	public void changeDurationProbability(String newNoteDuration) {
-//		DurationProbability newProbability = noteProbabilities.get(newNoteDuration);
-//		this.setCurrentProbability(newProbability);		
-//	}
+	/*
+	 * constructor if you are using intervals generated one at a time
+	 */
+	public Epoch(ArrayList<MeasureDurations> durationPatterns, ArrayList<Double> singleIntervals, int range, int defaultDuration, String era) {
+		
+		this.setRange(range);
+		this.setDefaultDuration(defaultDuration);		
+		this.setEra(era);
+		this.setDurationPatterns(durationPatterns);
+		this.setSingleIntervals(singleIntervals);			
+	}
 
 
 	public int getRange() {
@@ -57,108 +76,52 @@ public class Epoch {
 		this.range = range;
 	}
 
-	public double getUni() {
-		return uni;
-	}
-
-	public void setUni(double uni) {
-		this.uni = uni;
-	}
-
-	public double getStep() {
-		return step;
-	}
-
-	public void setStep(double step) {
-		this.step = step;
-	}
-
-	public double getThird() {
-		return third;
-	}
-
-	public void setThird(double third) {
-		this.third = third;
-	}
-
-	public double getFourth() {
-		return fourth;
-	}
-
-	public void setFourth(double fourth) {
-		this.fourth = fourth;
-	}
-
-	public double getFifth() {
-		return fifth;
-	}
-
-	public void setFifth(double fifth) {
-		this.fifth = fifth;
-	}
-
-	public double getSixth() {
-		return sixth;
-	}
-
-	public void setSixth(double sixth) {
-		this.sixth = sixth;
-	}
-
-	public double getSeventh() {
-		return seventh;
-	}
-
-	public void setSeventh(double seventh) {
-		this.seventh = seventh;
-	}
-
-	public double getOctave() {
-		return octave;
-	}
-
-	public void setOctave(double octave) {
-		this.octave = octave;
-	}
-
-	public double getRest() {
-		return rest;
-	}
-
-	public void setRest(double rest) {
-		this.rest = rest;
-	}
 
 	public String getEra() {
 		return era;
 	}
 
+	
 	public void setEra(String era) {
 		this.era = era;
 	}
 
+	
 	public int getDefaultDuration() {
 		return defaultDuration;
 	}
 
+	
 	public void setDefaultDuration(int defaultDuration) {
 		this.defaultDuration = defaultDuration;
 	}
 
-	public HashMap<String, DurationProbability> getNoteProbabilities() {
-		return noteProbabilities;
+
+	public ArrayList<MeasureDurations> getDurationPatterns() {
+		return durationPatterns;
 	}
 
-	public void setNoteProbabilities(HashMap<String, DurationProbability> noteProbabilities) {
-		this.noteProbabilities = noteProbabilities;
+	
+	public void setDurationPatterns(ArrayList<MeasureDurations> durationPatterns) {
+		this.durationPatterns = durationPatterns;
 	}
 
-	public DurationProbability getCurrentProbability() {
-		return currentProbability;
+
+	public HashMap<Integer, ArrayList<MeasureIntervals>> getIntervalPatterns() {
+		return intervalPatterns;
 	}
 
-	public void setCurrentProbability(DurationProbability currentProbability) {
-		this.currentProbability = currentProbability;
+
+	public void setIntervalPatterns(HashMap<Integer, ArrayList<MeasureIntervals>> intervalPatterns) {
+		this.intervalPatterns = intervalPatterns;
+	}
+
+	public ArrayList<Double> getSingleIntervals() {
+		return singleIntervals;
+	}
+
+	public void setSingleIntervals(ArrayList<Double> singleIntervals) {
+		this.singleIntervals = singleIntervals;
 	}
 	
 	
