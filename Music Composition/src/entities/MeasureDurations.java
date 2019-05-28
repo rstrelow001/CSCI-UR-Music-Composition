@@ -1,10 +1,12 @@
 package entities;
 
-import java.util.LinkedList;
 import java.util.ArrayList;
-import java.util.Queue;
-import java.util.HashMap;
 
+/*
+ * class that organizes a group of durations for notes.  Each individual duration will
+ * be eventually be matched with interval to make a note with a specified duration
+ * and pitch.
+ */
 public class MeasureDurations {
 	
 	/*
@@ -49,23 +51,11 @@ public class MeasureDurations {
 			nextDash = type.indexOf('-');
 		}
 		convert(type.substring(0, nextDash));
-//		if (nextDash == -1) {
-//			convert(type);
-//		}
-//		else {
-//			while (nextDash != -1) {
-//				convert(type.substring(0, nextDash));
-//
-//				type = type.substring(++nextDash);			
-//				nextDash = type.indexOf('-');	
-//			}
-//			convert(type);
-//		}
 	}
 	
 	
 	/*
-	 * helper method to convert the YAML input into usable data
+	 * helper method to convert the strings generated from the YAML input into usable data
 	 * @param String token  the value to convert
 	 */
 	private void convert(String token) {
@@ -125,7 +115,7 @@ public class MeasureDurations {
 		
 		duration *= multiplier;
 		
-		Note nextNote = new Note(duration, convertedToken, isRest);
+		Note nextNote = new Note(num, duration, convertedToken, isRest);
 		notes.add(nextNote);
 	}
 	

@@ -9,16 +9,16 @@ public class Note {
 	/*
 	 * the pitch (sound) of the note
 	 */
-	private int pitch;
+	private int pitch, noteNumber;
 	/*
 	 * the conventional name given to the note
 	 */
-	private String durationName;
+	private String durationName, pitchName;
 	/*
 	 * boolean signifying if the note is a rest
 	 */
 	private boolean isRest;
-	
+
 	
 	/*
 	 * Constructor
@@ -39,13 +39,24 @@ public class Note {
 	 * @param durationName  the conventional name of the note
 	 * @param isRest  tells if the note is a rest
 	 */
-	public Note(int duration, String durationName, boolean isRest) {
+	public Note(int noteNumber, int duration, String durationName, boolean isRest) {
+		this.setNoteNumber(noteNumber);
 		this.setDuration(duration);
 		this.setDurationName(durationName);
 		this.setRest(isRest);
 	}
 	
 	
+	public int getNoteNumber() {
+		return noteNumber;
+	}
+
+
+	public void setNoteNumber(int noteNumber) {
+		this.noteNumber = noteNumber;
+	}
+
+
 	public int getDuration() {
 		return duration;
 	}
@@ -60,6 +71,14 @@ public class Note {
 
 	public void setPitch(int pitch) {
 		this.pitch = pitch;
+	}
+	
+	public String getPitchName() {
+		return pitchName;
+	}
+
+	public void setPitchName(String pitch) {
+		this.pitchName = pitch;
 	}
 
 	public String getDurationName() {
