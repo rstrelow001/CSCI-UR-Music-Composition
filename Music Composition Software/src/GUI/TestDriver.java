@@ -9,7 +9,7 @@ import entities.*;
 public class TestDriver {
 	
 	public TestDriver() {
-		//this.testNoteConstructor();
+		this.testNoteConstructor();
 	}
 	
 	
@@ -17,7 +17,7 @@ public class TestDriver {
 		
 		StructReader structReader = new StructReader("kern.json");
 		
-		ArrayList<MusicStruct> structs = structReader.makeStruct(1);
+		ArrayList<MusicStruct> structs = structReader.makeStruct(40);
 		
 		ArrayList<String> measures = structReader.structToString(structs);
 		
