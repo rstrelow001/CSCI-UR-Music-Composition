@@ -29,9 +29,6 @@ public class StructReader {
 	public StructReader(String file) {
 		StructParser parsedStruct = new StructParser(file);
 		this.musicStructs = parsedStruct.getMusicStructs();
-		ArrayList<MusicStruct> newSong = this.makeStruct(200);
-		//this.printStruct();
-		this.printSong(newSong);
 	}
 	
 	//Method used for testing
@@ -161,6 +158,26 @@ public class StructReader {
 			}
 		}
 		return null;
+	}
+	
+	
+	/**
+	 * structToString takes a list of MusicStructs
+	 * and puts the signatures of the MusicStructs
+	 * into a list of Strings
+	 * 
+	 * @param List of MusicStructs
+	 * @return List of Strings
+	 */
+	public ArrayList<String> structToString(ArrayList<MusicStruct> structs){
+		
+		ArrayList<String> strings = new ArrayList<String>();
+		
+		for (int i = 0; i < structs.size(); i++) {
+			strings.add(structs.get(i).getSignature());
+		}
+		
+		return strings;
 	}
 	
 	
