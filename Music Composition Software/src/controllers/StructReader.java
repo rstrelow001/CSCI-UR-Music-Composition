@@ -26,8 +26,8 @@ public class StructReader {
 	 * StructParser and loads the parsed Structs
 	 * into an ArrayList
 	 */
-	public StructReader() {
-		StructParser parsedStruct = new StructParser("kern.json");
+	public StructReader(String file) {
+		StructParser parsedStruct = new StructParser(file);
 		this.musicStructs = parsedStruct.getMusicStructs();
 		ArrayList<MusicStruct> newSong = this.makeStruct(200);
 		//this.printStruct();
@@ -127,10 +127,6 @@ public class StructReader {
 			
 			if (frontOfSong.equals(signatureSequence)) {
 				
-				
-				
-				
-				
 				double rndNum = Math.random();
 				
 				ArrayList<AdjacentMusicStruct> adjacentStructs = this.musicStructs.get(i).getAdjacentStructs();
@@ -138,21 +134,13 @@ public class StructReader {
 				if (rndNum < adjacentStructs.get(0).getProbability()) {
 					return this.getStructFromSignature(adjacentStructs.get(0).geSignature());
 				}
-				
 				for (int k = 0; k < adjacentStructs.size() - 1; k++) {
 					if (adjacentStructs.get(k).getProbability() < rndNum && rndNum < adjacentStructs.get(k + 1).getProbability()) {
 						return this.getStructFromSignature(adjacentStructs.get(k).geSignature());
 					}
-				}
-				
-				
-				
-				
-			}
-			
+				}	
+			}	
 		}
-		
-
 		return null;
 	}
 	
@@ -184,6 +172,6 @@ public class StructReader {
 	
 	//main method in used for testing
 	public static void main(String args[]) {
-		new StructReader();
+		new StructReader("kern.json");
 	}
 }
