@@ -53,7 +53,7 @@ def findElem(measure):
 def makeMeasureStruct(orderSystem):
 	global measureStruct
 	fileName = "test.yaml"
-	measureKern = os.popen("kern-script Romantic").read()
+	measureKern = os.popen("interval-script Medieval").read()
 	print(measureKern)
 	measureStruct = []
 	lines = measureKern.split("\n")
@@ -71,7 +71,7 @@ def makeMeasureStruct(orderSystem):
 		if (lines[x + orderSystem].rstrip('\n') != ""):
 			addAdjacentMeasure(lines[x + orderSystem].rstrip('\n'), lineIndex)
 
-	fd = open('../eclipse-workspace/MusicStructReader/jsonFiles/kern.json', 'w')
+	fd = open('../jsonFiles/Rapunzel.json', 'w')
 	json.dump(measureStruct, fd, indent = 2)
 	fd.close()
 
@@ -82,7 +82,7 @@ def main():
 	else:
 		function = str(sys.argv[1])
 		if function == "makeMeasureStruct":
-			makeMeasureStruct(sys.argv[2])
+			makeMeasureStruct(int(sys.argv[2]))
 		else:
 			print(function + " is not a valid command!")
 main()
