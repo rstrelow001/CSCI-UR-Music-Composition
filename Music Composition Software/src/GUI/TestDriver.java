@@ -10,6 +10,7 @@ public class TestDriver {
 	
 	public TestDriver() {
 		//this.testNoteConstructor();
+		this.testIntervalConverter();
 	}
 	
 	
@@ -36,8 +37,25 @@ public class TestDriver {
 		
 	}
 	
+	public void testIntervalConverter() {
+		ArrayList<String> intervals = new ArrayList<String>();
+		intervals.add("1");
+		intervals.add("2");
+		intervals.add("2");
+		intervals.add("4");
+		intervals.add("4");
+		intervals.add("3");
+		intervals.add("2");
+		intervals.add("1");
+		
+		NoteConstructor nc = new NoteConstructor();
+			
+		System.out.println(nc.convertIntervalsToPitches(intervals));
+	}
+	
 	public static void main(String args[]) {
 		new TestDriver();
 	}
+	
 	
 }
