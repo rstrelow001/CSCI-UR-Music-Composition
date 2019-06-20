@@ -2,7 +2,7 @@ package controllers;
 
 
 import java.io.FileReader;
-
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -32,7 +32,9 @@ public class StructParser {
 	 * structured JSON file for parsing into a MusicStruct object.
 	 * 
 	 * @param fileName
+	 * @throws IOException 
 	 */
+	
 	public StructParser(String fileName) {
 		this.loadData(fileName);
 	}
