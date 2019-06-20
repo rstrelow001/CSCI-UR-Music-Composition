@@ -29,12 +29,14 @@ import java.util.ArrayList;
 
 import entities.MeasureDurations;
 import entities.MeasureIntervals;
+import entities.MusicStruct;
 import entities.Epoch;
 import entities.Note;
 
 import controllers.InputController;
 import controllers.midiOutputController;
 import controllers.StatisticsOutputController;
+import controllers.StructReader;
 
 public class MusicCreation {
 	 //map that contains all the epochs and their values
@@ -80,26 +82,142 @@ public class MusicCreation {
      */
     private ArrayList<Double> epochIntervals;
     
+    private StructReader durationsStruct;
+    
     // variables to ensure the composer runs linearly
     //TODO: EDIT DEFAULT DURATION SO THAT IT WORKS AS INTENDED
     public int myOctave = 5, currentDiff = 0, range = 14, defaultDuration;
+    
+    private final int DEFAULT_WHOLENOTE_DURATION = 4000;
+	
+//	public MusicCreation() {
+//		epochs = InputController.readInput();
+//		//changing the Epoch will generate different sounding music (there are 6 Epochs: medieval, renaissance, classical, baroque, romantic, and modern)
+//		changeEpoch("classical");
+//		
+//		notes = new ArrayList<Note>();
+//		measureMarkers = new ArrayList<Integer>();
+//		
+//		for(int i = 0; i < 10; i++) {
+//			generateMeasure();
+//		}
+//		StatisticsOutputController.outputStatistics(notes, measureMarkers, "/home/rstrelow001/MusicComposition/CSCI-UR-Music-Composition/Audio Files/7-20-18/classical_6_8_organ_stats.txt");
+//		midiOutputController.outputMidi(notes, "/home/rstrelow001/MusicComposition/CSCI-UR-Music-Composition/Audio Files/7-20-18/classical_6_8_organ.mid");	
+//		
+//	}
+	
 	
 	public MusicCreation() {
-		epochs = InputController.readInput();
-		//changing the Epoch will generate different sounding music (there are 6 Epochs: medieval, renaissance, classical, baroque, romantic, and modern)
-		changeEpoch("classical");
-		
+
 		notes = new ArrayList<Note>();
 		measureMarkers = new ArrayList<Integer>();
 		
-		for(int i = 0; i < 10; i++) {
-			generateMeasure();
-		}
-		StatisticsOutputController.outputStatistics(notes, measureMarkers, "/home/rstrelow001/MusicComposition/CSCI-UR-Music-Composition/Audio Files/7-20-18/classical_6_8_organ_stats.txt");
-		midiOutputController.outputMidi(notes, "/home/rstrelow001/MusicComposition/CSCI-UR-Music-Composition/Audio Files/7-20-18/classical_6_8_organ.mid");	
 		
+		durationsStruct = new StructReader();
+		ArrayList<MusicStruct> durations = durationsStruct.makeStruct(200);
+		notes = convertDurations(durations);
+		
+
 	}
 	
+	
+	private int countNonRests(ArrayList<Note> notes) {
+		int count = 0;
+		
+		for (Note n : notes) {
+			if (!n.isRest())
+				count++;
+		}
+		
+		return count;
+	}
+	
+	/*
+	 * method to convert MusicStructs containing the duration information for the song
+	 * @param Arraylist<MuiscStruct> durations  the list containing the durations
+	 * @return ArrayList<Note>
+	 */
+	private ArrayList<Note> convertDurations(ArrayList<MusicStruct> durations) {
+			
+		for (MusicStruct m : durations) {
+			String signature = m.getSignature();
+			int nextDash = signature.indexOf('-');
+			
+			while (nextDash != signature.length()-1) {			
+				notes.add(convertDurationtoken(signature.substring(0, nextDash)));
+				signature = signature.substring(++nextDash);			
+				nextDash = signature.indexOf('-');
+			}
+			notes.add(convertDurationtoken(signature.substring(0, nextDash)));
+		}
+		return notes;
+	}
+	
+	
+	/*
+	 * helper method to convert the string durations into Note objects
+	 * @param String token  the value to convert
+	 * @return Note
+	 */
+	private Note convertDurationtoken(String token) {
+		
+		String convertedToken = "";
+		int duration = DEFAULT_WHOLENOTE_DURATION;
+		double multiplier = 1.0;
+		boolean isRest = false;
+		
+		//determines if the note is a rest
+		if (token.endsWith("r")) {
+			isRest = true;
+			token = token.substring(0, token.length()-1);
+		}
+		
+		//determines if the noted is dotted
+		if (token.endsWith("..")) 
+		{
+			multiplier = 1.75;
+			token = token.substring(0, token.length()-2);	
+			convertedToken = "Double Dotted - ";
+		}
+		
+		if (token.endsWith(".")) 
+		{
+			multiplier = 1.5;
+			token = token.substring(0, token.length()-1);	
+			convertedToken = "Dotted - ";
+		}
+		
+		int num = Integer.parseInt(token);
+		multiplier /= num;
+		
+		if (num == 16) 
+			convertedToken += "Sixteenth";
+		else if (num == 8) 
+			convertedToken += "Eighth";
+	
+		else if (num == 4) 
+			convertedToken += "Quarter";
+		else if (num == 2)			
+			convertedToken += "Half";
+		else if (num == 1) 
+			convertedToken += "Whole";
+		else 
+			convertedToken += "1/" + num;
+			
+		
+		//calculate if it is a rest
+		if(isRest) {
+			convertedToken += " Rest";
+		}
+		else {
+			convertedToken += " Note";
+			//length++;
+		}
+		
+		duration *= multiplier;
+		
+		return new Note(num, duration, convertedToken, isRest);	
+	}
 	
 	/*
 	 * method to generate a new measure of music and add the notes to a list.
