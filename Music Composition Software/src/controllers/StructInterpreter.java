@@ -34,5 +34,14 @@ public class StructInterpreter {
 		}
 		return parsedMeasures;
 	}
+	
+	public int countRests(ArrayList<String> parsedMeasures) {
+		int count = 0;
+		for (String s : parsedMeasures) {
+			if (s.contains("r"))
+				count++;
+		}
+		return count;
+	}
 }
 

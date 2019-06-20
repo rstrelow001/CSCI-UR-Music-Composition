@@ -8,14 +8,74 @@ import entities.Note;
 public class NoteConstructor {
 
 	private static final int range = 26;
-	private int myOctave = 5, currentDiff = 0, startingPitch = 1;
+	private int myOctave = 5, currentDiff = 0, startingPitch = 1, DEFAULT_WHOLENOTE_DURATION = 4000;
 	
 	
 	public ArrayList<Note> constructNotes(ArrayList<String> songDurations, ArrayList<String> songIntervals) {
 		
+		ArrayList<Note> notes = new ArrayList<Note>();
+
 		
+		ArrayList<Integer> pitches = this.convertIntervalsToPitches(songIntervals);
 		
-		return new ArrayList<Note>();
+		for (String token : songDurations ) {
+			
+			String convertedToken = "";
+			int duration = DEFAULT_WHOLENOTE_DURATION;
+			double multiplier = 1.0;
+			boolean isRest = false;
+			
+			//determines if the note is a rest
+			if (token.endsWith("r")) {
+				isRest = true;
+				token = token.substring(0, token.length()-1);
+			}
+			
+			//determines if the noted is dotted
+			if (token.endsWith("..")) 
+			{
+				multiplier = 1.75;
+				token = token.substring(0, token.length()-2);	
+				convertedToken = "Double Dotted - ";
+			}
+			
+			if (token.endsWith(".")) 
+			{
+				multiplier = 1.5;
+				token = token.substring(0, token.length()-1);	
+				convertedToken = "Dotted - ";
+			}
+			
+			int num = Integer.parseInt(token);
+			multiplier /= num;
+			
+			if (num == 16) 
+				convertedToken += "Sixteenth";
+			else if (num == 8) 
+				convertedToken += "Eighth";
+		
+			else if (num == 4) 
+				convertedToken += "Quarter";
+			else if (num == 2)			
+				convertedToken += "Half";
+			else if (num == 1) 
+				convertedToken += "Whole";
+			else 
+				convertedToken += "1/" + num;
+				
+			duration *= multiplier;
+			//calculate if it is a rest
+			if(isRest) {
+				convertedToken += " Rest";
+				notes.add(new Note(num, duration, convertedToken, isRest));
+			}
+			else {
+				convertedToken += " Note";
+				notes.add(new Note(num, duration, convertedToken, pitches.remove(0), isRest));
+			}	
+		}
+		
+		return notes;
 	}
 	
 	
@@ -59,7 +119,7 @@ public class NoteConstructor {
 				currentDiff += newInterval;
 				//System.out.println("Current Difference = " + currentDiff);
 				newVal = prevVal;
-				for (int i = 0; i < newInterval; i++){
+				for (int i = 1; i < newInterval; i++){
 					if (newVal == 5 || newVal == 12)
 						newVal += 1;
 					else
@@ -74,7 +134,7 @@ public class NoteConstructor {
 				currentDiff -= newInterval;
 				//System.out.println("Current Difference = " + currentDiff);
 				newVal = prevVal;
-				for (int i = 0; i < newInterval; i++){
+				for (int i = 1; i < newInterval; i++){
 					if (newVal == 6 || newVal == 13 || newVal == 1)
 						newVal -= 1;
 					else

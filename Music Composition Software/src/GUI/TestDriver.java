@@ -10,14 +10,14 @@ public class TestDriver {
 	
 	public TestDriver() {
 
-		this.testIntervalConverter();
+		//this.testIntervalConverter();
 
 		this.testNoteConstructor();
 
 	}
 	
 	
-	public void testNoteConstructor() {
+	public void testStructConstructor() {
 		
 		StructReader structReader = new StructReader("kern.json");
 		
@@ -54,6 +54,36 @@ public class TestDriver {
 		NoteConstructor nc = new NoteConstructor();
 			
 		System.out.println(nc.convertIntervalsToPitches(intervals));
+	}
+	
+	
+	public void testNoteConstructor() {
+		ArrayList<String> songIntervals = new ArrayList<String>();
+		songIntervals.add("1");
+		songIntervals.add("2");
+		songIntervals.add("2");
+		songIntervals.add("4");
+		songIntervals.add("4");
+		songIntervals.add("3");
+		songIntervals.add("2");
+		songIntervals.add("1");
+		
+		ArrayList<String> songDurations = new ArrayList<String>();
+		songDurations.add("1");
+		songDurations.add("2");
+		songDurations.add("2");
+		songDurations.add("4");
+		songDurations.add("4");
+		songDurations.add("2");
+		songDurations.add("2");
+		songDurations.add("1");
+		
+		NoteConstructor nc = new NoteConstructor();
+		
+		
+			
+		System.out.println(nc.constructNotes(songDurations, songIntervals));
+		
 	}
 	
 	public static void main(String args[]) {

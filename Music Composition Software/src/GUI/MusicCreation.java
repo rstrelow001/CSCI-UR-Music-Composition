@@ -37,6 +37,8 @@ import controllers.InputController;
 import controllers.midiOutputController;
 import controllers.StatisticsOutputController;
 import controllers.StructReader;
+import controllers.StructInterpreter;
+import controllers.NoteConstructor;
 
 public class MusicCreation {
 	 //map that contains all the epochs and their values
@@ -82,7 +84,7 @@ public class MusicCreation {
      */
     private ArrayList<Double> epochIntervals;
     
-    private StructReader durationsStruct;
+ 
     
     // variables to ensure the composer runs linearly
     //TODO: EDIT DEFAULT DURATION SO THAT IT WORKS AS INTENDED
@@ -90,21 +92,7 @@ public class MusicCreation {
     
     private final int DEFAULT_WHOLENOTE_DURATION = 4000;
 	
-//	public MusicCreation() {
-//		epochs = InputController.readInput();
-//		//changing the Epoch will generate different sounding music (there are 6 Epochs: medieval, renaissance, classical, baroque, romantic, and modern)
-//		changeEpoch("classical");
-//		
-//		notes = new ArrayList<Note>();
-//		measureMarkers = new ArrayList<Integer>();
-//		
-//		for(int i = 0; i < 10; i++) {
-//			generateMeasure();
-//		}
-//		StatisticsOutputController.outputStatistics(notes, measureMarkers, "/home/rstrelow001/MusicComposition/CSCI-UR-Music-Composition/Audio Files/7-20-18/classical_6_8_organ_stats.txt");
-//		midiOutputController.outputMidi(notes, "/home/rstrelow001/MusicComposition/CSCI-UR-Music-Composition/Audio Files/7-20-18/classical_6_8_organ.mid");	
-//		
-//	}
+
 	
 	
 	public MusicCreation() {
@@ -113,365 +101,287 @@ public class MusicCreation {
 		measureMarkers = new ArrayList<Integer>();
 		
 		
-		durationsStruct = new StructReader("kern.json");
-		ArrayList<MusicStruct> durations = durationsStruct.makeStruct(200);
-		notes = convertDurations(durations);
+		//durationsStruct = new StructReader("kern.json");
+		//ArrayList<MusicStruct> durations = durationsStruct.makeStruct(200);
+	
+	}
+	
+	public void makeMusicFromJson(String fileName, int numMeasures) {
 		
+		StructReader structReader = new StructReader("m" + fileName + ".json");
+		StructInterpreter interpreter = new StructInterpreter();
+		
+		//TODO: remember the location of measure dividers (either keep track or count after)
+		ArrayList<String> durations = interpreter.interpretMeasure(structReader.structToString(structReader.makeStruct(numMeasures)));
+				
+		structReader = new StructReader("i" + fileName + ".json");
+		ArrayList<String> intervals = structReader.structToString(structReader.makeStruct(durations.size()-interpreter.countRests(durations)));
+		
+		NoteConstructor constructor = new NoteConstructor();
+		notes = constructor.constructNotes(durations, intervals);
+			
+		midiOutputController.outputMidi(notes, "/home/rstrelow001/MusicComposition/CSCI-UR-Music-Composition/Audio Files/6-20-19/" + fileName + ".mid");	
+			
+	}
+	
+	
 
-	}
+	
+
 	
 	
-	private int countNonRests(ArrayList<Note> notes) {
-		int count = 0;
-		
-		for (Note n : notes) {
-			if (!n.isRest())
-				count++;
-		}
-		
-		return count;
-	}
-	
-	/*
-	 * method to convert MusicStructs containing the duration information for the song
-	 * @param Arraylist<MuiscStruct> durations  the list containing the durations
-	 * @return ArrayList<Note>
-	 */
-	private ArrayList<Note> convertDurations(ArrayList<MusicStruct> durations) {
-			
-		for (MusicStruct m : durations) {
-			String signature = m.getSignature();
-			int nextDash = signature.indexOf('-');
-			
-			while (nextDash != signature.length()-1) {			
-				notes.add(convertDurationtoken(signature.substring(0, nextDash)));
-				signature = signature.substring(++nextDash);			
-				nextDash = signature.indexOf('-');
-			}
-			notes.add(convertDurationtoken(signature.substring(0, nextDash)));
-		}
-		return notes;
-	}
-	
-	
-	/*
-	 * helper method to convert the string durations into Note objects
-	 * @param String token  the value to convert
-	 * @return Note
-	 */
-	private Note convertDurationtoken(String token) {
-		
-		String convertedToken = "";
-		int duration = DEFAULT_WHOLENOTE_DURATION;
-		double multiplier = 1.0;
-		boolean isRest = false;
-		
-		//determines if the note is a rest
-		if (token.endsWith("r")) {
-			isRest = true;
-			token = token.substring(0, token.length()-1);
-		}
-		
-		//determines if the noted is dotted
-		if (token.endsWith("..")) 
-		{
-			multiplier = 1.75;
-			token = token.substring(0, token.length()-2);	
-			convertedToken = "Double Dotted - ";
-		}
-		
-		if (token.endsWith(".")) 
-		{
-			multiplier = 1.5;
-			token = token.substring(0, token.length()-1);	
-			convertedToken = "Dotted - ";
-		}
-		
-		int num = Integer.parseInt(token);
-		multiplier /= num;
-		
-		if (num == 16) 
-			convertedToken += "Sixteenth";
-		else if (num == 8) 
-			convertedToken += "Eighth";
-	
-		else if (num == 4) 
-			convertedToken += "Quarter";
-		else if (num == 2)			
-			convertedToken += "Half";
-		else if (num == 1) 
-			convertedToken += "Whole";
-		else 
-			convertedToken += "1/" + num;
-			
-		
-		//calculate if it is a rest
-		if(isRest) {
-			convertedToken += " Rest";
-		}
-		else {
-			convertedToken += " Note";
-			//length++;
-		}
-		
-		duration *= multiplier;
-		
-		return new Note(num, duration, convertedToken, isRest);	
-	}
+
 	
 	/*
 	 * method to generate a new measure of music and add the notes to a list.
 	 * The method selects a measure of durations from the available pool and then selects
 	 * the number of intervals needed based on the number of durations in the measure (excluding rests). 
 	 */
-	 private void generateMeasure() {
-	    	
-	    	MeasureDurations newDurations = measureDurationsGenerator();
-	    	MeasureIntervals newIntervals;
-	    	newIntervals = intervalGenerator(newDurations.getSize());
-	    	while(newDurations.hasNextDuration()) {
-	    		Note newNote = newDurations.nextDuration();
-	    		System.out.println("Duration: " + newNote.getDurationName());
-	    	    System.out.println("Time Value: " + newNote.getDuration());
-	    		if (!newNote.isRest()) {
-	    			int newInterval = newIntervals.nextInterval();
-	    			System.out.println("Interval: " + newInterval);
-	    			prevPitch = playNextNote(newInterval, prevPitch, newNote.getDuration());
-	    			//newPitch and newPitchName are updated in playNextNote()
-	    			newNote.setPitch(newPitch);
-	    			newNote.setPitchName(newPitchName);	    			
-	    		}
-	    		System.out.println();
-	    		notes.add(newNote);
-	    	}
-	    	//remembers where the next measure is
-	    	measureMarkers.add(notes.size()-1);
-	    	System.out.println("-------------END OF MEASURE--------------\n");
-	    	newDurations.resetDurations();
-	    	newIntervals.resetIntervals();
-	    }
-
-	 
-	 /* Method to re-adjust the probability values when a new epoch is selected
-     * @param String representing epoch
-     */
-    public void changeEpoch(String epoch) {
-    	Epoch newEpoch = epochs.get(epoch); 
-    	range = newEpoch.getRange();
-    	defaultDuration = newEpoch.getDefaultDuration();
-    	era = newEpoch.getEra();      	
-    	measureTypes = newEpoch.getDurationPatterns();
-    	epochIntervals = newEpoch.getSingleIntervals();
-    }
-    
-      
-    /*
-     * Method designed to generate a new measure of durations
-     * @returns a randomly generated measure of intervals
-     * */	
-	private MeasureDurations measureDurationsGenerator(){		
-		MeasureDurations tempMeasure = measureTypes.get(0);
-		/* Resets the valFound var to false for next note generation */
-		boolean valFound = false;
+//	 private void generateMeasure() {
+//	    	
+//	    	MeasureDurations newDurations = measureDurationsGenerator();
+//	    	MeasureIntervals newIntervals;
+//	    	newIntervals = intervalGenerator(newDurations.getSize());
+//	    	while(newDurations.hasNextDuration()) {
+//	    		Note newNote = newDurations.nextDuration();
+//	    		System.out.println("Duration: " + newNote.getDurationName());
+//	    	    System.out.println("Time Value: " + newNote.getDuration());
+//	    		if (!newNote.isRest()) {
+//	    			int newInterval = newIntervals.nextInterval();
+//	    			System.out.println("Interval: " + newInterval);
+//	    			prevPitch = playNextNote(newInterval, prevPitch, newNote.getDuration());
+//	    			//newPitch and newPitchName are updated in playNextNote()
+//	    			newNote.setPitch(newPitch);
+//	    			newNote.setPitchName(newPitchName);	    			
+//	    		}
+//	    		System.out.println();
+//	    		notes.add(newNote);
+//	    	}
+//	    	//remembers where the next measure is
+//	    	measureMarkers.add(notes.size()-1);
+//	    	System.out.println("-------------END OF MEASURE--------------\n");
+//	    	newDurations.resetDurations();
+//	    	newIntervals.resetIntervals();
+//	    }
+//
+//	 
+//	 /* Method to re-adjust the probability values when a new epoch is selected
+//     * @param String representing epoch
+//     */
+//    public void changeEpoch(String epoch) {
+//    	Epoch newEpoch = epochs.get(epoch); 
+//    	range = newEpoch.getRange();
+//    	defaultDuration = newEpoch.getDefaultDuration();
+//    	era = newEpoch.getEra();      	
+//    	measureTypes = newEpoch.getDurationPatterns();
+//    	epochIntervals = newEpoch.getSingleIntervals();
+//    }
+//    
+//      
+//    /*
+//     * Method designed to generate a new measure of durations
+//     * @returns a randomly generated measure of intervals
+//     * */	
+//	private MeasureDurations measureDurationsGenerator(){		
+//		MeasureDurations tempMeasure = measureTypes.get(0);
+//		/* Resets the valFound var to false for next note generation */
+//		boolean valFound = false;
+//		
+//		while (!valFound) {
+//			int i = 0;
+//			double running = 0.0;
+//			double value = Math.random();
+//
+//			while (!valFound && i < measureTypes.size()) {
+//				tempMeasure = measureTypes.get(i);
+//				double measureProbability = tempMeasure.getProbability();
+//				if (value <= measureProbability + running) 
+//					valFound = true;
+//
+//				running += measureProbability;
+//				i++;
+//			}
+//		}
+//		return tempMeasure;
+//	}
+//	
+//	
+//	private MeasureIntervals intervalGenerator(int size) {
+//		MeasureIntervals newMeasure = new MeasureIntervals();
+//		
+//		//adds enough intervals to match the number of durations in the measure
+//		for (int i = 0; i < size; i++) {
+//			boolean valFound = false;
+//
+//			while (!valFound ) {
+//				double running = 0.0;
+//				double value = Math.random();
+//
+//				int j = 0;
+//				while (!valFound && j < epochIntervals.size()) {
+//					double probability = epochIntervals.get(j);
+//					if (value <= probability + running) {
+//						valFound = true;
+//						newMeasure.addInterval(j);						
+//					}
+//
+//					running += probability;
+//					j++;
+//				}
+//			}
+//		}
+//		return newMeasure;		
+//	}
+//	 
+//	 
+//	 /*
+//	     * Method designed to generate a new musical note value based on given previous note value
+//	     * @param int prevVal
+//	     * @returns int newVal
+//	     * */	
+//		private int playNextNote(int newInterval, int prevVal, int duration){
+//			if (prevVal == 0){				
+//				toNote(1);
+//				return 1;
+//			}
+//			/* Sets ascLim and descLim to half of the average range of the 
+//			 * given epoch. DescLim gets the ceiling arbitrarily*/
+//			int ascLim = range/2;
+//			int descLim= (range/2) + (range%2);
+//
+//			int newVal;
+//			int direction = (int)(Math.random()*2);
+//
+//			/* determines before each note whether it was generated to be ascending
+//			 * or descending. This process is regulated with ascLim and descLim */
+//			boolean ascending = false;
+//			if(direction == 1)
+//				ascending = true;
+//
+//			if (ascending && currentDiff + newInterval >= ascLim) {
+//				System.out.println("Switched, too high");
+//				ascending = false;
+//			}
+//			if (!ascending && -1*(currentDiff - newInterval) >= descLim) {
+//				System.out.println("Switched, too low");
+//				ascending = true;
+//			}
+//			System.out.println("Ascending = "+ascending);
+//						
+//			if(ascending){
+//				currentDiff += newInterval;
+//				System.out.println("Current Difference = " + currentDiff);
+//				newVal = prevVal;
+//				for (int i = 0; i < newInterval; i++){
+//					if (newVal == 5 || newVal == 12)
+//						newVal += 1;
+//					else
+//						newVal += 2;
+//					if (newVal > 12) {
+//						myOctave++;
+//						newVal -= 12;
+//					}
+//				}
+//			}
+//			else{
+//				currentDiff -= newInterval;
+//				System.out.println("Current Difference = " + currentDiff);
+//				newVal = prevVal;
+//				for (int i = 0; i < newInterval; i++){
+//					if (newVal == 6 || newVal == 13 || newVal == 1)
+//						newVal -= 1;
+//					else
+//						newVal -= 2;
+//					if (newVal < 1) {
+//						newVal += 12;
+//						myOctave--;
+//					}
+//				}
+//			}
+//			//change newVal to its actual midi pitch
+//			newPitch = toNote(newVal);
+//
+//			//return newVal, which is a relative pitch, so that the next generated interval can be applied to it
+//			return newVal;
+//		}
+//
+//		
+//		/*
+//		 * Method that takes pitch value representation from binary as integer, prints corresponding
+//		 * value and updates the String representation of the pitch
+//		 * @param int val - Value of pitch (1-13) generated by the rule system
+//		 * @returns the absolute pitch as an int
+//		 * */
+//		private int toNote(int val) {
+//			int noteVal;
+//			int C = myOctave * 12;
+//
+//			if(val == 1 || val == 13){
+//				noteVal = C+0;
+//				System.out.println("New Pitch = C");
+//				newPitchName = "C";
+//			}
+//			else if(val == 2){
+//				noteVal = C+1;
+//				System.out.println("New Pitch = C#/Db");
+//				newPitchName = "C#";
+//			}
+//			else if(val == 3){
+//				noteVal = C+2;
+//				System.out.println("New Pitch = D");
+//				newPitchName = "D";
+//			}
+//			else if(val == 4){
+//				noteVal = C+3;
+//				System.out.println("New Pitch = D#/Eb");
+//				newPitchName = "Eb";
+//			}
+//			else if(val == 5){
+//				noteVal = C+4;
+//				System.out.println("New Pitch = E");
+//				newPitchName = "E";
+//			}
+//			else if(val == 6){
+//				noteVal = C+5;
+//				System.out.println("New Pitch = F");
+//				newPitchName = "F";
+//			}
+//			else if(val == 7){
+//				noteVal = C+6;
+//				System.out.println("New Pitch = F#/Gb");
+//				newPitchName = "F#";
+//			}
+//			else if(val == 8){
+//				noteVal = C+7;
+//				System.out.println("New Pitch = G");
+//				newPitchName = "G";
+//			}
+//			else if(val == 9){
+//				noteVal = C+8;
+//				System.out.println("New Pitch = G#/Ab");
+//				newPitchName = "Ab";
+//			}
+//			else if(val == 10){
+//				noteVal = C+9;
+//				System.out.println("New Pitch = A");
+//				newPitchName = "A";
+//			}
+//			else if(val == 11){
+//				noteVal = C+10;
+//				System.out.println("New Pitch = A#/Bb");
+//				newPitchName = "Bb";
+//			}
+//			else if(val == 12){
+//				noteVal = C+11;
+//				System.out.println("New Pitch = B");
+//				newPitchName = "B";
+//			}
+//			else {
+//				return 0;
+//			}			
+//			System.out.println("New Midi Value = " + noteVal);
+//			return noteVal;
+//		}
 		
-		while (!valFound) {
-			int i = 0;
-			double running = 0.0;
-			double value = Math.random();
 
-			while (!valFound && i < measureTypes.size()) {
-				tempMeasure = measureTypes.get(i);
-				double measureProbability = tempMeasure.getProbability();
-				if (value <= measureProbability + running) 
-					valFound = true;
-
-				running += measureProbability;
-				i++;
-			}
-		}
-		return tempMeasure;
-	}
-	
-	
-	private MeasureIntervals intervalGenerator(int size) {
-		MeasureIntervals newMeasure = new MeasureIntervals();
-		
-		//adds enough intervals to match the number of durations in the measure
-		for (int i = 0; i < size; i++) {
-			boolean valFound = false;
-
-			while (!valFound ) {
-				double running = 0.0;
-				double value = Math.random();
-
-				int j = 0;
-				while (!valFound && j < epochIntervals.size()) {
-					double probability = epochIntervals.get(j);
-					if (value <= probability + running) {
-						valFound = true;
-						newMeasure.addInterval(j);						
-					}
-
-					running += probability;
-					j++;
-				}
-			}
-		}
-		return newMeasure;		
-	}
-	 
-	 
-	 /*
-	     * Method designed to generate a new musical note value based on given previous note value
-	     * @param int prevVal
-	     * @returns int newVal
-	     * */	
-		private int playNextNote(int newInterval, int prevVal, int duration){
-			if (prevVal == 0){				
-				toNote(1);
-				return 1;
-			}
-			/* Sets ascLim and descLim to half of the average range of the 
-			 * given epoch. DescLim gets the ceiling arbitrarily*/
-			int ascLim = range/2;
-			int descLim= (range/2) + (range%2);
-
-			int newVal;
-			int direction = (int)(Math.random()*2);
-
-			/* determines before each note whether it was generated to be ascending
-			 * or descending. This process is regulated with ascLim and descLim */
-			boolean ascending = false;
-			if(direction == 1)
-				ascending = true;
-
-			if (ascending && currentDiff + newInterval >= ascLim) {
-				System.out.println("Switched, too high");
-				ascending = false;
-			}
-			if (!ascending && -1*(currentDiff - newInterval) >= descLim) {
-				System.out.println("Switched, too low");
-				ascending = true;
-			}
-			System.out.println("Ascending = "+ascending);
-						
-			if(ascending){
-				currentDiff += newInterval;
-				System.out.println("Current Difference = " + currentDiff);
-				newVal = prevVal;
-				for (int i = 0; i < newInterval; i++){
-					if (newVal == 5 || newVal == 12)
-						newVal += 1;
-					else
-						newVal += 2;
-					if (newVal > 12) {
-						myOctave++;
-						newVal -= 12;
-					}
-				}
-			}
-			else{
-				currentDiff -= newInterval;
-				System.out.println("Current Difference = " + currentDiff);
-				newVal = prevVal;
-				for (int i = 0; i < newInterval; i++){
-					if (newVal == 6 || newVal == 13 || newVal == 1)
-						newVal -= 1;
-					else
-						newVal -= 2;
-					if (newVal < 1) {
-						newVal += 12;
-						myOctave--;
-					}
-				}
-			}
-			//change newVal to its actual midi pitch
-			newPitch = toNote(newVal);
-
-			//return newVal, which is a relative pitch, so that the next generated interval can be applied to it
-			return newVal;
-		}
-
-		
-		/*
-		 * Method that takes pitch value representation from binary as integer, prints corresponding
-		 * value and updates the String representation of the pitch
-		 * @param int val - Value of pitch (1-13) generated by the rule system
-		 * @returns the absolute pitch as an int
-		 * */
-		private int toNote(int val) {
-			int noteVal;
-			int C = myOctave * 12;
-
-			if(val == 1 || val == 13){
-				noteVal = C+0;
-				System.out.println("New Pitch = C");
-				newPitchName = "C";
-			}
-			else if(val == 2){
-				noteVal = C+1;
-				System.out.println("New Pitch = C#/Db");
-				newPitchName = "C#";
-			}
-			else if(val == 3){
-				noteVal = C+2;
-				System.out.println("New Pitch = D");
-				newPitchName = "D";
-			}
-			else if(val == 4){
-				noteVal = C+3;
-				System.out.println("New Pitch = D#/Eb");
-				newPitchName = "Eb";
-			}
-			else if(val == 5){
-				noteVal = C+4;
-				System.out.println("New Pitch = E");
-				newPitchName = "E";
-			}
-			else if(val == 6){
-				noteVal = C+5;
-				System.out.println("New Pitch = F");
-				newPitchName = "F";
-			}
-			else if(val == 7){
-				noteVal = C+6;
-				System.out.println("New Pitch = F#/Gb");
-				newPitchName = "F#";
-			}
-			else if(val == 8){
-				noteVal = C+7;
-				System.out.println("New Pitch = G");
-				newPitchName = "G";
-			}
-			else if(val == 9){
-				noteVal = C+8;
-				System.out.println("New Pitch = G#/Ab");
-				newPitchName = "Ab";
-			}
-			else if(val == 10){
-				noteVal = C+9;
-				System.out.println("New Pitch = A");
-				newPitchName = "A";
-			}
-			else if(val == 11){
-				noteVal = C+10;
-				System.out.println("New Pitch = A#/Bb");
-				newPitchName = "Bb";
-			}
-			else if(val == 12){
-				noteVal = C+11;
-				System.out.println("New Pitch = B");
-				newPitchName = "B";
-			}
-			else {
-				return 0;
-			}			
-			System.out.println("New Midi Value = " + noteVal);
-			return noteVal;
-		}
-		
-	 
-	 public static void main(String args[]) {
-		 new MusicCreation();
-	 }
 }

@@ -47,6 +47,21 @@ public class Note {
 	}
 	
 	
+	/*
+	 * Constructor
+	 * @param duration  the length of the note
+	 * @param durationName  the conventional name of the note
+	 * @param isRest  tells if the note is a rest
+	 */
+	public Note(int noteNumber, int duration, String durationName, int pitch, boolean isRest) {
+		this.setNoteNumber(noteNumber);
+		this.setDuration(duration);
+		this.setDurationName(durationName);
+		this.setPitch(pitch);
+		this.setRest(isRest);
+	}
+	
+	
 	public int getNoteNumber() {
 		return noteNumber;
 	}
@@ -95,6 +110,10 @@ public class Note {
 
 	public void setRest(boolean isRest) {
 		this.isRest = isRest;
+	}
+	
+	public String toString() {
+		return  durationName + "\n Pitch: " + pitch + "\n";
 	}
 
 }
