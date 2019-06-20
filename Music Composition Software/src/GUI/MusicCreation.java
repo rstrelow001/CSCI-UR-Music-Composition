@@ -113,7 +113,7 @@ public class MusicCreation {
 		measureMarkers = new ArrayList<Integer>();
 		
 		
-		durationsStruct = new StructReader();
+		durationsStruct = new StructReader("kern.json");
 		ArrayList<MusicStruct> durations = durationsStruct.makeStruct(200);
 		notes = convertDurations(durations);
 		
