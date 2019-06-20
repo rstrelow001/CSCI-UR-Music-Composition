@@ -9,7 +9,7 @@ for file in *.krn; do
 	for((i=1; i<= numS; i++)); do
 		extract -f $i $file |
 			sed 's/\\$//g' | 
-			humsed '/^[^=]/s/[^0-9r ]//g' | 
+			humsed '/^[^=]/s/[^0-9.r ]//g' | 
 			grep -v -e '^$' -e '^!' -e '^[.]$' -e '^*' |
 			sed -e 's/ /:/g' -e 's/=.*/=/g' |
 			tr '\n' '-' | 
