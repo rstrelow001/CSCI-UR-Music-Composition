@@ -12,7 +12,7 @@ public class TestDriver {
 
 		//this.testIntervalConverter();
 
-		this.testNoteConstructor();
+		this.testMusicCreation();
 
 	}
 	
@@ -84,6 +84,12 @@ public class TestDriver {
 			
 		System.out.println(nc.constructNotes(songDurations, songIntervals));
 		
+	}
+	
+	public void testMusicCreation() {
+		
+		MusicCreator mc = new MusicCreator();
+		mc.makeMusicFromJson("medieval",  50);
 	}
 	
 	public static void main(String args[]) {
