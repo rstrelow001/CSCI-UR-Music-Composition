@@ -108,23 +108,44 @@ public class MusicCreator {
 	
 	public void makeMusicFromJson(String fileName, int numMeasures) {
 		
-		StructReader structReader = new StructReader("m" + fileName + ".json");
+		StructReader structReader = new StructReader("m_" + fileName + ".json");
 		StructInterpreter interpreter = new StructInterpreter();
 		
 		//TODO: remember the location of measure dividers (either keep track or count after)
 		ArrayList<String> durations = interpreter.interpretMeasure(structReader.structToString(structReader.makeStruct(numMeasures)));
+		
+		
+		//FOR TESTING
+		structReader.printSong(structReader.musicStructs);
+		
 				
-		structReader = new StructReader("i" + fileName + ".json");
+		structReader = new StructReader("i_" + fileName + ".json");
 		ArrayList<String> intervals = structReader.structToString(structReader.makeStruct(durations.size()-interpreter.countRests(durations)));
 		
 		NoteConstructor constructor = new NoteConstructor();
 		notes = constructor.constructNotes(durations, intervals);
-			
-		midiOutputController.outputMidi(notes, "/home/rstrelow001/MusicComposition/CSCI-UR-Music-Composition/Audio Files/6-20-19/" + fileName + ".mid");	
+		
+		//used for testing
+		this.printNotes(notes);
+		
+		midiOutputController.outputMidi(notes, "midiOutput/" + fileName + ".mid");	
 			
 	}
 	
 	
+	//method for testing
+	public void printNotes(ArrayList<Note> notesToPrint) {
+		
+		for (int i = 0; i < notesToPrint.size(); i++) {
+			System.out.print((i + 1) + "  -  Duration: " + notesToPrint.get(i).getDuration());
+			System.out.print("  -  Pitch: " + notesToPrint.get(i).getPitch());
+			System.out.print("  -  Note Number: " + notesToPrint.get(i).getNoteNumber());
+			System.out.print("  -  Duration Name: " + notesToPrint.get(i).getDurationName());
+			System.out.print("  -  Pitch Name: " + notesToPrint.get(i).getPitchName());
+			System.out.println("  -  Rest: " + notesToPrint.get(i).isRest());
+		}
+		
+	}
 
 	
 

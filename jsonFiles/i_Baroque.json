@@ -1,0 +1,531 @@
+[
+  {
+    "measureSignature": "3",
+    "adjacentMeasures": [
+      "1",
+      "2",
+      "4",
+      "6",
+      "3",
+      "5",
+      "8",
+      "7",
+      "9",
+      "10",
+      "13",
+      "11",
+      "17",
+      "12",
+      "14"
+    ],
+    "adjacentMeasureFrequencies": [
+      421,
+      1325,
+      544,
+      198,
+      1704,
+      205,
+      71,
+      38,
+      8,
+      13,
+      10,
+      11,
+      1,
+      16,
+      1
+    ]
+  },
+  {
+    "measureSignature": "1",
+    "adjacentMeasures": [
+      "3",
+      "1",
+      "2",
+      "5",
+      "4",
+      "6",
+      "8",
+      "7",
+      "16",
+      "12",
+      "15",
+      "14",
+      "11",
+      "10",
+      "13",
+      "9"
+    ],
+    "adjacentMeasureFrequencies": [
+      456,
+      2297,
+      1112,
+      147,
+      223,
+      211,
+      112,
+      112,
+      1,
+      11,
+      6,
+      10,
+      10,
+      5,
+      7,
+      16
+    ]
+  },
+  {
+    "measureSignature": "2",
+    "adjacentMeasures": [
+      "2",
+      "1",
+      "5",
+      "3",
+      "6",
+      "10",
+      "4",
+      "8",
+      "7",
+      "9",
+      "15",
+      "11",
+      "13",
+      "12",
+      "14"
+    ],
+    "adjacentMeasureFrequencies": [
+      7685,
+      1020,
+      408,
+      1371,
+      297,
+      45,
+      537,
+      201,
+      109,
+      12,
+      2,
+      16,
+      4,
+      9,
+      1
+    ]
+  },
+  {
+    "measureSignature": "5",
+    "adjacentMeasures": [
+      "2",
+      "3",
+      "1",
+      "4",
+      "8",
+      "5",
+      "6",
+      "7",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "17",
+      "15"
+    ],
+    "adjacentMeasureFrequencies": [
+      352,
+      154,
+      222,
+      77,
+      61,
+      270,
+      124,
+      27,
+      11,
+      8,
+      10,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  {
+    "measureSignature": "6",
+    "adjacentMeasures": [
+      "1",
+      "3",
+      "6",
+      "2",
+      "4",
+      "5",
+      "8",
+      "7",
+      "12",
+      "9",
+      "15",
+      "11",
+      "10",
+      "14"
+    ],
+    "adjacentMeasureFrequencies": [
+      249,
+      151,
+      637,
+      357,
+      79,
+      105,
+      51,
+      80,
+      3,
+      2,
+      8,
+      7,
+      8,
+      2
+    ]
+  },
+  {
+    "measureSignature": "10",
+    "adjacentMeasures": [
+      "2",
+      "4",
+      "1",
+      "7",
+      "5",
+      "10",
+      "8",
+      "3",
+      "11",
+      "9",
+      "12",
+      "6"
+    ],
+    "adjacentMeasureFrequencies": [
+      36,
+      6,
+      18,
+      3,
+      6,
+      38,
+      9,
+      27,
+      10,
+      5,
+      3,
+      1
+    ]
+  },
+  {
+    "measureSignature": "4",
+    "adjacentMeasures": [
+      "2",
+      "4",
+      "1",
+      "10",
+      "3",
+      "5",
+      "6",
+      "8",
+      "7",
+      "11",
+      "14",
+      "13",
+      "9",
+      "15"
+    ],
+    "adjacentMeasureFrequencies": [
+      487,
+      718,
+      247,
+      2,
+      530,
+      115,
+      115,
+      52,
+      24,
+      5,
+      2,
+      1,
+      4,
+      1
+    ]
+  },
+  {
+    "measureSignature": "8",
+    "adjacentMeasures": [
+      "2",
+      "1",
+      "4",
+      "3",
+      "5",
+      "6",
+      "8",
+      "7",
+      "12",
+      "15",
+      "11",
+      "10",
+      "13"
+    ],
+    "adjacentMeasureFrequencies": [
+      174,
+      120,
+      67,
+      82,
+      38,
+      55,
+      216,
+      19,
+      4,
+      2,
+      6,
+      12,
+      1
+    ]
+  },
+  {
+    "measureSignature": "7",
+    "adjacentMeasures": [
+      "2",
+      "1",
+      "5",
+      "3",
+      "7",
+      "6",
+      "12",
+      "8",
+      "4",
+      "11",
+      "10",
+      "9"
+    ],
+    "adjacentMeasureFrequencies": [
+      132,
+      84,
+      14,
+      58,
+      119,
+      89,
+      3,
+      15,
+      29,
+      3,
+      1,
+      3
+    ]
+  },
+  {
+    "measureSignature": "9",
+    "adjacentMeasures": [
+      "2",
+      "1",
+      "4",
+      "5",
+      "10",
+      "3",
+      "9",
+      "8",
+      "7",
+      "11"
+    ],
+    "adjacentMeasureFrequencies": [
+      14,
+      8,
+      2,
+      2,
+      4,
+      14,
+      14,
+      3,
+      2,
+      3
+    ]
+  },
+  {
+    "measureSignature": "15",
+    "adjacentMeasures": [
+      "1",
+      "2",
+      "5",
+      "15",
+      "3",
+      "14",
+      "8",
+      "6"
+    ],
+    "adjacentMeasureFrequencies": [
+      5,
+      2,
+      1,
+      11,
+      6,
+      4,
+      1,
+      4
+    ]
+  },
+  {
+    "measureSignature": "16",
+    "adjacentMeasures": [
+      "3",
+      "11"
+    ],
+    "adjacentMeasureFrequencies": [
+      1,
+      1
+    ]
+  },
+  {
+    "measureSignature": "11",
+    "adjacentMeasures": [
+      "2",
+      "1",
+      "11",
+      "4",
+      "3",
+      "10",
+      "8",
+      "9",
+      "5",
+      "6"
+    ],
+    "adjacentMeasureFrequencies": [
+      19,
+      19,
+      17,
+      7,
+      4,
+      19,
+      2,
+      2,
+      4,
+      4
+    ]
+  },
+  {
+    "measureSignature": "12",
+    "adjacentMeasures": [
+      "1",
+      "8",
+      "2",
+      "12",
+      "7",
+      "6",
+      "5",
+      "4",
+      "15",
+      "11",
+      "14",
+      "3",
+      "10"
+    ],
+    "adjacentMeasureFrequencies": [
+      10,
+      2,
+      15,
+      19,
+      15,
+      4,
+      4,
+      3,
+      2,
+      1,
+      1,
+      3,
+      2
+    ]
+  },
+  {
+    "measureSignature": "14",
+    "adjacentMeasures": [
+      "2",
+      "14",
+      "4",
+      "17",
+      "1",
+      "15",
+      "13",
+      "6"
+    ],
+    "adjacentMeasureFrequencies": [
+      4,
+      8,
+      3,
+      1,
+      7,
+      1,
+      4,
+      2
+    ]
+  },
+  {
+    "measureSignature": "",
+    "adjacentMeasures": [
+      "8",
+      "19",
+      "2",
+      "4",
+      "1",
+      "3",
+      "16",
+      "10",
+      "7",
+      "6",
+      "5"
+    ],
+    "adjacentMeasureFrequencies": [
+      2,
+      1,
+      3,
+      6,
+      5,
+      1,
+      1,
+      2,
+      1,
+      1,
+      2
+    ]
+  },
+  {
+    "measureSignature": "19",
+    "adjacentMeasures": [
+      "1"
+    ],
+    "adjacentMeasureFrequencies": [
+      1
+    ]
+  },
+  {
+    "measureSignature": "13",
+    "adjacentMeasures": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "7",
+      "13",
+      "12"
+    ],
+    "adjacentMeasureFrequencies": [
+      5,
+      11,
+      2,
+      5,
+      1,
+      7,
+      4
+    ]
+  },
+  {
+    "measureSignature": "17",
+    "adjacentMeasures": [
+      "2",
+      "3"
+    ],
+    "adjacentMeasureFrequencies": [
+      2,
+      1
+    ]
+  }
+]

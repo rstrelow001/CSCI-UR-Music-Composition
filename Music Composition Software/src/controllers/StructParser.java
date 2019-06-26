@@ -52,7 +52,8 @@ public class StructParser {
 		JSONParser jsonParser = new JSONParser();
 		
 		try {
-			
+			String userDir = System.getProperty("user.dir");
+			System.out.println(userDir);
 			//Load the entire JSON file
 			JSONArray jsonArray = (JSONArray) jsonParser.parse(new FileReader("jsonFiles/" + fileName));
 			

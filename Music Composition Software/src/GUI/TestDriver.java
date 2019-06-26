@@ -89,7 +89,7 @@ public class TestDriver {
 	public void testMusicCreation() {
 		
 		MusicCreator mc = new MusicCreator();
-		mc.makeMusicFromJson("medieval",  50);
+		mc.makeMusicFromJson("Renaissance",  50);
 	}
 	
 	public static void main(String args[]) {

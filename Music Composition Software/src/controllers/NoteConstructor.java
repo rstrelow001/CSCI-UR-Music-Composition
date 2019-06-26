@@ -26,7 +26,7 @@ public class NoteConstructor {
 			boolean isRest = false;
 			
 			//determines if the note is a rest
-			if (token.endsWith("r")) {
+			while (token.endsWith("r")) {
 				isRest = true;
 				token = token.substring(0, token.length()-1);
 			}

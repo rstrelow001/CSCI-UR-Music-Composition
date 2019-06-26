@@ -38,12 +38,6 @@ public class StructReader {
 			MusicStruct thisStruct = this.musicStructs.get(i);
 			ArrayList<AdjacentMusicStruct> thisAdjecentStruct = thisStruct.getAdjacentStructs();
 			
-			ArrayList<String> sginatureSequence = thisStruct.getSignatureSequence();
-			String s1 = sginatureSequence.get(0);
-			String s2 = sginatureSequence.get(1);
-			
-			System.out.println("Signature: " + thisStruct.getSignature() + " Signature Sequence: " + s1 + " | " + s2);
-			
 			for (int j = 0; j < thisAdjecentStruct.size(); j++) {
 				System.out.println("|        " + thisAdjecentStruct.get(j).toString());
 			}
@@ -55,7 +49,11 @@ public class StructReader {
 	public void printSong(ArrayList<MusicStruct> song) {
 		System.out.println("Print Song");
 		for (int i = 0; i < song.size(); i++) {
-			System.out.println(song.get(i).getSignature());
+			System.out.println((i + 1) + "  -  " + song.get(i).getSignature());
+			for (int j = 0; j < song.get(i).getAdjacentStructs().size(); j++) {
+				System.out.print("|        " + (j + 1) + "  -  ");
+				System.out.println(song.get(i).getAdjacentStructs().get(j));
+			}
 		}
 		System.out.println("End of Song");
 	}
@@ -187,8 +185,5 @@ public class StructReader {
 	}
 	
 	
-	//main method in used for testing
-	public static void main(String args[]) {
-		new StructReader("kern.json");
-	}
+
 }
