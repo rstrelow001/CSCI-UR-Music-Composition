@@ -16,6 +16,7 @@ public class MusicStruct {
 	
 	//Instance variables
 	String singature;
+	String startOrEnd;
 	ArrayList<String> signatureSequence;
 	ArrayList<AdjacentMusicStruct> adjasentStructs = new ArrayList<AdjacentMusicStruct>();
 	
@@ -23,8 +24,9 @@ public class MusicStruct {
 	 * Public constructor assigns the instance variable signature
 	 * @param signature
 	 */
-	public MusicStruct(String signature, ArrayList<String> signatureSequence) {
+	public MusicStruct(String signature, ArrayList<String> signatureSequence, String startOrEnd) {
 		this.singature = signature;
+		this.startOrEnd = startOrEnd;
 		this.signatureSequence = signatureSequence;
 	}
 	
@@ -62,7 +64,7 @@ public class MusicStruct {
 		}
 	}
 	
-	//Getters for signature, signatureSequence and adjacentStructs
+	//Getters for signature, signatureSequence, startOrEnd, and adjacentStructs
 	public ArrayList<String> getSignatureSequence() {
 		return this.signatureSequence;
 	}
@@ -71,5 +73,8 @@ public class MusicStruct {
 	}
 	public ArrayList<AdjacentMusicStruct> getAdjacentStructs(){
 		return this.adjasentStructs;
+	}
+	public String getStartOrEnd() {
+		return this.startOrEnd;
 	}
 }

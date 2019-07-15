@@ -52,8 +52,6 @@ public class StructParser {
 		JSONParser jsonParser = new JSONParser();
 		
 		try {
-			String userDir = System.getProperty("user.dir");
-			System.out.println(userDir);
 			//Load the entire JSON file
 			JSONArray jsonArray = (JSONArray) jsonParser.parse(new FileReader("jsonFiles/" + fileName));
 			
@@ -68,6 +66,10 @@ public class StructParser {
 				//Get the signature
 				String signature = signatureSequence.get(signatureSequence.size() - 1);
 				
+				//Get startOrEnd token
+				@SuppressWarnings("unchecked")
+				String startOrEnd = (String) jsonObject.get("startOrEnd");
+				
 				//Get the list of adjacent MusicStructs
 				@SuppressWarnings("unchecked")
 				ArrayList<String> adjacentStructs = (ArrayList<String>) jsonObject.get("adjacentMeasures");
@@ -77,7 +79,7 @@ public class StructParser {
 				ArrayList<Integer> adjacentFrequencies = (ArrayList<Integer>) jsonObject.get("adjacentMeasureFrequencies");
 				
 				//Construct a new MusicStruct with the signature
-				MusicStruct newMusicStruct = new MusicStruct(signature, signatureSequence);
+				MusicStruct newMusicStruct = new MusicStruct(signature, signatureSequence, startOrEnd);
 				
 				//For loop adds the adjacent structs along with their frequencies to the new MusicStruct
 				for (int j = 0; j < adjacentStructs.size(); j++) {

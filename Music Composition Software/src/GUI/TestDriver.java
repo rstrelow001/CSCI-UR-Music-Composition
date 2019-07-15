@@ -6,90 +6,40 @@ import java.util.ArrayList;
 import controllers.*;
 import entities.*;
 
+import java.util.Scanner;
+
 public class TestDriver {
 	
 	public TestDriver() {
-
-		//this.testIntervalConverter();
-
 		this.testMusicCreation();
 
 	}
 	
 	
-	public void testStructConstructor() {
-		
-		StructReader structReader = new StructReader("kern.json");
-		
-		ArrayList<MusicStruct> structs = structReader.makeStruct(40);
-		
-		ArrayList<String> measures = structReader.structToString(structs);
-		
-		StructInterpreter si = new StructInterpreter();
-		
-		measures = si.interpretMeasure(measures);
-		
-		
-		System.out.println("Printing Structs");
-		structReader.printSong(structs);
-		
-		System.out.println("Printing Parsed Measures");
-		for (int i = 0; i < measures.size(); i++) {
-			System.out.println(measures.get(i));
-		}
-		
-	}
-	
-	public void testIntervalConverter() {
-		ArrayList<String> intervals = new ArrayList<String>();
-		intervals.add("1");
-		intervals.add("2");
-		intervals.add("2");
-		intervals.add("4");
-		intervals.add("4");
-		intervals.add("3");
-		intervals.add("2");
-		intervals.add("1");
-		
-		NoteConstructor nc = new NoteConstructor();
-			
-		System.out.println(nc.convertIntervalsToPitches(intervals));
-	}
-	
-	
-	public void testNoteConstructor() {
-		ArrayList<String> songIntervals = new ArrayList<String>();
-		songIntervals.add("1");
-		songIntervals.add("2");
-		songIntervals.add("2");
-		songIntervals.add("4");
-		songIntervals.add("4");
-		songIntervals.add("3");
-		songIntervals.add("2");
-		songIntervals.add("1");
-		
-		ArrayList<String> songDurations = new ArrayList<String>();
-		songDurations.add("1");
-		songDurations.add("2");
-		songDurations.add("2");
-		songDurations.add("4");
-		songDurations.add("4");
-		songDurations.add("2");
-		songDurations.add("2");
-		songDurations.add("1");
-		
-		NoteConstructor nc = new NoteConstructor();
-		
-		
-			
-		System.out.println(nc.constructNotes(songDurations, songIntervals));
-		
-	}
-	
 	public void testMusicCreation() {
 		
+		Scanner in = new Scanner(System.in);
+		
 		MusicCreator mc = new MusicCreator();
-		mc.makeMusicFromJson("Renaissance",  50);
+		System.out.println("b  -  Baroque\n"
+				+ "c  -  Classical\n"
+				+ "m  -  Medieval\n"
+				+ "re -  Renaissance\n"
+				+ "ro -  Romantic\n"
+				+ "Choose an Era: ");
+		
+		String era = in.nextLine();
+		
+		if (era.toLowerCase().startsWith("b")) era = "baroque";
+		else if (era.toLowerCase().startsWith("c")) era = "classical";
+		else if (era.toLowerCase().startsWith("m")) era = "medieval";
+		else if (era.toLowerCase().startsWith("re")) era = "renaissance";
+		else if (era.toLowerCase().startsWith("ro")) era = "romantic";
+		
+		System.out.println("Number of Measures: ");
+		int measures = in.nextInt();
+		
+		mc.makeMusicFromJson(era,  measures);
 	}
 	
 	public static void main(String args[]) {

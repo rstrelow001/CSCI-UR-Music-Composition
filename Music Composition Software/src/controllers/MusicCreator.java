@@ -114,10 +114,6 @@ public class MusicCreator {
 		//TODO: remember the location of measure dividers (either keep track or count after)
 		ArrayList<String> durations = interpreter.interpretMeasure(structReader.structToString(structReader.makeStruct(numMeasures)));
 		
-		
-		//FOR TESTING
-		structReader.printSong(structReader.musicStructs);
-		
 				
 		structReader = new StructReader("i_" + fileName + ".json");
 		ArrayList<String> intervals = structReader.structToString(structReader.makeStruct(durations.size()-interpreter.countRests(durations)));

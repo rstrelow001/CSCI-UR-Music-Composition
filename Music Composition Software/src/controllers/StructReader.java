@@ -49,7 +49,7 @@ public class StructReader {
 	public void printSong(ArrayList<MusicStruct> song) {
 		System.out.println("Print Song");
 		for (int i = 0; i < song.size(); i++) {
-			System.out.println((i + 1) + "  -  " + song.get(i).getSignature());
+			System.out.println((i + 1) + "  -  " + song.get(i).getSignature() + "  -  Start or End: " + song.get(i).getStartOrEnd());
 			for (int j = 0; j < song.get(i).getAdjacentStructs().size(); j++) {
 				System.out.print("|        " + (j + 1) + "  -  ");
 				System.out.println(song.get(i).getAdjacentStructs().get(j));
