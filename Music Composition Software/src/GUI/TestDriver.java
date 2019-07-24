@@ -38,6 +38,7 @@ public class TestDriver {
 		
 		System.out.println("Number of Measures: ");
 		int measures = in.nextInt();
+		in.close();
 		
 		mc.makeMusicFromJson(era,  measures);
 	}
