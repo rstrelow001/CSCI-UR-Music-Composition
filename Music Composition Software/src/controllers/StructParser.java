@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -18,7 +20,7 @@ import entities.MusicStruct;
  * to be read by CSCI-UR-MUSIC-COMPOSITION.
  * 
  * @author Andrew Joseph Heroux
- * @version 1.0
+ * @version 1.3
  * @since June 11, 2019
  */
 public class StructParser {
@@ -40,58 +42,56 @@ public class StructParser {
 	}
 	
 	
+	
 	/**
 	 * Loads data from a specified file into the instance variable
 	 * musicStructs.
 	 * 
 	 * @param fileName
 	 */
+	@SuppressWarnings("unchecked")
 	public void loadData(String fileName) {
-		
 		
 		JSONParser jsonParser = new JSONParser();
 		
 		try {
-			//Load the entire JSON file
-			JSONArray jsonArray = (JSONArray) jsonParser.parse(new FileReader("jsonFiles/" + fileName));
+			@SuppressWarnings("unchecked")
+			Map<String, Map<String, Object>> parsedArray  =  (Map<String, Map<String, Object>>) jsonParser.parse(new FileReader("jsonFiles/" + fileName));
 			
-			//For loop iterates through the file one struct at a time
-			for (int i = 0; i < jsonArray.size(); i++) {
-				JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+			Iterator<String> keyIterator = parsedArray.keySet().iterator();
+			
+
+			while (keyIterator.hasNext()) {
+				String unparsedSignature = keyIterator.next();
+				ArrayList<String> signatureSequence = new ArrayList<String>(Arrays.asList(unparsedSignature.split("&&")));
+				String signature = signatureSequence.get(0);
+				String startEnd = (String) parsedArray.get(unparsedSignature).get("startEnd");
 				
-				//Get the signature sequence
-				String signatureSequenceStr = (String) jsonObject.get("measureSignature");
-				ArrayList<String> signatureSequence = new ArrayList<String>(Arrays.asList(signatureSequenceStr.split("&&")));
+				Map<String, Object> adjacentValues = parsedArray.get(unparsedSignature);
 				
-				//Get the signature
-				String signature = signatureSequence.get(signatureSequence.size() - 1);
-				
-				//Get startOrEnd token
 				@SuppressWarnings("unchecked")
-				String startOrEnd = (String) jsonObject.get("startOrEnd");
+				Map<String, Long> mapOfAdjacentSigs = (Map<String, Long>) adjacentValues.get("adjacentSignaturs");
 				
-				//Get the list of adjacent MusicStructs
-				@SuppressWarnings("unchecked")
-				ArrayList<String> adjacentStructs = (ArrayList<String>) jsonObject.get("adjacentMeasures");
+				Iterator<String> adjacentKeys = mapOfAdjacentSigs.keySet().iterator();
 				
-				//Get the list of adjacent frequencies
-				@SuppressWarnings("unchecked")
-				ArrayList<Integer> adjacentFrequencies = (ArrayList<Integer>) jsonObject.get("adjacentMeasureFrequencies");
+				System.out.println("Token: " + unparsedSignature);
+				System.out.println("StartEnd: " + startEnd);
 				
-				//Construct a new MusicStruct with the signature
-				MusicStruct newMusicStruct = new MusicStruct(signature, signatureSequence, startOrEnd);
+				MusicStruct newMusicStruct = new MusicStruct(signature, signatureSequence, startEnd);
 				
-				//For loop adds the adjacent structs along with their frequencies to the new MusicStruct
-				for (int j = 0; j < adjacentStructs.size(); j++) {
-					String adjacentStruct = adjacentStructs.get(j);
-					int frequency = Integer.parseInt("" + adjacentFrequencies.get(j));
+				System.out.println(signature);
+				
+				while (adjacentKeys.hasNext()) {
+					String adjacentStruct = adjacentKeys.next();
+					mapOfAdjacentSigs = (Map<String, Long>) adjacentValues.get("adjacentSignaturs");
+					int frequency = ((Long) mapOfAdjacentSigs.get(adjacentStruct)).intValue();
+					
 					newMusicStruct.addAdjacentStruct(adjacentStruct, frequency);
+					
 				}
 				newMusicStruct.sortByFrequency();
 				newMusicStruct.assignProbabilities();
 				this.musicStructs.add(newMusicStruct);
-				
-				
 			}
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
