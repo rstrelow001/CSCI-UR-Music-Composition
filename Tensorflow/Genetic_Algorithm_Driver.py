@@ -5,7 +5,7 @@ import random
 
 import RRN_mnist
 
-import numpy
+import numpy, pickle
 
 # Number of individuals in each generation
 POPULATION_SIZE = 50
@@ -55,12 +55,12 @@ class Individual(object):
 
                 # if prob is less than 0.45, insert gene
                 # from parent 1
-                if prob < 0.25:
+                if prob < 0.40:
                     #child_gene.append([gp1.meta, gp1.interval, gp1.duration, gp1.dotted])
                     child_gene.append([gp1.interval, gp1.duration, gp1.dotted])
                 elif prob < 0.5:
                     child_gene.append(gp1.mutated_genes())
-                elif prob < 0.75:
+                elif prob < 0.90:
                     #child_gene.append([gp2.meta, gp2.interval, gp2.duration, gp2.dotted])
                     child_gene.append([gp2.interval, gp2.duration, gp2.dotted])
                 else:
@@ -236,10 +236,25 @@ def main():
     population = []
     model = Model()
 
+    pickle_in = open("X_normalized.pickle","rb")
+    X = pickle.load(pickle_in)
+
+    pickle_in = open("y.pickle","rb")
+    y = pickle.load(pickle_in)
+
+    y = numpy.array(y)
+    X = numpy.array(X)
+
+    for i in range(10):
+        prediction = model.get_model().predict(numpy.reshape(X[i], (1, 50, 3)))
+        print("{}-Prediction: {}".format(i,prediction))
+        print("{}-Actual: {}\n".format(i, y[i]))
+
+
     # create initial population
     for _ in range(POPULATION_SIZE):
         gnome = create_gnome(DEFAULT_GNOME_LENGTH)
-        print(gnome)
+        #print(gnome)
         population.append(Individual(gnome, model))
 
     while not found:
@@ -253,7 +268,7 @@ def main():
                 out_durations, out_intervals = population[i].convert_to_midi_notes()
                 write_notes(out_durations, out_intervals, "notes/Generation_{}_Individual_{}".format(generation, i))
 
-        if population[0].fitness >= 0.9:
+        if population[0].fitness >= 0.99:
             found = True
             break
 
