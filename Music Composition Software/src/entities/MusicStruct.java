@@ -9,7 +9,7 @@ import java.util.Collections;
  * adjacent MusicStrucs
  * 
  * @author Andrew Joseph Heroux
- * @version 1.0
+ * @version 1.2
  * @since June 11, 2019
  */
 public class MusicStruct {

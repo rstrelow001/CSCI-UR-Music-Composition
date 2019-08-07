@@ -115,6 +115,13 @@ public class StructReader {
 		
 		for (int i = 0; i < this.musicStructs.size(); i++) {
 			ArrayList<String> signatureSequenceList = this.musicStructs.get(i).getSignatureSequence();
+			
+			//for testing
+			if (signatureSequenceList.size() - lookupSize == -1) {
+				System.out.println(this.musicStructs.get(i).getSignatureSequence());
+				System.err.println("BROKEN!");
+			}
+			
 			String signatureSequence = signatureSequenceList.get(signatureSequenceList.size() - lookupSize);
 			for (int j = 1; j < lookupSize; j++) {
 				signatureSequence = signatureSequence + "&&" +signatureSequenceList.get((signatureSequenceList.size() - lookupSize) + j);
