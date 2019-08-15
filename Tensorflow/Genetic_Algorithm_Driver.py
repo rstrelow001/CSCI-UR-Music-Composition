@@ -19,7 +19,17 @@ MAX_GENE_NUM = 1024
 PADDING = 3
 
 
-# 11 00000 0000
+''' README
+
+Line 212 contains a hardcoded value for the model to be loaded in.  Ideally
+this should be dynamically given, but simply change this line to the loaction
+of a different model if you so choose to.
+
+Line 85 normalizes the data by dividing by the max point found in the
+training data.  This should not be hardcoded ideally.
+
+Line 257 has hardcoded values for reshaping input for prediction of the model
+'''
 
 
 class Individual(object):

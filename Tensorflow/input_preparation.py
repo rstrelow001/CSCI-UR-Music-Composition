@@ -20,6 +20,15 @@ dotted = {"<Not-Dotted>" : 0.0,
             "<Double-Dotted>" : 2.0}
 
 
+''' README
+
+line 60 is hardcoded to 50 (the length of notes used for each **kern file)
+line 100 is hardcoded to 50 and 3 denoting the shape of a notes for a file
+
+
+
+'''
+
 def main():
 # Txt read
     args = sys.argv[1:]
