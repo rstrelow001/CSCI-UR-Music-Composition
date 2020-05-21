@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#cd ~/ResearchSummer2019/$1
+cd ./$1
+mkdir transposed
+
+for file in *.krn ; do
+
+	transpose -k c $file > transposed/transposed_$file
+
+	done
